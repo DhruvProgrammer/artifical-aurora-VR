@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Aurora AR</string>
+    <string name="brand">AURORA AR</string>
+    <string name="brand_sub">Simulated aurora · on-device</string>
+
+    <string name="skyscore">SkyScore</string>
+    <string name="skyscore_blocked">—</string>
+    <string name="skyscore_info_title">What SkyScore is</string>
+    <string name="skyscore_info_body">SkyScore measures how suitable your current sky is for this simulated visual experience. It does not predict real aurora activity.</string>
+    <string name="skyscore_illustrative">Illustrative preview — not a live reading</string>
+    <string name="skyscore_why">Why?</string>
+
+    <string name="rating_excellent">Excellent conditions</string>
+    <string name="rating_great">Great conditions</string>
+    <string name="rating_good">Good conditions</string>
+    <string name="rating_fair">Fair conditions</string>
+    <string name="rating_limited">Limited conditions</string>
+    <string name="rating_unavailable">Unavailable</string>
+
+    <string name="sub_brightness">Ambient brightness</string>
+    <string name="sub_cloud">Cloud coverage</string>
+    <string name="sub_visibility">Sky visibility</string>
+    <string name="sub_lighting">Environmental lighting</string>
+
+    <string name="sub_brightness_very_low">Very low</string>
+    <string name="sub_brightness_low">Low</string>
+    <string name="sub_brightness_moderate">Moderate</string>
+    <string name="sub_brightness_high">High</string>
+    <string name="sub_brightness_very_high">Very high</string>
+
+    <string name="sub_cloud_minimal">Minimal</string>
+    <string name="sub_cloud_light">Light</string>
+    <string name="sub_cloud_partial">Partial</string>
+    <string name="sub_cloud_heavy">Heavy</string>
+    <string name="sub_cloud_overcast">Overcast</string>
+
+    <string name="sub_vis_clear">Clear</string>
+    <string name="sub_vis_good">Good</string>
+    <string name="sub_vis_partial">Partial</string>
+    <string name="sub_vis_limited">Limited</string>
+    <string name="sub_vis_blocked">Blocked</string>
+
+    <string name="sub_light_low">Low</string>
+    <string name="sub_light_moderate">Moderate</string>
+    <string name="sub_light_high">High</string>
+    <string name="sub_light_very_high">Very high</string>
+
+    <string name="row_rating_excellent">Excellent</string>
+    <string name="row_rating_good">Good</string>
+    <string name="row_rating_fair">Fair</string>
+    <string name="row_rating_poor">Poor</string>
+    <string name="row_rating_unavailable">Unavailable</string>
+
+    <string name="msg_daylight">It\'s daytime! Aurora looks best after sunset. Come back tonight.</string>
+    <string name="msg_sunset">Golden hour — a faint preview is possible. It gets better after dark.</string>
+    <string name="msg_twilight">Twilight sky detected — a subtle aurora for now. It shines brightest after dark.</string>
+    <string name="msg_cloudy">Cloud coverage detected. Your aurora experience may be limited.</string>
+    <string name="msg_partly_clear">Mostly clear and dark — aurora looks great.</string>
+    <string name="msg_clear_dark">Dark, clear sky — aurora at full strength.</string>
+    <string name="msg_low_sky">Point your camera at the open sky.</string>
+    <string name="msg_indoors">Looks like you\'re indoors. Step outside for the full effect.</string>
+    <string name="msg_camera_covered">Camera seems covered.</string>
+
+    <string name="daylight_card_title">It\'s daytime!</string>
+    <string name="daylight_card_body">Aurora looks best after sunset. Come back tonight.</string>
+    <string name="daylight_card_creative">Try Creative Mode</string>
+    <string name="daylight_card_dismiss">Not now</string>
+
+    <string name="mode_auto">Auto</string>
+    <string name="mode_creative">Creative</string>
+    <string name="mode_off">Off</string>
+    <string name="creative_badge">Creative Mode · simulated</string>
+
+    <string name="settings">Settings</string>
+    <string name="settings_display">Display</string>
+    <string name="settings_skyscore_hud">Show SkyScore HUD</string>
+    <string name="settings_sub_scores">Show sub-scores</string>
+    <string name="settings_conditions">Conditions</string>
+    <string name="settings_respect_clouds">Respect clouds in Creative</string>
+    <string name="settings_location">Allow coarse location for sunrise/sunset awareness</string>
+    <string name="settings_location_rationale">Location is optional. It only refines the offline sun position used to tell day from night. Nothing leaves the device.</string>
+    <string name="settings_intensity">Intensity</string>
+    <string name="settings_saturation">Colour saturation</string>
+    <string name="settings_max_intensity">Max intensity</string>
+    <string name="settings_lock_intensity">Lock intensity (Creative)</string>
+    <string name="settings_look">Creative look</string>
+    <string name="settings_calibration">Calibration recorder</string>
+    <string name="settings_calibration_open">Open calibration</string>
+    <string name="settings_reset">Reset calibration</string>
+    <string name="settings_about">About</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_no_internet">No INTERNET permission. Everything runs on this phone.</string>
+    <string name="settings_close">Close</string>
+
+    <string name="calibration_title">Calibration recorder</string>
+    <string name="calibration_body">Records one sample per second while you label the sky. Use it to tune thresholds on real devices.</string>
+    <string name="calibration_record">Record</string>
+    <string name="calibration_stop">Stop</string>
+    <string name="calibration_samples">Samples: %1$d</string>
+    <string name="calibration_export">Export JSON</string>
+    <string name="calibration_share">Share</string>
+    <string name="calibration_phase">Phase</string>
+    <string name="calibration_cloud">Cloud (oktas 0–8)</string>
+    <string name="calibration_env">Lighting</string>
+    <string name="calibration_env_rural">Rural / dark</string>
+    <string name="calibration_env_town">Town</string>
+    <string name="calibration_env_city">City</string>
+    <string name="calibration_saved">Saved %1$s</string>
+
+    <string name="permission_title">Camera access needed</string>
+    <string name="permission_body">Aurora AR needs the camera to read the real sky so the simulated aurora can react to it. Nothing is uploaded.</string>
+    <string name="permission_button">Allow camera</string>
+    <string name="permission_settings">Open settings</string>
+
+    <string name="hint_tilt">Tilt toward the open sky</string>
+    <string name="hint_no_sky">No sky in view</string>
+    <string name="hint_loading">Reading the sky…</string>
+
+    <string name="phase_day">Daylight</string>
+    <string name="phase_sunset">Sunset</string>
+    <string name="phase_twilight">Twilight</string>
+    <string name="phase_night">Night</string>
+
+    <string name="summary_format">%1$s · %2$s</string>
+    <string name="cloud_clear_sky">clear sky</string>
+    <string name="cloud_partly_sky">partly cloudy</string>
+    <string name="cloud_overcast_sky">overcast</string>
+    <string name="cloud_heavy_sky">heavy cloud</string>
+
+    <string name="why_cloud">Clouds are reducing intensity.</string>
+    <string name="why_brightness">The sky is still too bright for a strong aurora.</string>
+    <string name="why_visibility">Not enough open sky in view.</string>
+    <string name="why_lighting">Nearby lights are washing out the sky.</string>
+    <string name="why_none">All four factors are strong right now.</string>
+
+    <string name="sheet_live_conditions">Live conditions</string>
+    <string name="settings_about_body">Aurora AR overlays a simulated aurora on the real sky and adapts it to measured conditions. SkyScore is a suitability rating for this simulation, not a space-weather forecast. No INTERNET permission: no data leaves the phone.</string>
+</resources>

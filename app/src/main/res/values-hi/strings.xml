@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">औरोरा AR</string>
+    <string name="brand">औरोरा AR</string>
+    <string name="brand_sub">सिम्युलेटेड औरोरा · डिवाइस पर</string>
+
+    <string name="skyscore">स्काईस्कोर</string>
+    <string name="skyscore_blocked">—</string>
+    <string name="skyscore_info_title">स्काईस्कोर क्या है</string>
+    <string name="skyscore_info_body">स्काईस्कोर बताता है कि इस सिम्युलेटेड अनुभव के लिए आपका मौजूदा आसमान कितना उपयुक्त है। यह असली औरोरा गतिविधि का अनुमान नहीं है।</string>
+    <string name="skyscore_illustrative">उदाहरण — यह लाइव रीडिंग नहीं है</string>
+    <string name="skyscore_why">क्यों?</string>
+
+    <string name="rating_excellent">बेहतरीन स्थितियाँ</string>
+    <string name="rating_great">शानदार स्थितियाँ</string>
+    <string name="rating_good">अच्छी स्थितियाँ</string>
+    <string name="rating_fair">सामान्य स्थितियाँ</string>
+    <string name="rating_limited">सीमित स्थितियाँ</string>
+    <string name="rating_unavailable">उपलब्ध नहीं</string>
+
+    <string name="sub_brightness">परिवेश की चमक</string>
+    <string name="sub_cloud">बादल</string>
+    <string name="sub_visibility">आसमान की दृश्यता</string>
+    <string name="sub_lighting">पर्यावरणीय प्रकाश</string>
+
+    <string name="sub_brightness_very_low">बहुत कम</string>
+    <string name="sub_brightness_low">कम</string>
+    <string name="sub_brightness_moderate">मध्यम</string>
+    <string name="sub_brightness_high">अधिक</string>
+    <string name="sub_brightness_very_high">बहुत अधिक</string>
+
+    <string name="sub_cloud_minimal">बहुत कम</string>
+    <string name="sub_cloud_light">हल्के</string>
+    <string name="sub_cloud_partial">आंशिक</string>
+    <string name="sub_cloud_heavy">घने</string>
+    <string name="sub_cloud_overcast">पूरी तरह बादल</string>
+
+    <string name="sub_vis_clear">साफ़</string>
+    <string name="sub_vis_good">अच्छी</string>
+    <string name="sub_vis_partial">आंशिक</string>
+    <string name="sub_vis_limited">सीमित</string>
+    <string name="sub_vis_blocked">अवरुद्ध</string>
+
+    <string name="sub_light_low">कम</string>
+    <string name="sub_light_moderate">मध्यम</string>
+    <string name="sub_light_high">अधिक</string>
+    <string name="sub_light_very_high">बहुत अधिक</string>
+
+    <string name="row_rating_excellent">बेहतरीन</string>
+    <string name="row_rating_good">अच्छा</string>
+    <string name="row_rating_fair">सामान्य</string>
+    <string name="row_rating_poor">कमज़ोर</string>
+    <string name="row_rating_unavailable">उपलब्ध नहीं</string>
+
+    <string name="msg_daylight">दिन का समय है! सूर्यास्त के बाद लौटिए और नॉर्दर्न लाइट्स का आनंद लीजिए।</string>
+    <string name="msg_sunset">सुनहरी घड़ी — एक हल्की झलक संभव है। अंधेरा होने पर और बेहतर होगा।</string>
+    <string name="msg_twilight">गोधूलि का आसमान — अभी हल्का औरोरा। अंधेरे में यह सबसे चमकीला दिखता है।</string>
+    <string name="msg_cloudy">बादल दिख रहे हैं। आपका औरोरा अनुभव सीमित हो सकता है।</string>
+    <string name="msg_partly_clear">ज़्यादातर साफ़ और अंधेरा — औरोरा शानदार दिखेगा।</string>
+    <string name="msg_clear_dark">गहरा, साफ़ आसमान — औरोरा पूरी चमक में।</string>
+    <string name="msg_low_sky">अपना कैमरा खुले आसमान की ओर करें।</string>
+    <string name="msg_indoors">लगता है आप अंदर हैं। पूरा असर देखने के लिए बाहर जाइए।</string>
+    <string name="msg_camera_covered">कैमरा ढका हुआ लगता है।</string>
+
+    <string name="daylight_card_title">दिन का समय है!</string>
+    <string name="daylight_card_body">औरोरा सूर्यास्त के बाद सबसे अच्छा दिखता है। आज रात फिर आइए।</string>
+    <string name="daylight_card_creative">क्रिएटिव मोड आज़माएँ</string>
+    <string name="daylight_card_dismiss">अभी नहीं</string>
+
+    <string name="mode_auto">ऑटो</string>
+    <string name="mode_creative">क्रिएटिव</string>
+    <string name="mode_off">बंद</string>
+    <string name="creative_badge">क्रिएटिव मोड · सिम्युलेटेड</string>
+
+    <string name="settings">सेटिंग्स</string>
+    <string name="settings_display">डिस्प्ले</string>
+    <string name="settings_skyscore_hud">स्काईस्कोर HUD दिखाएँ</string>
+    <string name="settings_sub_scores">उप-स्कोर दिखाएँ</string>
+    <string name="settings_conditions">स्थितियाँ</string>
+    <string name="settings_respect_clouds">क्रिएटिव में बादलों का ध्यान रखें</string>
+    <string name="settings_location">सूर्योदय/सूर्यास्त के लिए अनुमानित लोकेशन दें</string>
+    <string name="settings_location_rationale">लोकेशन वैकल्पिक है। यह सिर्फ़ दिन और रात पहचानने के लिए ऑफ़लाइन सूर्य की स्थिति सुधारती है। कुछ भी अपलोड नहीं होता।</string>
+    <string name="settings_intensity">तीव्रता</string>
+    <string name="settings_saturation">रंग संतृप्ति</string>
+    <string name="settings_max_intensity">अधिकतम तीव्रता</string>
+    <string name="settings_lock_intensity">तीव्रता लॉक करें (क्रिएटिव)</string>
+    <string name="settings_look">क्रिएटिव लुक</string>
+    <string name="settings_calibration">कैलिब्रेशन रिकॉर्डर</string>
+    <string name="settings_calibration_open">कैलिब्रेशन खोलें</string>
+    <string name="settings_reset">कैलिब्रेशन रीसेट करें</string>
+    <string name="settings_about">जानकारी</string>
+    <string name="settings_version">संस्करण</string>
+    <string name="settings_no_internet">कोई INTERNET अनुमति नहीं। सब कुछ इसी फ़ोन पर चलता है।</string>
+    <string name="settings_close">बंद करें</string>
+
+    <string name="calibration_title">कैलिब्रेशन रिकॉर्डर</string>
+    <string name="calibration_body">जब आप आसमान को लेबल करते हैं, हर सेकंड एक सैंपल रिकॉर्ड होता है। असली फ़ोन पर थ्रेशोल्ड ट्यून करने के लिए।</string>
+    <string name="calibration_record">रिकॉर्ड</string>
+    <string name="calibration_stop">रोकें</string>
+    <string name="calibration_samples">सैंपल: %1$d</string>
+    <string name="calibration_export">JSON एक्सपोर्ट</string>
+    <string name="calibration_share">शेयर करें</string>
+    <string name="calibration_phase">चरण</string>
+    <string name="calibration_cloud">बादल (ओक्टा 0–8)</string>
+    <string name="calibration_env">प्रकाश</string>
+    <string name="calibration_env_rural">ग्रामीण / अंधेरा</string>
+    <string name="calibration_env_town">कस्बा</string>
+    <string name="calibration_env_city">शहर</string>
+    <string name="calibration_saved">सेव हुआ: %1$s</string>
+
+    <string name="permission_title">कैमरा अनुमति चाहिए</string>
+    <string name="permission_body">असली आसमान पढ़कर सिम्युलेटेड औरोरा को उसके अनुसार बदलने के लिए कैमरा चाहिए। कुछ भी अपलोड नहीं होता।</string>
+    <string name="permission_button">कैमरा चालू करें</string>
+    <string name="permission_settings">सेटिंग्स खोलें</string>
+
+    <string name="hint_tilt">खुले आसमान की ओर झुकाएँ</string>
+    <string name="hint_no_sky">आसमान दिखाई नहीं दे रहा</string>
+    <string name="hint_loading">आसमान पढ़ा जा रहा है…</string>
+
+    <string name="phase_day">दिन</string>
+    <string name="phase_sunset">सूर्यास्त</string>
+    <string name="phase_twilight">गोधूलि</string>
+    <string name="phase_night">रात</string>
+
+    <string name="summary_format">%1$s · %2$s</string>
+    <string name="cloud_clear_sky">साफ़ आसमान</string>
+    <string name="cloud_partly_sky">आंशिक बादल</string>
+    <string name="cloud_overcast_sky">पूरी तरह बादल</string>
+    <string name="cloud_heavy_sky">घने बादल</string>
+
+    <string name="why_cloud">बादल तीव्रता कम कर रहे हैं।</string>
+    <string name="why_brightness">तेज़ औरोरा के लिए आसमान अभी बहुत चमकीला है।</string>
+    <string name="why_visibility">खुले आसमान का पर्याप्त हिस्सा दिख नहीं रहा।</string>
+    <string name="why_lighting">आस-पास की रोशनी आसमान को धुँधला कर रही है।</string>
+    <string name="why_none">अभी चारों कारक मज़बूत हैं।</string>
+
+    <string name="sheet_live_conditions">लाइव स्थितियाँ</string>
+    <string name="settings_about_body">औरोरा AR असली आसमान पर सिम्युलेटेड औरोरा दिखाता है और उसे मापी गई स्थितियों के अनुसार बदलता है। स्काईस्कोर इस सिम्युलेशन के लिए उपयुक्तता का स्कोर है, मौसम पूर्वानुमान नहीं। INTERNET अनुमति नहीं: कोई डेटा फ़ोन से बाहर नहीं जाता।</string>
+</resources>
