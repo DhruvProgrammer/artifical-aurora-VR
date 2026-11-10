@@ -1,6 +1,7 @@
 package com.auroraar.camera
 
 import androidx.camera.core.ImageProxy
+import com.auroraar.skyscore.features.SkyMaskColor
 import com.auroraar.skyscore.model.FrameFeatures
 import kotlin.math.abs
 import kotlin.math.max
@@ -209,8 +210,7 @@ class SkyFeatureExtractor(
                     alpha[i] = 0f
                     continue
                 }
-                val bd = (blue[i] - red[i]) / (blue[i] + red[i] + 0.03f)
-                val colorPlausibility = 0.30f + 0.70f * smoothstep(-0.06f, 0.14f, bd)
+                val colorPlausibility = SkyMaskColor.plausibility(red[i], green[i], blue[i])
                 alpha[i] = (vertical * colorPlausibility * 1.25f).coerceIn(0f, 1f)
             }
         }

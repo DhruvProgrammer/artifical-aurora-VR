@@ -38,6 +38,7 @@ class CameraSession(
     private val poseReader = PoseReader(context)
     private val locationProvider = LocationProvider(context)
 
+    @Volatile
     var recorder: CalibrationRecorder? = null
     var useLocation: Boolean = false
         set(value) {

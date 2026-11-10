@@ -41,6 +41,7 @@ class SkyScoreEngine(initialSettings: UserSettings = UserSettings()) {
     private val _renderParams = MutableStateFlow(AuroraRenderParams.IDLE)
     val renderParams: StateFlow<AuroraRenderParams> = _renderParams.asStateFlow()
 
+    @Volatile
     private var settings: UserSettings = initialSettings
     private var hysteresis = PhaseHysteresis(Phase.DAYLIGHT)
 

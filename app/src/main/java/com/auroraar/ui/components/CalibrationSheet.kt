@@ -89,11 +89,11 @@ fun CalibrationSheet(
             )
             Spacer(Modifier.height(6.dp))
             ChipRow {
-                listOf("day", "sunset", "twilight", "night").forEach { value ->
+                PHASES.forEach { (value, labelRes) ->
                     FilterChip(
                         selected = phase == value,
                         onClick = { onPhaseChange(value) },
-                        label = { Text(value.replaceFirstChar { it.uppercase() }) },
+                        label = { Text(stringResource(labelRes)) },
                     )
                 }
             }
@@ -181,3 +181,11 @@ private fun ChipRow(content: @Composable () -> Unit) {
         content()
     }
 }
+
+/** Recorder keys stay ASCII; only the chips are localized. */
+private val PHASES = listOf(
+    "day" to R.string.phase_day,
+    "sunset" to R.string.phase_sunset,
+    "twilight" to R.string.phase_twilight,
+    "night" to R.string.phase_night,
+)

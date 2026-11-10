@@ -21,13 +21,21 @@ class CalibrationRecorder(context: Context) {
 
     var recording: Boolean = false
         private set
+
+    @Volatile
     var sampleCount: Int = 0
         private set
 
+    @Volatile
     var phaseLabel: String = "night"
+
+    @Volatile
     var okta: Int = 2
+
+    @Volatile
     var environment: String = "rural"
 
+    @Synchronized
     fun start() {
         samples.clear()
         sampleCount = 0
@@ -35,16 +43,19 @@ class CalibrationRecorder(context: Context) {
         recording = true
     }
 
+    @Synchronized
     fun stop() {
         recording = false
     }
 
+    @Synchronized
     fun clear() {
         samples.clear()
         sampleCount = 0
         lastSampleMs = 0L
     }
 
+    @Synchronized
     fun maybeRecord(
         features: FrameFeatures,
         conditions: SkyConditions,
@@ -99,6 +110,7 @@ class CalibrationRecorder(context: Context) {
     }
 
     /** Writes the current session to files/calibration and returns the file. */
+    @Synchronized
     fun export(): File {
         val dir = File(appContext.filesDir, "calibration").apply { mkdirs() }
         val file = File(dir, "calib-${System.currentTimeMillis()}.json")

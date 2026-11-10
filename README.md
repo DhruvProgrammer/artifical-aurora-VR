@@ -53,7 +53,7 @@ Offline sun position (time + optional loc) ┘
 | §15 calibration + tests | Recorder + JVM tests; no labelled field data yet |
 | §17 honest limits | See below |
 
-**Substitutions:** v3's semantic sky mask and ARCore depth occlusion are replaced by a tilt-aware classical mask; v2's full aurora renderer is replaced by a compact procedural shader. Expect the mask to confuse dark silhouettes above the horizon, and the renderer to be simpler than the v2 design.
+**Substitutions:** v3's semantic sky mask and ARCore depth occlusion are replaced by a tilt-aware classical mask; v2's full aurora renderer is replaced by a compact procedural shader. The mask's colour term rejects green-dominant foliage but keeps warm sunset hues, so a sunset sky still counts as sky. Expect the mask to confuse dark silhouettes above the horizon, and the renderer to be simpler than the v2 design.
 
 ## Honest limits
 
@@ -88,6 +88,7 @@ Without the local toolchain, install Android SDK platform 35 + build-tools 35.0.
 - hysteresis timing and no-oscillation on a noisy signal
 - intensity mapping (daylight off, stars fade under cloud, max-intensity cap)
 - message policy (Creative daylight never claims the sky is dark)
+- sky-mask colour plausibility (blue, overcast grey, warm sunset, deep twilight kept; green foliage rejected)
 - sun position for Jaipur at noon and midnight
 - end-to-end engine: daylight blocked, dark clear night converges ≥ 75, off mode disables rendering
 
