@@ -3,6 +3,8 @@
 
     <!-- Camera only. No INTERNET permission: SkyScore is entirely on-device. -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- Optional microphone audio on recorded clips. Denial records silent video. -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!-- Optional: improves the sun-position prior. Never required. -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -10,11 +12,21 @@
         android:name="android.hardware.camera.any"
         android:required="true" />
     <uses-feature
+        android:name="android.hardware.microphone"
+        android:required="false" />
+    <uses-feature
         android:name="android.hardware.sensor.light"
         android:required="false" />
     <uses-feature
         android:name="android.hardware.sensor.accelerometer"
         android:required="false" />
+
+    <!-- Package visibility for the optional quick-share row (Android 11+). -->
+    <queries>
+        <package android:name="com.whatsapp" />
+        <package android:name="com.instagram.android" />
+        <package android:name="com.google.android.youtube" />
+    </queries>
 
     <application
         android:allowBackup="false"
@@ -28,9 +40,8 @@
 
         <activity
             android:name=".ui.MainActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|uiMode"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.Aurora">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
