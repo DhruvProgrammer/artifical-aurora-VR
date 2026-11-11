@@ -37,13 +37,15 @@ object PhaseClassifier {
         lux: Float?,
         astro: AstroPrior,
     ): FloatArray {
+        val safeLogLum = if (logLum.isFinite()) logLum.coerceIn(-6f, 6f) else -1.8f
+        val safeConf = if (lumConfidence.isFinite()) lumConfidence.coerceIn(0f, 1f) else 0f
         val logits = FloatArray(4)
 
         // Cue A - photometric / estimated sky luminance.
         if (lumValid) {
-            val w = W_LUMINANCE * lumConfidence.coerceIn(0f, 1f)
+            val w = W_LUMINANCE * safeConf
             for (k in 0 until 4) {
-                val z = (logLum - MU[k]) / SIGMA[k]
+                val z = (safeLogLum - MU[k]) / SIGMA[k]
                 logits[k] += w * (-0.5f * z * z)
             }
         }
@@ -54,8 +56,8 @@ object PhaseClassifier {
         }
 
         // Cue C - ambient light sensor, low weight and only when plausible.
-        if (lux != null && lumValid) {
-            val contradicted = kotlin.math.abs(luxToLogLum(lux) - logLum) > 3.0f
+        if (lux != null && lux.isFinite() && lumValid) {
+            val contradicted = kotlin.math.abs(luxToLogLum(lux) - safeLogLum) > 3.0f
             if (!contradicted) {
                 val cue = luxLogits(lux)
                 for (k in 0 until 4) logits[k] += W_LUX * cue[k]
@@ -64,8 +66,11 @@ object PhaseClassifier {
 
         // Cue D - offline astronomy prior.
         val astroWeight = if (astro.hasLocation) W_ASTRO else W_ASTRO_NO_LOCATION
+        val astroConf = if (astro.confidence.isFinite()) astro.confidence.coerceIn(0f, 1f) else 0f
         for (k in 0 until 4) {
-            logits[k] += astroWeight * astro.confidence * (ln(astro.prob.getOrElse(k) { 0.01f } + 0.01f) + 0.4f)
+            val p = astro.prob.getOrElse(k) { 0.01f }
+            val safeP = if (p.isFinite()) p.coerceIn(0f, 1f) else 0.01f
+            logits[k] += astroWeight * astroConf * (ln(safeP + 0.01f) + 0.4f)
         }
 
         // Cue E - sensor noise / ISO. High noise is independent of AE normalisation.
@@ -73,8 +78,11 @@ object PhaseClassifier {
             for (k in 0 until 4) logits[k] += W_NOISE * cue[k]
         }
 
+        for (k in 0 until 4) {
+            logits[k] = if (logits[k].isFinite()) logits[k].coerceIn(-80f, 80f) else 0f
+        }
         var prob = softmax(logits)
-        prob = applyHardRules(prob, logLum, lumValid, features)
+        prob = applyHardRules(prob, safeLogLum, lumValid, features)
         return prob
     }
 
@@ -169,7 +177,7 @@ object PhaseClassifier {
 
     fun normalize(p: FloatArray): FloatArray {
         val sum = p.sum()
-        if (sum <= 1e-6f) return floatArrayOf(0f, 0f, 0f, 1f)
+        if (!sum.isFinite() || sum <= 1e-6f) return floatArrayOf(0f, 0f, 0f, 1f)
         return FloatArray(4) { (p[it] / sum).coerceIn(0f, 1f) }
     }
 

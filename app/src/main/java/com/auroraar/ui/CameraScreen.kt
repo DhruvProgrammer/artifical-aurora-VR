@@ -26,10 +26,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -39,8 +42,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,10 +63,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.auroraar.BuildConfig
 import com.auroraar.R
 import com.auroraar.calibration.CalibrationRecorder
 import com.auroraar.camera.CameraSession
+import com.auroraar.camera.CameraStatus
 import com.auroraar.data.SettingsStore
 import com.auroraar.render.AuroraGlView
 import com.auroraar.skyscore.SkyScoreEngine
@@ -80,7 +89,11 @@ import com.auroraar.ui.theme.NightBase
 import com.auroraar.ui.theme.TextMuted
 import com.auroraar.ui.theme.TextPrimary
 import com.auroraar.ui.theme.WarmAmber
+import java.io.File
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun AuroraRoot() {
@@ -196,23 +209,26 @@ fun CameraScreen() {
             implementationMode = PreviewView.ImplementationMode.PERFORMANCE
         }
     }
+    val glView = remember { AuroraGlView(context) }
 
     val conditions by engine.conditions.collectAsStateWithLifecycle()
     val renderParams by engine.renderParams.collectAsStateWithLifecycle()
+    val cameraStatus by session.status.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
 
     var showSheet by remember { mutableStateOf(false) }
     var showSettings by remember { mutableStateOf(false) }
     var showCalibration by remember { mutableStateOf(false) }
-    var daylightDismissedAt by remember { mutableStateOf(0L) }
-    var elevation by remember { mutableStateOf(0f) }
+    var daylightDismissedAt by remember { mutableLongStateOf(0L) }
+    var elevation by remember { mutableFloatStateOf(0f) }
 
     var visibleMessage by remember { mutableStateOf<MessageId?>(null) }
     var lastShown by remember { mutableStateOf<Pair<MessageId, Long>?>(null) }
 
     var calibRecording by remember { mutableStateOf(false) }
-    var calibSamples by remember { mutableStateOf(0) }
+    var calibSamples by remember { mutableIntStateOf(0) }
     var calibPhase by remember { mutableStateOf("night") }
-    var calibOkta by remember { mutableStateOf(2) }
+    var calibOkta by remember { mutableIntStateOf(2) }
     var calibEnvironment by remember { mutableStateOf("rural") }
 
     fun applySettings(update: UserSettings) {
@@ -231,6 +247,10 @@ fun CameraScreen() {
     LaunchedEffect(Unit) { session.recorder = recorder }
     LaunchedEffect(useLocation) { session.useLocation = useLocation }
 
+    DisposableEffect(recorder) {
+        onDispose { recorder.stop() }
+    }
+
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             when (event) {
@@ -245,32 +265,58 @@ fun CameraScreen() {
         }
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)
-            session.stop()
+            session.close()
         }
     }
 
-    LaunchedEffect(Unit) {
-        while (true) {
-            elevation = session.cameraElevationDeg
-            delay(400)
+    DisposableEffect(lifecycleOwner, glView) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_RESUME -> glView.onResume()
+                Lifecycle.Event.ON_PAUSE -> glView.onPause()
+                else -> Unit
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+            glView.onPause()
         }
     }
 
-    LaunchedEffect(conditions.message, conditions.timestampMs / 20_000L) {
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            while (true) {
+                elevation = session.cameraElevationDeg
+                delay(500)
+            }
+        }
+    }
+
+    // Key only on the message. Keying on a timestamp bucket restarted this
+    // effect every 20 s; if that happened during the 4.2 s visible window, the
+    // early return cancelled the hide and left the bubble on screen forever.
+    LaunchedEffect(conditions.message) {
         val message = conditions.message
         if (message == null) {
             visibleMessage = null
             return@LaunchedEffect
         }
-        val now = System.currentTimeMillis()
-        val previous = lastShown
-        if (previous != null && previous.first == message && now - previous.second < 59_000L) {
-            return@LaunchedEffect
+        while (true) {
+            val now = System.currentTimeMillis()
+            val previous = lastShown
+            if (previous != null && previous.first == message && now - previous.second < 59_000L) {
+                // Same message inside its cooldown: wait the remainder. A
+                // message change cancels this effect and starts fresh.
+                delay(59_000L - (now - previous.second))
+            }
+            lastShown = message to System.currentTimeMillis()
+            visibleMessage = message
+            delay(4_200L)
+            visibleMessage = null
+            // Re-show a still-relevant message about once a minute.
+            delay(54_800L)
         }
-        lastShown = message to now
-        visibleMessage = message
-        delay(4_200L)
-        visibleMessage = null
     }
 
     LaunchedEffect(showCalibration) {
@@ -280,32 +326,52 @@ fun CameraScreen() {
         }
     }
 
-    val shareCalibration: () -> Unit = {
-        try {
-            val file = recorder.export()
-            val uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
-            val intent = Intent(Intent.ACTION_SEND).apply {
-                type = "application/json"
-                putExtra(Intent.EXTRA_STREAM, uri)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
-            context.startActivity(Intent.createChooser(intent, context.getString(R.string.calibration_share)))
-        } catch (t: Throwable) {
-            Toast.makeText(context, t.message ?: "Export failed", Toast.LENGTH_LONG).show()
+    fun exportAsync(onDone: (File) -> Unit, onError: () -> Unit) {
+        scope.launch {
+            val result = withContext(Dispatchers.IO) { runCatching { recorder.export() } }
+            result.fold(
+                onSuccess = { file -> runCatching { onDone(file) } },
+                onFailure = { onError() },
+            )
         }
+    }
+
+    val shareCalibration: () -> Unit = {
+        exportAsync(
+            onDone = { file ->
+                try {
+                    val uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+                    val intent = Intent(Intent.ACTION_SEND).apply {
+                        type = "application/json"
+                        putExtra(Intent.EXTRA_STREAM, uri)
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+                    context.startActivity(Intent.createChooser(intent, context.getString(R.string.calibration_share)))
+                } catch (t: Throwable) {
+                    Toast.makeText(context, R.string.export_failed, Toast.LENGTH_LONG).show()
+                }
+            },
+            onError = {
+                Toast.makeText(context, R.string.export_failed, Toast.LENGTH_LONG).show()
+            },
+        )
     }
 
     val showDaylight = settings.mode == Mode.AUTO &&
         conditions.gate == Gate.BLOCKED_DAYLIGHT &&
+        cameraStatus != CameraStatus.ERROR &&
         elevation > -25f &&
         System.currentTimeMillis() - daylightDismissedAt > 10 * 60 * 1000L &&
         !showSheet && !showSettings && !showCalibration
 
-    val subline = when {
-        settings.mode == Mode.CREATIVE -> stringResource(R.string.creative_badge)
-        conditions.gate == Gate.NO_SKY -> stringResource(R.string.hint_no_sky)
-        conditions.gate == Gate.BLOCKED_DAYLIGHT -> stringResource(R.string.phase_day)
-        else -> stringResource(R.string.hint_tilt)
+    val contextualHint = when {
+        settings.mode == Mode.CREATIVE -> R.string.creative_badge
+        cameraStatus == CameraStatus.ERROR -> R.string.camera_error_title
+        conditions.timestampMs == 0L -> R.string.hint_loading
+        conditions.gate == Gate.CAMERA_BLOCKED -> R.string.msg_camera_covered
+        conditions.gate == Gate.NO_SKY -> R.string.hint_no_sky
+        conditions.gate == Gate.BLOCKED_DAYLIGHT -> R.string.phase_day
+        else -> R.string.hint_tilt
     }
 
     Box(Modifier.fillMaxSize()) {
@@ -315,7 +381,7 @@ fun CameraScreen() {
         )
 
         AndroidView(
-            factory = { AuroraGlView(context) },
+            factory = { glView },
             modifier = Modifier.fillMaxSize(),
             update = { it.setParams(renderParams) },
         )
@@ -334,7 +400,7 @@ fun CameraScreen() {
                         color = AuroraGreen,
                     )
                     Text(
-                        text = subline,
+                        text = stringResource(R.string.brand_sub),
                         style = MaterialTheme.typography.bodySmall,
                         color = if (settings.mode == Mode.CREATIVE) WarmAmber else TextMuted,
                     )
@@ -350,7 +416,7 @@ fun CameraScreen() {
                 IconButton(
                     onClick = { showSettings = true },
                     modifier = Modifier
-                        .size(40.dp)
+                        .size(48.dp)
                         .background(Color(0x660A0F16), CircleShape),
                 ) {
                     Icon(
@@ -387,7 +453,7 @@ fun CameraScreen() {
             }
             Spacer(Modifier.height(10.dp))
             Text(
-                text = stringResource(R.string.hint_tilt),
+                text = stringResource(contextualHint),
                 modifier = Modifier
                     .fillMaxWidth()
                     .navigationBarsPadding(),
@@ -395,6 +461,50 @@ fun CameraScreen() {
                 color = TextMuted.copy(alpha = 0.8f),
                 textAlign = TextAlign.Center,
             )
+        }
+
+        if (cameraStatus == CameraStatus.ERROR) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(24.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = Color(0xF20A0F16)),
+                    shape = RoundedCornerShape(24.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.10f)),
+                ) {
+                    Column(
+                        modifier = Modifier.padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Text(
+                            text = stringResource(R.string.camera_error_title),
+                            style = MaterialTheme.typography.titleLarge,
+                            color = TextPrimary,
+                            textAlign = TextAlign.Center,
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            text = stringResource(R.string.camera_error_body),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = TextMuted,
+                            textAlign = TextAlign.Center,
+                        )
+                        Spacer(Modifier.height(16.dp))
+                        Button(
+                            onClick = { session.start(previewView) },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = AuroraGreen,
+                                contentColor = Color(0xFF04231A),
+                            ),
+                        ) {
+                            Text(stringResource(R.string.camera_retry))
+                        }
+                    }
+                }
+            }
         }
 
         if (showDaylight) {
@@ -478,24 +588,32 @@ fun CameraScreen() {
                     recorder.stop()
                     calibRecording = false
                 } else {
-                    recorder.phaseLabel = calibPhase
-                    recorder.okta = calibOkta
-                    recorder.environment = calibEnvironment
+                    recorder.setLabels(calibPhase, calibOkta, calibEnvironment)
                     recorder.start()
                     calibRecording = true
                     calibSamples = 0
                 }
             },
             onExport = {
-                val file = recorder.export()
-                Toast.makeText(
-                    context,
-                    context.getString(R.string.calibration_saved, file.absolutePath),
-                    Toast.LENGTH_LONG,
-                ).show()
+                exportAsync(
+                    onDone = { file ->
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.calibration_saved, file.name),
+                            Toast.LENGTH_LONG,
+                        ).show()
+                    },
+                    onError = {
+                        Toast.makeText(context, R.string.export_failed, Toast.LENGTH_LONG).show()
+                    },
+                )
             },
             onShare = shareCalibration,
-            onDismiss = { showCalibration = false },
+            onDismiss = {
+                recorder.stop()
+                calibRecording = false
+                showCalibration = false
+            },
         )
     }
 }

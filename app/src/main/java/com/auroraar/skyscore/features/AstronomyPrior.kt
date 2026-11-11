@@ -29,10 +29,26 @@ object AstronomyPrior {
         longitude: Double?,
         timeZone: TimeZone = TimeZone.getDefault(),
     ): AstroPrior {
-        val hasLocation = latitude != null && longitude != null
-        val lat = latitude ?: FALLBACK_LAT
-        val lon = longitude ?: (timeZone.getOffset(epochMs) / 3_600_000.0 * 15.0)
+        val validLat = latitude != null && latitude.isFinite() && latitude in -90.0..90.0
+        val validLon = longitude != null && longitude.isFinite() && longitude in -180.0..180.0
+        val hasLocation = validLat && validLon
+        val lat = if (hasLocation) latitude!! else FALLBACK_LAT
+        val lon = if (hasLocation) {
+            longitude!!
+        } else {
+            val offsetMinutes = runCatching { timeZone.getOffset(epochMs) / 60_000.0 }
+                .getOrDefault(0.0)
+            if (offsetMinutes.isFinite()) offsetMinutes / 4.0 else 0.0
+        }
         val elevation = sunElevationDeg(epochMs, lat, lon)
+        if (!elevation.isFinite()) {
+            return AstroPrior(
+                sunElevationDeg = 0f,
+                prob = floatArrayOf(0.25f, 0.25f, 0.25f, 0.25f).toList(),
+                confidence = 0.1f,
+                hasLocation = false,
+            )
+        }
         val prob = phasePrior(elevation)
         val confidence = if (hasLocation) 0.9f else 0.30f
         return AstroPrior(elevation, prob.toList(), confidence, hasLocation)
@@ -84,10 +100,11 @@ object AstronomyPrior {
     }
 
     fun phasePrior(sunElevationDeg: Float): FloatArray {
-        val day = smoothstep(2f, 8f, sunElevationDeg)
-        val night = 1f - smoothstep(-14f, -6f, sunElevationDeg)
-        val sunset = gauss(sunElevationDeg, 2f, 4.2f)
-        val twilight = gauss(sunElevationDeg, -7f, 5.0f)
+        val elev = if (sunElevationDeg.isFinite()) sunElevationDeg.coerceIn(-90f, 90f) else 0f
+        val day = smoothstep(2f, 8f, elev)
+        val night = 1f - smoothstep(-14f, -6f, elev)
+        val sunset = gauss(elev, 2f, 4.2f)
+        val twilight = gauss(elev, -7f, 5.0f)
 
         val raw = floatArrayOf(
             day.coerceAtLeast(0.001f),

@@ -23,18 +23,22 @@ object SkyScoreFormula {
     fun darkness(phaseProb: List<Float>): Float {
         var d = 0f
         for (i in 0 until 4) {
-            d += phaseProb.getOrElse(i) { 0f } * DARKNESS_ANCHORS[i]
+            val p = phaseProb.getOrElse(i) { 0f }
+            // Corrupted probabilities fail closed: darkness 0 blocks the gate.
+            if (!p.isFinite() || p < 0f) return 0f
+            d += p * DARKNESS_ANCHORS[i]
         }
-        return d.coerceIn(0f, 1f)
+        return if (d.isFinite()) d.coerceIn(0f, 1f) else 0f
     }
 
     /** Cloud penalty depends on how dark the sky already is. */
     fun kappa(phaseProb: List<Float>): Float {
-        val sunset = phaseProb.getOrElse(Phase.SUNSET.ordinal) { 0f }
-        val twilight = phaseProb.getOrElse(Phase.TWILIGHT.ordinal) { 0f }
-        val night = phaseProb.getOrElse(Phase.NIGHT.ordinal) { 0f }
-        return (sunset * KAPPA_SUNSET + twilight * KAPPA_TWILIGHT + night * KAPPA_NIGHT)
-            .coerceIn(0f, 1f)
+        fun p(i: Int): Float = phaseProb.getOrElse(i) { 0f }.let { if (it.isFinite()) it else 0f }
+        val sunset = p(Phase.SUNSET.ordinal)
+        val twilight = p(Phase.TWILIGHT.ordinal)
+        val night = p(Phase.NIGHT.ordinal)
+        val k = sunset * KAPPA_SUNSET + twilight * KAPPA_TWILIGHT + night * KAPPA_NIGHT
+        return if (k.isFinite()) k.coerceIn(0f, 1f) else 0f
     }
 
     /**
@@ -42,6 +46,7 @@ object SkyScoreFormula {
      * neutral prior (0.25) instead of pretending the sky is clear.
      */
     fun cloudEffective(cover: Float, confidence: Float): Float {
+        if (!cover.isFinite() || !confidence.isFinite()) return 0.25f
         val c = confidence.coerceIn(0f, 1f)
         return c * cover.coerceIn(0f, 1f) + (1f - c) * 0.25f
     }
@@ -52,17 +57,53 @@ object SkyScoreFormula {
     }
 
     /** Environmental lighting never drops below 0.70 (§9.1). */
-    fun lightingScore(lightPollution: Float): Float =
-        (1f - 0.30f * lightPollution.coerceIn(0f, 1f)).coerceAtLeast(0.70f)
+    fun lightingScore(lightPollution: Float): Float {
+        if (!lightPollution.isFinite()) return 0.70f
+        return (1f - 0.30f * lightPollution.coerceIn(0f, 1f)).coerceAtLeast(0.70f)
+    }
 
     fun visibility(fSky: Float, maskConfidence: Float): Float {
+        if (!fSky.isFinite() || !maskConfidence.isFinite()) return 0f
         val ramp = smoothstep(0.03f, 0.30f, fSky.coerceIn(0f, 1f))
         return (ramp * (0.7f + 0.3f * maskConfidence.coerceIn(0f, 1f))).coerceIn(0f, 1f)
     }
 
     /** Multiplicative combination: any bad factor matters. */
-    fun score(sub: SubScores): Int =
-        (100f * sub.product()).coerceIn(0f, 100f).roundToInt()
+    fun score(sub: SubScores): Int {
+        val parts = floatArrayOf(sub.brightness, sub.cloud, sub.visibility, sub.lighting)
+        if (parts.any { !it.isFinite() }) return 0
+        val product = parts.fold(1f) { acc, v -> acc * v.coerceIn(0f, 1f) }
+        if (!product.isFinite()) return 0
+        return (100f * product).coerceIn(0f, 100f).roundToInt()
+    }
+
+    /**
+     * A covered lens is dark, featureless and temporally dead. Checking only
+     * meanLum was not enough: with limited-range luma a covered lens sat at
+     * 0.063, above the old 0.004 threshold. Loosening texture/noise instead
+     * falsely flagged a dark overcast live sky, so the decision requires all
+     * three signals to agree: low luminance, almost no spatial detail and
+     * almost no temporal noise.
+     */
+    fun cameraBlocked(
+        meanLum: Float,
+        textureEnergy: Float,
+        noiseSigma: Float,
+        starCount: Int,
+        lux: Float?,
+    ): Boolean {
+        if (!meanLum.isFinite() || !textureEnergy.isFinite() || !noiseSigma.isFinite()) return true
+        val digitalBlack = meanLum < 0.10f &&
+            textureEnergy < 0.035f &&
+            noiseSigma < 0.004f &&
+            starCount == 0
+        val brightAmbientButDarkFrame = lux != null &&
+            lux.isFinite() &&
+            lux > 50f &&
+            meanLum < 0.08f &&
+            starCount == 0
+        return digitalBlack || brightAmbientButDarkFrame
+    }
 
     fun band(score: Int): RatingBand = when {
         score >= 90 -> RatingBand.EXCELLENT
@@ -80,8 +121,8 @@ object SkyScoreFormula {
         creative: Boolean,
     ): Gate = when {
         cameraBlocked -> Gate.CAMERA_BLOCKED
-        visibility < 0.10f -> Gate.NO_SKY
-        !creative && darkness < 0.08f -> Gate.BLOCKED_DAYLIGHT
+        !visibility.isFinite() || visibility < 0.10f -> Gate.NO_SKY
+        !darkness.isFinite() || (!creative && darkness < 0.08f) -> Gate.BLOCKED_DAYLIGHT
         else -> Gate.OPEN
     }
 

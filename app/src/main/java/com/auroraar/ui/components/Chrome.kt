@@ -5,6 +5,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.auroraar.R
@@ -136,8 +138,12 @@ fun ModePill(
                 modifier = Modifier
                     .clip(RoundedCornerShape(percent = 50))
                     .background(if (selected) AuroraGreen.copy(alpha = 0.14f) else Color.Transparent)
-                    .clickable { onModeChange(item) }
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                    .selectable(
+                        selected = selected,
+                        role = Role.RadioButton,
+                        onClick = { onModeChange(item) },
+                    )
+                    .padding(horizontal = 16.dp, vertical = 14.dp),
             )
         }
     }

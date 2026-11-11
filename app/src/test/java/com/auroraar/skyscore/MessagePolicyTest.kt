@@ -54,6 +54,42 @@ class MessagePolicyTest {
     }
 
     @Test
+    fun `sunset and twilight get their own messages`() {
+        assertEquals(
+            MessageId.SUNSET,
+            MessagePolicy.message(Gate.OPEN, Phase.SUNSET, CloudClass.CLEAR, 0.2f, indoors = false),
+        )
+        assertEquals(
+            MessageId.TWILIGHT,
+            MessagePolicy.message(Gate.OPEN, Phase.TWILIGHT, CloudClass.CLEAR, 0.4f, indoors = false),
+        )
+    }
+
+    @Test
+    fun `heavy cloud says cloudy`() {
+        assertEquals(
+            MessageId.CLOUDY,
+            MessagePolicy.message(Gate.OPEN, Phase.NIGHT, CloudClass.HEAVY, 1f, indoors = false),
+        )
+    }
+
+    @Test
+    fun `a clear dark night gets the clear message`() {
+        assertEquals(
+            MessageId.CLEAR_DARK,
+            MessagePolicy.message(Gate.OPEN, Phase.NIGHT, CloudClass.CLEAR, 1f, indoors = false),
+        )
+    }
+
+    @Test
+    fun `a partly clear night says partly clear`() {
+        assertEquals(
+            MessageId.PARTLY_CLEAR,
+            MessagePolicy.message(Gate.OPEN, Phase.NIGHT, CloudClass.PARTLY, 0.9f, indoors = false),
+        )
+    }
+
+    @Test
     fun `camera blocked wins over everything`() {
         assertEquals(
             MessageId.CAMERA_COVERED,

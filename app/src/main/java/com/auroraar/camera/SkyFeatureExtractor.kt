@@ -2,6 +2,8 @@ package com.auroraar.camera
 
 import androidx.camera.core.ImageProxy
 import com.auroraar.skyscore.features.SkyMaskColor
+import com.auroraar.skyscore.features.StarCounter
+import com.auroraar.skyscore.features.YuvColor
 import com.auroraar.skyscore.model.FrameFeatures
 import kotlin.math.abs
 import kotlin.math.max
@@ -58,26 +60,20 @@ class SkyFeatureExtractor(
                 val by = packed and 0xFFFF
 
                 val yIndex = by * yRow + bx * yPix
-                val yy = (yBuf.get(yIndex).toInt() and 0xFF) / 255f
-
                 val ux = bx / 2
                 val uy = by / 2
-                val uu = (uBuf.get(uy * uRow + ux * uPix).toInt() and 0xFF).toFloat()
-                val vv = (vBuf.get(uy * vRow + ux * vPix).toInt() and 0xFF).toFloat()
-
-                val yf = (yy * 255f - 16f) / 219f
-                val uf = (uu - 128f) / 224f
-                val vf = (vv - 128f) / 224f
-                val r = (yf + 1.402f * vf).coerceIn(0f, 1f)
-                val g = (yf - 0.344136f * uf - 0.714136f * vf).coerceIn(0f, 1f)
-                val b = (yf + 1.772f * uf).coerceIn(0f, 1f)
+                val rgb = YuvColor.fromLimitedRange(
+                    y = yBuf.get(yIndex).toInt(),
+                    u = uBuf.get(uy * uRow + ux * uPix).toInt(),
+                    v = vBuf.get(uy * vRow + ux * vPix).toInt(),
+                )
 
                 val i = gy * gridW + gx
-                luma[i] = yy
-                red[i] = r
-                green[i] = g
-                blue[i] = b
-                sumLuma += yy
+                luma[i] = rgb.luma
+                red[i] = rgb.r
+                green[i] = rgb.g
+                blue[i] = rgb.b
+                sumLuma += rgb.luma
             }
         }
 
@@ -153,7 +149,11 @@ class SkyFeatureExtractor(
         hasPrev = true
         luma.copyInto(prevLuma)
 
-        val starCount = if (skyCount > 50 && skyMean < 0.45f) countStars(noise) else 0
+        val starCount = if (skyCount > 50 && skyMean < 0.40f) {
+            StarCounter.count(luma, eroded, gridW, gridH, noise)
+        } else {
+            0
+        }
 
         val bands = FloatArray(8)
         val bandCounts = IntArray(8)
@@ -231,32 +231,6 @@ class SkyFeatureExtractor(
                 eroded[gy * gridW + gx] = m
             }
         }
-    }
-
-    private fun countStars(noise: Float): Int {
-        val threshold = max(0.38f, luma.average().toFloat() + max(0.16f, noise * 6f))
-        var count = 0
-        for (gy in 1 until gridH - 1) {
-            for (gx in 1 until gridW - 1) {
-                val i = gy * gridW + gx
-                if (eroded[i] <= 0.5f) continue
-                val v = luma[i]
-                if (v < threshold) continue
-                var isMax = true
-                for (dy in -1..1) {
-                    for (dx in -1..1) {
-                        if (dx == 0 && dy == 0) continue
-                        if (luma[i + dy * gridW + dx] > v) {
-                            isMax = false
-                            break
-                        }
-                    }
-                    if (!isMax) break
-                }
-                if (isMax) count++
-            }
-        }
-        return count.coerceAtMost(400)
     }
 
     private fun horizonRow(elevationDeg: Float): Float {

@@ -42,7 +42,7 @@ class SkyScoreEngine(initialSettings: UserSettings = UserSettings()) {
     val renderParams: StateFlow<AuroraRenderParams> = _renderParams.asStateFlow()
 
     @Volatile
-    private var settings: UserSettings = initialSettings
+    private var settings: UserSettings = sanitizeSettings(initialSettings)
     private var hysteresis = PhaseHysteresis(Phase.DAYLIGHT)
 
     private var smoothedLogLum = 0.5f
@@ -56,7 +56,7 @@ class SkyScoreEngine(initialSettings: UserSettings = UserSettings()) {
     private val pollutionWindow = ArrayDeque<Float>()
 
     fun setSettings(update: UserSettings) {
-        settings = update
+        settings = sanitizeSettings(update)
         // Re-derive render parameters on the next frame; no state reset.
     }
 
@@ -71,6 +71,7 @@ class SkyScoreEngine(initialSettings: UserSettings = UserSettings()) {
         heldLogLum = null
         pollutionWindow.clear()
         _conditions.value = initialConditions()
+        _renderParams.value = AuroraRenderParams.IDLE
     }
 
     /** Called from the analysis thread. Publishes [conditions] and returns the same snapshot. */
@@ -78,20 +79,21 @@ class SkyScoreEngine(initialSettings: UserSettings = UserSettings()) {
         val now = input.nowMs
         val f = input.features
         val isFirst = lastUpdateMs == 0L
-        val dt = if (isFirst) 0.2f else ((now - lastUpdateMs) / 1000f).coerceIn(0.02f, 2f)
+        val elapsedSec = if (isFirst || now < lastUpdateMs) 0.2f else (now - lastUpdateMs) / 1000f
+        val dt = if (elapsedSec.isFinite()) elapsedSec.coerceIn(0.02f, 2f) else 0.2f
         lastUpdateMs = now
 
         // --- AE awareness: hold the photometric estimate through exposure swings.
-        val logExposure = input.exposure?.logExposure
+        val logExposure = input.exposure?.logExposure?.takeIf { it.isFinite() }
         if (logExposure != null && prevLogExposure != null && abs(logExposure - prevLogExposure!!) > 0.3f) {
             brightnessHoldUntilMs = now + 400L
         }
         prevLogExposure = logExposure
 
         val estimate = BrightnessEstimator.estimate(f, input.exposure)
-        var logLum = estimate.logLum
-        var lumConf = estimate.confidence
-        val held = heldLogLum
+        var logLum = estimate.logLum.takeIf { it.isFinite() }?.coerceIn(-4f, 5f) ?: -1.8f
+        var lumConf = estimate.confidence.takeIf { it.isFinite() }?.coerceIn(0f, 1f) ?: 0f
+        val held = heldLogLum?.takeIf { it.isFinite() }
         if (now < brightnessHoldUntilMs && held != null) {
             logLum = held
             lumConf *= 0.5f
@@ -99,16 +101,17 @@ class SkyScoreEngine(initialSettings: UserSettings = UserSettings()) {
         heldLogLum = logLum
 
         val tauLum = if (abs(logLum - smoothedLogLum) > 1.5f) 0.25f else 0.6f
-        smoothedLogLum += (logLum - smoothedLogLum) * (1f - exp(-dt / tauLum))
+        val lumStep = (logLum - smoothedLogLum) * (1f - exp(-dt / tauLum))
+        if (lumStep.isFinite()) smoothedLogLum = (smoothedLogLum + lumStep).coerceIn(-5f, 6f)
 
         // --- Phase fusion + hysteresis.
         val prob = PhaseClassifier.fuse(
             logLum = smoothedLogLum,
-            lumValid = estimate.photometric || estimate.confidence >= 0.3f,
+            lumValid = estimate.photometric || lumConf >= 0.3f,
             lumConfidence = lumConf,
             features = f,
             exposure = input.exposure,
-            lux = input.lux,
+            lux = input.lux?.takeIf { it.isFinite() && it >= 0f },
             astro = input.astro,
         )
         val probList = prob.toList()
@@ -125,9 +128,12 @@ class SkyScoreEngine(initialSettings: UserSettings = UserSettings()) {
         val cloud = CloudEstimator.blend(dayCloud, nightCloud, probList)
         val effectiveCloud = SkyScoreFormula.cloudEffective(cloud.cover, cloud.confidence)
 
-        val visibility = VisibilityEstimator.estimate(f, input.cameraElevationDeg)
+        val elevation = if (input.cameraElevationDeg.isFinite()) input.cameraElevationDeg else 0f
+        val visibility = VisibilityEstimator.estimate(f, elevation)
 
-        pollutionWindow.addLast(LightingEstimator.estimate(f, probList, input.lux))
+        val lux = input.lux?.takeIf { it.isFinite() && it >= 0f }
+        val lightingSample = LightingEstimator.estimate(f, probList, lux)
+        if (lightingSample.isFinite()) pollutionWindow.addLast(lightingSample.coerceIn(0f, 1f))
         while (pollutionWindow.size > 7) pollutionWindow.removeFirst()
         val pollution = median(pollutionWindow)
 
@@ -139,26 +145,37 @@ class SkyScoreEngine(initialSettings: UserSettings = UserSettings()) {
         )
 
         // --- Gates.
-        val cameraBlocked = f.meanLum < 0.004f &&
-            (input.lux ?: 0f) < 1f &&
-            f.noiseSigma < 0.01f &&
-            f.fSky < 0.05f
+        val cameraBlocked = SkyScoreFormula.cameraBlocked(
+            meanLum = f.meanLum,
+            textureEnergy = f.textureEnergy,
+            noiseSigma = f.noiseSigma,
+            starCount = f.starCount,
+            lux = lux,
+        )
         val creative = settings.mode == Mode.CREATIVE
         val gate = SkyScoreFormula.gate(darkness, visibility, cameraBlocked, creative)
         val indoors = gate == Gate.NO_SKY && f.meanLum > 0.08f
         val gatedScore = if (gate == Gate.OPEN) SkyScoreFormula.score(subScores) else 0
 
         val tauScore = if (gatedScore < smoothedScore) 0.8f else 2.5f
-        smoothedScore += (gatedScore - smoothedScore) * (1f - exp(-dt / tauScore))
-        val skyScore = smoothedScore.roundToInt().coerceIn(0, 100)
+        val scoreStep = (gatedScore - smoothedScore) * (1f - exp(-dt / tauScore))
+        if (scoreStep.isFinite()) smoothedScore = (smoothedScore + scoreStep).coerceIn(0f, 100f)
+        // A closed gate always reports 0, even while the internal smoother is
+        // still decaying. Otherwise a daylight/covered frame briefly carries the
+        // previous night's score into the UI and the calibration JSON.
+        val skyScore = if (gate == Gate.OPEN) smoothedScore.roundToInt().coerceIn(0, 100) else 0
 
         val skyLumNorm = ((smoothedLogLum + 2f) / 4.5f).coerceIn(0f, 1f)
 
-        // --- Adaptive rendering.
+        // --- Adaptive rendering. Creative may bypass darkness, never "no sky".
         val index = when (settings.mode) {
             Mode.OFF -> 0f
             Mode.AUTO -> if (gate == Gate.OPEN) skyScore / 100f else 0f
-            Mode.CREATIVE -> if (settings.lockIntensity) 1f else max(skyScore / 100f, 0.60f)
+            Mode.CREATIVE -> when {
+                gate != Gate.OPEN -> 0f
+                settings.lockIntensity -> 1f
+                else -> max(skyScore / 100f, 0.60f)
+            }
         }
         val target = IntensityMapper.map(
             intensityIndex = index,
@@ -205,7 +222,10 @@ class SkyScoreEngine(initialSettings: UserSettings = UserSettings()) {
             return target
         }
         val k = 1f - exp(-dt / 1.2f)
-        fun approach(a: Float, b: Float) = a + (b - a) * k
+        fun approach(a: Float, b: Float): Float {
+            val v = a + (b - a) * k
+            return if (v.isFinite()) v else b
+        }
         val next = target.copy(
             intensity = approach(current.intensity, target.intensity),
             saturation = approach(current.saturation, target.saturation),
@@ -238,5 +258,14 @@ class SkyScoreEngine(initialSettings: UserSettings = UserSettings()) {
         )
 
         fun cloudClassFor(cover: Float): CloudClass = CloudEstimator.classify(cover)
+
+        /** Rejects NaN/Infinity and out-of-range slider values from prefs or tests. */
+        fun sanitizeSettings(s: UserSettings): UserSettings = s.copy(
+            intensity = s.intensity.finiteOr(0.85f).coerceIn(0f, 1f),
+            saturation = s.saturation.finiteOr(1f).coerceIn(0f, 2f),
+            maxIntensity = s.maxIntensity.finiteOr(1f).coerceIn(0f, 1f),
+        )
+
+        private fun Float.finiteOr(fallback: Float): Float = if (isFinite()) this else fallback
     }
 }

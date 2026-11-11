@@ -32,11 +32,18 @@ class AuroraGlView(context: Context) : GLSurfaceView(context) {
         setZOrderMediaOverlay(true)
         preserveEGLContextOnPause = true
         setRenderer(auroraRenderer)
-        renderMode = RENDERMODE_CONTINUOUSLY
+        renderMode = RENDERMODE_WHEN_DIRTY
     }
 
     fun setParams(params: AuroraRenderParams) {
         auroraRenderer.target = params
+        // The overlay only animates when it is visible; when idle, stop the
+        // render loop instead of burning a frame every vsync.
+        val desired = if (params.enabled) RENDERMODE_CONTINUOUSLY else RENDERMODE_WHEN_DIRTY
+        if (renderMode != desired) {
+            renderMode = desired
+            if (desired == RENDERMODE_WHEN_DIRTY) requestRender()
+        }
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -29,6 +30,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -103,12 +106,16 @@ fun SkyScoreChip(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val scoreText = if (enabled && score > 0) score.toString() else "—"
+    val description = stringResource(R.string.skyscore_a11y, scoreText)
     Row(
         modifier = modifier
+            .heightIn(min = 48.dp)
             .clip(RoundedCornerShape(percent = 50))
             .background(Color(0xB30A0F16))
             .border(1.dp, Color.White.copy(alpha = 0.08f), RoundedCornerShape(percent = 50))
             .clickable(onClick = onClick)
+            .semantics { contentDescription = description }
             .padding(start = 5.dp, end = 14.dp, top = 5.dp, bottom = 5.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
@@ -127,7 +134,7 @@ fun SkyScoreChip(
                 color = TextMuted,
             )
             Text(
-                text = if (enabled && score > 0) score.toString() else "—",
+                text = scoreText,
                 style = MaterialTheme.typography.titleMedium,
                 color = if (enabled) scoreColor(score) else TextMuted,
             )

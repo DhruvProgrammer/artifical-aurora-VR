@@ -3,7 +3,9 @@ package com.auroraar.camera
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CaptureResult
 import android.hardware.camera2.TotalCaptureResult
+import androidx.annotation.OptIn
 import androidx.camera.camera2.interop.Camera2Interop
+import androidx.camera.camera2.interop.ExperimentalCamera2Interop
 import androidx.camera.core.ImageAnalysis
 import com.auroraar.skyscore.model.ExposureInfo
 
@@ -18,6 +20,7 @@ class ExposureReader {
     var latest: ExposureInfo? = null
         private set
 
+    @OptIn(ExperimentalCamera2Interop::class)
     fun attach(builder: ImageAnalysis.Builder) {
         Camera2Interop.Extender(builder).setSessionCaptureCallback(
             object : CameraCaptureSession.CaptureCallback() {

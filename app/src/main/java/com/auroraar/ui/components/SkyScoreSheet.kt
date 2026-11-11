@@ -39,9 +39,9 @@ import com.auroraar.R
 import com.auroraar.skyscore.model.Gate
 import com.auroraar.skyscore.model.SkyConditions
 import com.auroraar.skyscore.policy.SkyScoreFormula
-import com.auroraar.ui.brightnessStateText
 import com.auroraar.ui.cloudSkyText
 import com.auroraar.ui.cloudStateText
+import com.auroraar.ui.darknessStateText
 import com.auroraar.ui.lightingStateText
 import com.auroraar.ui.phaseText
 import com.auroraar.ui.ratingText
@@ -76,6 +76,14 @@ fun SkyScoreSheet(
                 .padding(bottom = 28.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = stringResource(R.string.skyscore_simulated_note),
+                style = MaterialTheme.typography.labelSmall,
+                color = TextMuted,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+            )
+            Spacer(Modifier.height(10.dp))
             ScoreRing(
                 score = score,
                 modifier = Modifier.size(168.dp),
@@ -102,8 +110,8 @@ fun SkyScoreSheet(
             if (showSubScores) {
                 Spacer(Modifier.height(18.dp))
                 SubScoreRow(
-                    label = stringResource(R.string.sub_brightness),
-                    state = brightnessStateText(conditions.subScores.brightness),
+                    label = stringResource(R.string.sub_darkness),
+                    state = darknessStateText(conditions.subScores.brightness),
                     value = conditions.subScores.brightness,
                     available = available,
                 )
@@ -130,7 +138,8 @@ fun SkyScoreSheet(
             Spacer(Modifier.height(10.dp))
             val why = when {
                 !available -> when (conditions.gate) {
-                    Gate.NO_SKY, Gate.CAMERA_BLOCKED -> R.string.why_visibility
+                    Gate.CAMERA_BLOCKED -> R.string.why_camera
+                    Gate.NO_SKY -> R.string.why_visibility
                     else -> R.string.why_brightness
                 }
                 conditions.subScores.cloud <= conditions.subScores.brightness &&

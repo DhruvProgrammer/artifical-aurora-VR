@@ -26,7 +26,7 @@ class PoseReader(context: Context) {
         override fun onSensorChanged(event: SensorEvent) {
             val g = event.values
             val mag = sqrt(g[0] * g[0] + g[1] * g[1] + g[2] * g[2])
-            if (mag < 0.1f) return
+            if (!mag.isFinite() || mag < 0.1f) return
             // Camera (back, -z) elevation: horizon 0, zenith +90, ground -90.
             // Gravity sensor matches the accelerometer at rest, so +z points up
             // when the screen faces up; negate to get the back-camera pointing.

@@ -108,6 +108,41 @@ class SkyScoreEngineTest {
     }
 
     @Test
+    fun `bright daylight without exposure metadata is still blocked`() {
+        // Some devices do not expose CaptureResult metadata. The appearance
+        // fallback must still recognise a bright blue midday sky as daylight;
+        // otherwise the aurora would be drawn at noon.
+        val engine = SkyScoreEngine()
+        var now = 1_000L
+        var conditions = engine.onInput(
+            com.auroraar.skyscore.model.EngineInput(
+                features = daylightFeatures(),
+                exposure = null,
+                lux = 20_000f,
+                astro = dayAstro,
+                cameraElevationDeg = 40f,
+                nowMs = now,
+            ),
+        )
+        repeat(30) {
+            now += 200L
+            conditions = engine.onInput(
+                com.auroraar.skyscore.model.EngineInput(
+                    features = daylightFeatures(),
+                    exposure = null,
+                    lux = 20_000f,
+                    astro = dayAstro,
+                    cameraElevationDeg = 40f,
+                    nowMs = now,
+                ),
+            )
+        }
+        assertEquals(Gate.BLOCKED_DAYLIGHT, conditions.gate)
+        assertEquals(0, conditions.skyScore)
+        assertTrue(!engine.renderParams.value.enabled)
+    }
+
+    @Test
     fun `dark clear night opens the gate and converges to a high score`() {
         val engine = SkyScoreEngine()
         var now = 1_000L
@@ -155,6 +190,38 @@ class SkyScoreEngineTest {
         )
         assertEquals(Gate.NO_SKY, conditions.gate)
         assertEquals(0, conditions.skyScore)
+    }
+
+    @Test
+    fun `closing the gate publishes a zero score immediately`() {
+        val engine = SkyScoreEngine()
+        var now = 1_000L
+        repeat(60) {
+            engine.onInput(
+                com.auroraar.skyscore.model.EngineInput(
+                    features = nightFeatures(),
+                    exposure = ExposureInfo(0.1f, 3200f, 1.8f, true, 0f, 0L),
+                    lux = 0.5f,
+                    astro = nightAstro,
+                    cameraElevationDeg = 30f,
+                    nowMs = now,
+                ),
+            )
+            now += 200L
+        }
+        val blocked = engine.onInput(
+            com.auroraar.skyscore.model.EngineInput(
+                features = FrameFeatures(),
+                exposure = null,
+                lux = 0.5f,
+                astro = nightAstro,
+                cameraElevationDeg = 30f,
+                nowMs = now,
+            ),
+        )
+        assertEquals(Gate.CAMERA_BLOCKED, blocked.gate)
+        assertEquals(0, blocked.skyScore)
+        assertEquals(0, engine.conditions.value.skyScore)
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.auroraar.data
 
 import android.content.Context
+import com.auroraar.skyscore.SkyScoreEngine
 import com.auroraar.skyscore.model.Mode
 import com.auroraar.skyscore.model.UserSettings
 
@@ -8,21 +9,22 @@ import com.auroraar.skyscore.model.UserSettings
 class SettingsStore(context: Context) {
 
     private val prefs = context.getSharedPreferences("aurora_settings", Context.MODE_PRIVATE)
-
     var useLocation: Boolean
         get() = prefs.getBoolean(KEY_LOCATION, false)
         set(value) = prefs.edit().putBoolean(KEY_LOCATION, value).apply()
 
-    fun load(): UserSettings = UserSettings(
-        mode = runCatching { Mode.valueOf(prefs.getString(KEY_MODE, Mode.AUTO.name)!!) }
-            .getOrDefault(Mode.AUTO),
-        intensity = prefs.getFloat(KEY_INTENSITY, 0.85f),
-        saturation = prefs.getFloat(KEY_SATURATION, 1f),
-        maxIntensity = prefs.getFloat(KEY_MAX_INTENSITY, 1f),
-        respectClouds = prefs.getBoolean(KEY_RESPECT_CLOUDS, true),
-        lockIntensity = prefs.getBoolean(KEY_LOCK_INTENSITY, false),
-        hudEnabled = prefs.getBoolean(KEY_HUD, true),
-        showSubScores = prefs.getBoolean(KEY_SUB_SCORES, true),
+    fun load(): UserSettings = SkyScoreEngine.sanitizeSettings(
+        UserSettings(
+            mode = runCatching { Mode.valueOf(prefs.getString(KEY_MODE, Mode.AUTO.name)!!) }
+                .getOrDefault(Mode.AUTO),
+            intensity = prefs.getFloat(KEY_INTENSITY, 0.85f),
+            saturation = prefs.getFloat(KEY_SATURATION, 1f),
+            maxIntensity = prefs.getFloat(KEY_MAX_INTENSITY, 1f),
+            respectClouds = prefs.getBoolean(KEY_RESPECT_CLOUDS, true),
+            lockIntensity = prefs.getBoolean(KEY_LOCK_INTENSITY, false),
+            hudEnabled = prefs.getBoolean(KEY_HUD, true),
+            showSubScores = prefs.getBoolean(KEY_SUB_SCORES, true),
+        ),
     )
 
     fun save(settings: UserSettings) {

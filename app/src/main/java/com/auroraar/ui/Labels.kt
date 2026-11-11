@@ -55,15 +55,14 @@ fun messageText(id: MessageId): String = stringResource(
     },
 )
 
-/** Ambient brightness state word: a high darkness sub-score means low ambient light. */
 @Composable
-fun brightnessStateText(darkness: Float): String = stringResource(
+fun darknessStateText(darkness: Float): String = stringResource(
     when {
-        darkness >= 0.85f -> R.string.sub_brightness_very_low
-        darkness >= 0.60f -> R.string.sub_brightness_low
-        darkness >= 0.35f -> R.string.sub_brightness_moderate
-        darkness >= 0.15f -> R.string.sub_brightness_high
-        else -> R.string.sub_brightness_very_high
+        darkness >= 0.85f -> R.string.sub_darkness_very_dark
+        darkness >= 0.60f -> R.string.sub_darkness_dark
+        darkness >= 0.35f -> R.string.sub_darkness_moderate
+        darkness >= 0.15f -> R.string.sub_darkness_bright
+        else -> R.string.sub_darkness_very_bright
     },
 )
 
@@ -98,15 +97,3 @@ fun lightingStateText(pollution: Float): String = stringResource(
         else -> R.string.sub_light_very_high
     },
 )
-
-@Composable
-fun rowRatingText(score: Float, available: Boolean): String {
-    if (!available) return stringResource(R.string.row_rating_unavailable)
-    val res = when {
-        score >= 0.85f -> R.string.row_rating_excellent
-        score >= 0.65f -> R.string.row_rating_good
-        score >= 0.45f -> R.string.row_rating_fair
-        else -> R.string.row_rating_poor
-    }
-    return stringResource(res)
-}

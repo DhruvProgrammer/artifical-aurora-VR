@@ -36,14 +36,17 @@ object BrightnessEstimator {
         val t = e.exposureSec ?: return null
         val iso = e.iso ?: return null
         val n = e.fNumber ?: return null
+        if (!t.isFinite() || !iso.isFinite() || !n.isFinite()) return null
         if (t <= 0f || iso <= 0f || n <= 0f) return null
+        val aeComp = e.aeCompensationEv
+        if (!aeComp.isFinite()) return null
 
         val y = f.skyMeanLinear
         // Clipped or crushed sky pixels carry no photometric meaning.
-        if (y < 0.01f || y > 0.95f) return null
+        if (!y.isFinite() || y < 0.01f || y > 0.95f) return null
 
         val lMid = K * n * n / (t * iso)
-        val aeScale = 2f.pow(-e.aeCompensationEv)
+        val aeScale = 2f.pow(-aeComp)
         val lSky = lMid * (y / Y_TARGET) * aeScale
         val logLum = log10(lSky.coerceAtLeast(1e-6f))
         if (!logLum.isFinite()) return null
@@ -64,9 +67,12 @@ object BrightnessEstimator {
             f.starCount >= 8 -> -1.2f
             f.starCount >= 1 -> -0.3f
             f.warmth >= 1.25f -> 2.1f
+            // Brightness must win over blueness. A clear midday sky is both
+            // bright and blue; checking blue first classified it as dusk and
+            // could open the gate when Camera2 metadata was unavailable.
+            f.skyMeanLum >= 0.60f -> 2.6f
             f.blueDominance >= 0.18f -> 0.8f
             f.skyMeanLum < 0.10f -> -1.0f
-            f.skyMeanLum > 0.60f -> 2.6f
             else -> 1.2f
         }
         return BrightnessEstimate(logLum, 0.32f, false)
