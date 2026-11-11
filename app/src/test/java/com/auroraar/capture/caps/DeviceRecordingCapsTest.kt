@@ -41,6 +41,26 @@ class DeviceRecordingCapsTest {
     }
 
     @Test
+    fun `an encoder with no reported frame rate range still supports its resolutions`() {
+        val unknownFps = avc.copy(maxFps = 0)
+        assertTrue(
+            "maxFps=0 means the probe could not read a range, not that nothing is supported",
+            unknownFps.supports(1280, 720, 30),
+        )
+        assertTrue(unknownFps.supports(1920, 1080))
+    }
+
+    @Test
+    fun `summary does not present an unknown frame rate as zero`() {
+        val unknownFps = DeviceRecordingCaps(listOf(avc.copy(maxFps = 0)))
+        val summary = unknownFps.summary()
+        assertFalse(
+            "0 fps is a missing reading and must not be displayed as a real limit: $summary",
+            summary.contains("@0"),
+        )
+    }
+
+    @Test
     fun `device capabilities expose supported resolutions per codec`() {
         assertTrue(caps.supports720pAvc)
         assertTrue(caps.supports1080pAvc)

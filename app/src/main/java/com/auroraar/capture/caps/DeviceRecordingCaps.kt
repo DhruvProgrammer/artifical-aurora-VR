@@ -17,8 +17,16 @@ data class EncoderCapability(
     val minBitrate: Int,
     val maxBitrate: Int,
 ) {
+    /**
+     * [maxFps] is 0 when the probe could not read a frame-rate range for this
+     * size (some encoders throw from `getSupportedFrameRatesFor`). That is a
+     * missing reading, not a refusal, so only an explicit non-zero ceiling can
+     * disqualify a size.
+     */
     fun supports(width: Int, height: Int, fps: Int = 30): Boolean =
-        width <= maxWidth && height <= maxHeight && fps <= maxFps
+        width <= maxWidth &&
+            height <= maxHeight &&
+            (maxFps <= 0 || fps <= maxFps)
 }
 
 /**
@@ -55,7 +63,8 @@ data class DeviceRecordingCaps(val encoders: List<EncoderCapability>) {
                     MediaFormat.MIMETYPE_VIDEO_HEVC -> "H.265/HEVC"
                     else -> cap.mime
                 }
-                "$codec · $kind · ${cap.maxWidth}×${cap.maxHeight}@${cap.maxFps}"
+                val rate = if (cap.maxFps > 0) "@${cap.maxFps}" else ""
+                "$codec · $kind · ${cap.maxWidth}×${cap.maxHeight}$rate"
             }
     }
 
