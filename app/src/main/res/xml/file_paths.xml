@@ -3,4 +3,7 @@
     <files-path
         name="calibration"
         path="calibration/" />
+    <external-files-path
+        name="recordings"
+        path="Movies/AuroraAR/" />
 </paths>
