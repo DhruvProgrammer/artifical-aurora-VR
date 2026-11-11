@@ -174,3 +174,42 @@ Get-ChildItem "$env:USERPROFILE\.config\opencode\skills"
 ```
 
 Skills are read at startup; restart the session after adding or removing one.
+
+---
+
+## 6. Release signing keystore (not a dependency, but a required secret)
+
+The release APK is signed with a self-signed 4096-bit RSA key. It lives **inside
+this folder** under `.toolchain/keystore/`, which `.gitignore` already excludes,
+so it is never committed and CI never sees it.
+
+| File | Purpose |
+|---|---|
+| `.toolchain/keystore/aurora-release.jks` | The private key. **Back this up.** |
+| `.toolchain/keystore/keystore.properties` | Store/key passwords and alias read by Gradle. |
+
+`app/build.gradle.kts` loads that properties file only if it exists. When it is
+absent (CI, fresh clone) no `release` signing config is created and
+`assembleDebug` / `testDebugUnitTest` still work; only `assembleRelease` would
+produce an unsigned APK. This was verified by hiding the folder and running a
+debug build.
+
+Certificate: `CN=Aurora AR, OU=Mobile, O=Aurora AR, L=Delhi, ST=Delhi, C=IN`,
+SHA-256 `4c85a6d93b1e943ac38b2b0a06161f9dd6ac1d3472cd4c384cadce49f9afa018`.
+
+Verify a build:
+
+```powershell
+.\.toolchain\android-sdk\build-tools\35.0.0\apksigner.bat verify --print-certs app\build\outputs\apk\release\app-release.apk
+```
+
+Uninstall / revoke:
+
+```powershell
+Remove-Item -Recurse -Force .\.toolchain\keystore
+```
+
+**Keep a copy of `aurora-release.jks` somewhere safe.** Android identifies an app
+by its signing key: if it is lost, the same `com.auroraar` package can never be
+updated in place again and every user must uninstall first. Deleting the folder
+only stops *new* signed releases; it cannot invalidate already-published ones.

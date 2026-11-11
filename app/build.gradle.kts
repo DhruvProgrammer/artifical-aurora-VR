@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -8,6 +10,29 @@ android {
     namespace = "com.auroraar"
     compileSdk = 35
     buildToolsVersion = "35.0.0"
+
+    // Release signing lives outside git: .toolchain/ is ignored, so CI and
+    // fresh clones have no keystore. Missing file means "no signing config",
+    // which keeps debug/test builds working and only makes a release APK
+    // unsigned instead of failing the whole script.
+    val keystoreProps = rootProject.file(".toolchain/keystore/keystore.properties")
+    val releaseSigning = if (keystoreProps.exists()) {
+        Properties().apply { keystoreProps.inputStream().use { load(it) } }
+    } else {
+        null
+    }
+
+    signingConfigs {
+        if (releaseSigning != null) {
+            create("release") {
+                // storeFile is recorded relative to the repo root.
+                storeFile = rootProject.file(releaseSigning.getProperty("storeFile"))
+                storePassword = releaseSigning.getProperty("storePassword")
+                keyAlias = releaseSigning.getProperty("keyAlias")
+                keyPassword = releaseSigning.getProperty("keyPassword")
+            }
+        }
+    }
 
     defaultConfig {
         applicationId = "com.auroraar"
@@ -28,6 +53,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+            if (releaseSigning != null) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 
