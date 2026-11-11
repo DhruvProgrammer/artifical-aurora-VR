@@ -31,12 +31,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.auroraar.BuildConfig
 import com.auroraar.R
+import com.auroraar.capture.caps.DeviceRecordingCaps
 import com.auroraar.skyscore.model.UserSettings
 import com.auroraar.ui.theme.AuroraGreen
 import com.auroraar.ui.theme.NightSurface
 import com.auroraar.ui.theme.TextMuted
 import com.auroraar.ui.theme.TextPrimary
+import com.auroraar.ui.theme.WarmAmber
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,8 +48,17 @@ fun SettingsSheet(
     settings: UserSettings,
     useLocation: Boolean,
     versionName: String,
+    recordAudio: Boolean,
+    countdown: Boolean,
+    holdToRecord: Boolean,
+    caps: DeviceRecordingCaps,
+    isPremium: Boolean,
     onSettingsChange: (UserSettings) -> Unit,
     onUseLocationChange: (Boolean) -> Unit,
+    onRecordAudioChange: (Boolean) -> Unit,
+    onCountdownChange: (Boolean) -> Unit,
+    onHoldToRecordChange: (Boolean) -> Unit,
+    onPremiumChange: (Boolean) -> Unit,
     onOpenCalibration: () -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -83,6 +95,78 @@ fun SettingsSheet(
                 title = stringResource(R.string.settings_sub_scores),
                 checked = settings.showSubScores,
                 onCheckedChange = { onSettingsChange(settings.copy(showSubScores = it)) },
+            )
+
+            SectionHeader(stringResource(R.string.settings_recording))
+            SwitchRow(
+                title = stringResource(R.string.settings_record_audio),
+                checked = recordAudio,
+                onCheckedChange = onRecordAudioChange,
+            )
+            SwitchRow(
+                title = stringResource(R.string.settings_countdown),
+                checked = countdown,
+                onCheckedChange = onCountdownChange,
+            )
+            SwitchRow(
+                title = stringResource(R.string.settings_hold_to_record),
+                checked = holdToRecord,
+                onCheckedChange = onHoldToRecordChange,
+            )
+            InfoRow(
+                label = stringResource(R.string.settings_watermark),
+                value = stringResource(
+                    if (isPremium) R.string.settings_watermark_off else R.string.settings_watermark_on,
+                ),
+            )
+            InfoRow(
+                label = stringResource(R.string.settings_quality),
+                value = stringResource(
+                    if (isPremium) R.string.settings_quality_premium else R.string.settings_quality_free,
+                ),
+            )
+            Text(
+                text = stringResource(R.string.settings_quality_note),
+                style = MaterialTheme.typography.bodySmall,
+                color = WarmAmber,
+                modifier = Modifier.padding(start = 2.dp, end = 8.dp, bottom = 8.dp),
+            )
+            InfoRow(
+                label = stringResource(R.string.settings_plan),
+                value = stringResource(
+                    if (isPremium) R.string.settings_plan_premium else R.string.settings_plan_free,
+                ),
+            )
+            if (BuildConfig.DEBUG) {
+                SwitchRow(
+                    title = stringResource(R.string.settings_premium_toggle),
+                    checked = isPremium,
+                    onCheckedChange = onPremiumChange,
+                )
+            } else {
+                Text(
+                    text = stringResource(R.string.settings_premium_unavailable),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = TextMuted,
+                    modifier = Modifier.padding(start = 2.dp, end = 8.dp, bottom = 8.dp),
+                )
+            }
+
+            SectionHeader(stringResource(R.string.settings_caps))
+            Text(
+                text = if (caps.encoders.isEmpty()) {
+                    stringResource(R.string.settings_caps_unavailable)
+                } else {
+                    caps.summary()
+                },
+                style = MaterialTheme.typography.bodySmall,
+                color = TextMuted,
+            )
+            Spacer(Modifier.height(4.dp))
+            Text(
+                text = stringResource(R.string.settings_caps_body),
+                style = MaterialTheme.typography.bodySmall,
+                color = TextMuted.copy(alpha = 0.8f),
             )
 
             SectionHeader(stringResource(R.string.settings_conditions))
@@ -198,6 +282,29 @@ private fun SwitchRow(
             checked = checked,
             onCheckedChange = onCheckedChange,
             modifier = Modifier.size(width = 44.dp, height = 26.dp),
+        )
+    }
+}
+
+@Composable
+private fun InfoRow(label: String, value: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 36.dp)
+            .padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodyMedium,
+            color = TextPrimary,
+            modifier = Modifier.weight(1f),
+        )
+        Text(
+            text = value,
+            style = MaterialTheme.typography.bodySmall,
+            color = TextMuted,
         )
     }
 }
