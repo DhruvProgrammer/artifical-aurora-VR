@@ -136,4 +136,145 @@
     <string name="why_none">All four factors are strong right now.</string>
 
     <string name="settings_about_body">Aurora AR overlays a simulated aurora on the real sky and adapts it to measured conditions. SkyScore is a suitability rating for this simulation, not a space-weather forecast. No INTERNET permission: no data leaves the phone.</string>
+
+    <string name="record_start">Start recording</string>
+    <string name="record_stop">Stop recording</string>
+    <string name="record_pause">Pause recording</string>
+    <string name="record_resume">Resume recording</string>
+    <string name="record_timer_a11y">Recording %1$s of %2$s</string>
+    <string name="record_timer_unlimited_a11y">Recording %1$s</string>
+    <string name="record_paused">Paused</string>
+    <string name="record_preparing">Starting…</string>
+    <string name="record_countdown_cancel">Tap to cancel</string>
+    <string name="record_saved_title">Clip saved</string>
+    <string name="record_saved_body">Saved to Movies/AuroraAR</string>
+    <string name="record_share">Share</string>
+    <string name="record_delete">Delete</string>
+    <string name="record_again">Record again</string>
+    <string name="record_close">Close</string>
+    <string name="record_ai_tip">Tip: many platforms let you label this as AI-generated or altered.</string>
+    <string name="record_upsell">Your clip is ready. Premium removes the watermark and the 10-second limit.</string>
+    <string name="record_see_premium">See Premium</string>
+    <string name="record_watermark_note">Free clips include a small Aurora AR watermark.</string>
+    <string name="record_error_start">Recording could not start</string>
+    <string name="record_error_storage">Not enough free storage to record</string>
+    <string name="record_error_encoder">The video encoder failed</string>
+    <string name="record_error_source">The camera stopped during recording</string>
+    <string name="record_error_unknown">Recording failed</string>
+    <string name="record_mic_denied">Recording silently — microphone permission denied</string>
+    <string name="record_warn_storage">Low storage — the clip may stop soon</string>
+    <string name="record_warn_battery">Battery low — the clip may stop soon</string>
+    <string name="record_warn_thermal">Device is warm — the clip may stop soon</string>
+    <string name="record_stopped_storage">Recording stopped: storage is low. The clip was saved.</string>
+    <string name="record_stopped_battery">Recording stopped: battery is critical. The clip was saved.</string>
+    <string name="record_stopped_thermal">Recording stopped: the device got too hot. The clip was saved.</string>
+    <string name="record_share_caption">Aurora over my sky 🌌 #AuroraAR (simulated)</string>
+    <string name="record_delete_failed">Could not delete the clip</string>
+    <string name="record_share_failed">No app available to share</string>
+    <string name="recording_unavailable">This device cannot record the aurora effect. Live preview only.</string>
+    <string name="aurora_inactive">Aurora effect unavailable on this device</string>
+    <string name="aurora_orb">Aurora</string>
+    <string name="aurora_orb_hint">Tap to toggle aurora. Hold for modes.</string>
+    <string name="camera_flip">Flip camera</string>
+    <string name="settings_recording">Recording</string>
+    <string name="settings_record_audio">Record audio</string>
+    <string name="settings_countdown">3–2–1 countdown</string>
+    <string name="settings_watermark">Watermark</string>
+    <string name="settings_watermark_on">On (Free)</string>
+    <string name="settings_watermark_off">Off (Premium)</string>
+    <string name="settings_quality">Quality</string>
+    <string name="settings_quality_free">720p · Free</string>
+    <string name="settings_quality_premium">1080p · Premium</string>
+    <string name="settings_plan">Plan</string>
+    <string name="settings_plan_free">Free</string>
+    <string name="settings_plan_premium">Premium (debug)</string>
+    <string name="settings_premium_toggle">Enable Premium (debug only)</string>
+    <string name="settings_premium_unavailable">Premium is unavailable in this build.</string>
+    <string name="premium_title">Aurora Premium</string>
+    <string name="premium_body">Premium removes the watermark and the 10-second limit, and records at 1080p.</string>
+    <string name="premium_benefit_quality">1080p recording</string>
+    <string name="premium_benefit_length">No 10-second limit</string>
+    <string name="premium_benefit_watermark">No Aurora AR watermark</string>
+    <string name="premium_note_debug">Debug preview only: this toggle does not charge money and is removed from release builds.</string>
+    <string name="premium_note_release">Billing is not wired in this build. The release app remains Free.</string>
+    <string name="premium_close">Close</string>
+    <string name="watermark_wordmark">AURORA AR</string>
+    <string name="watermark_simulated">SIMULATED</string>
+    <string name="record_silent">Silent</string>
+
+    <!-- Premium aurora styles -->
+    <string name="style_nordic_classic">Nordic Classic</string>
+    <string name="style_arctic_violet">Arctic Violet</string>
+    <string name="style_rose_quartz">Rose Quartz</string>
+    <string name="style_solar_storm">Solar Storm</string>
+    <string name="style_emerald_veil">Emerald Veil</string>
+    <string name="style_desert_dream">Desert Dream</string>
+    <string name="style_corona_crown">Corona Crown</string>
+    <string name="style_crimson_arc">Crimson Arc</string>
+    <string name="style_pillars_light">Pillars of Light</string>
+    <string name="style_festival">Festival</string>
+    <string name="style_tier_free">Free</string>
+    <string name="style_tier_premium">Premium</string>
+
+    <!-- Customize sheet -->
+    <string name="customize_open">Customize</string>
+    <string name="customize_title">Customize aurora</string>
+    <string name="customize_styles">Aurora style</string>
+    <string name="customize_advanced">Advanced controls</string>
+    <string name="customize_look">Cinematic look</string>
+    <string name="customize_automation">Intensity automation</string>
+    <string name="customize_layers">Curtain layers</string>
+    <string name="customize_coverage">Coverage</string>
+    <string name="customize_wave_amp">Wave amplitude</string>
+    <string name="customize_wave_freq">Wave frequency</string>
+    <string name="customize_speed">Animation speed</string>
+    <string name="customize_ray_sharpness">Ray sharpness</string>
+    <string name="customize_burst">Burst strength</string>
+    <string name="customize_direction">Direction</string>
+    <string name="customize_direction_forward">Forward</string>
+    <string name="customize_direction_reverse">Reverse</string>
+    <string name="customize_automation_none">None</string>
+    <string name="customize_automation_fade">Fade-in reveal</string>
+    <string name="customize_automation_swell">Slow swell</string>
+    <string name="customize_automation_pulse">Pulse</string>
+    <string name="customize_automation_substorm">Substorm burst</string>
+    <string name="customize_look_natural">Natural</string>
+    <string name="customize_look_cinematic">Cinematic</string>
+    <string name="customize_look_dreamy">Dreamy</string>
+    <string name="customize_locked_title">Premium look</string>
+    <string name="customize_locked_body">Previewing this look for 3 seconds. Premium unlocks every style and advanced control.</string>
+    <string name="customize_reset">Reset look</string>
+    <string name="customize_premium_hint">Locked controls show a preview first. Live viewing is never blocked.</string>
+
+    <!-- Gallery -->
+    <string name="gallery_open">Gallery</string>
+    <string name="gallery_title">Your clips</string>
+    <string name="gallery_empty">No Aurora AR clips yet. Record your first one.</string>
+    <plurals name="gallery_count">
+        <item quantity="one">%1$d clip</item>
+        <item quantity="other">%1$d clips</item>
+    </plurals>
+    <string name="gallery_loading">Loading…</string>
+    <string name="gallery_close">Close</string>
+    <string name="gallery_delete_failed">Could not delete the clip</string>
+    <string name="gallery_share_failed">No app available to share</string>
+    <string name="gallery_saved_path">Movies/AuroraAR</string>
+    <string name="gallery_share_to">Quick share</string>
+    <string name="gallery_delete_title">Delete this clip?</string>
+    <string name="gallery_delete_body">The video file is removed from Movies/AuroraAR. This cannot be undone.</string>
+
+    <!-- Photos -->
+    <string name="photo_take">Take photo</string>
+    <string name="photo_saved">Photo saved to Pictures/AuroraAR</string>
+    <string name="photo_failed">Could not save the photo</string>
+    <string name="photo_busy">Capturing…</string>
+    <string name="photo_blocked_recording">Stop recording to take a photo</string>
+
+    <!-- Recording extras -->
+    <string name="settings_hold_to_record">Hold to record</string>
+    <string name="settings_caps">Recording capabilities</string>
+    <string name="settings_caps_body">Detected encoders. CameraX chooses the final one.</string>
+    <string name="settings_caps_unavailable">Not available on this device.</string>
+    <string name="settings_quality_note">This build records H.264 with CameraX. HEVC, 60 fps and 4K are not exposed.</string>
+    <string name="record_limit_tick">%1$d</string>
 </resources>

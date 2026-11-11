@@ -34,6 +34,31 @@ enum class RatingBand { EXCELLENT, GREAT, GOOD, FAIR, LIMITED, UNAVAILABLE }
 
 enum class Mode { AUTO, CREATIVE, OFF }
 
+/** Procedural aurora shapes. Values are stable because the shader receives them as floats. */
+enum class AuroraGeometry(val shaderId: Int) {
+    CURTAIN(0),
+    CORONA(1),
+    ARC(2),
+    PILLARS(3),
+    FESTIVAL(4),
+}
+
+/** Premium whole-frame grade. Applied to the camera pass so preview and file match. */
+enum class CinematicLook(val shaderId: Int) {
+    NATURAL(0),
+    CINEMATIC(1),
+    DREAMY(2),
+}
+
+/** Premium intensity envelopes driven by the recorded clock. */
+enum class IntensityAutomation(val shaderId: Int) {
+    NONE(0),
+    FADE_IN(1),
+    SLOW_SWELL(2),
+    PULSE(3),
+    SUBSTORM(4),
+}
+
 data class SubScores(
     val brightness: Float,
     val cloud: Float,
@@ -69,7 +94,12 @@ data class SkyConditions(
     val isNight: Boolean get() = phase == Phase.NIGHT
 }
 
-/** Everything the GL renderer needs. All values are already user-scaled. */
+/**
+ * Everything the GL renderer needs. All values are already user-scaled.
+ *
+ * Colours are packed ARGB ints so the per-frame snapshot stays allocation-free;
+ * [com.auroraar.capture.gl.AuroraShader] unpacks them into vec3 uniforms.
+ */
 data class AuroraRenderParams(
     val enabled: Boolean = false,
     val intensity: Float = 0f,
@@ -84,6 +114,20 @@ data class AuroraRenderParams(
     val cloud: Float = 0.25f,
     val skyLumNorm: Float = 1f,
     val creative: Boolean = false,
+    val geometry: Int = AuroraGeometry.CURTAIN.shaderId,
+    val lowColor: Int = 0xFF51FF9E.toInt(),
+    val midColor: Int = 0xFF2EEBD9.toInt(),
+    val highColor: Int = 0xFF9E59FF.toInt(),
+    val layers: Float = 2f,
+    val coverage: Float = 0.75f,
+    val waveAmp: Float = 0.5f,
+    val waveFreq: Float = 0.5f,
+    val direction: Float = 1f,
+    val burst: Float = 0f,
+    val look: Int = CinematicLook.NATURAL.shaderId,
+    val grain: Float = 0f,
+    val automation: Int = IntensityAutomation.NONE.shaderId,
+    val automationParam: Float = 0.5f,
 ) {
     companion object {
         val IDLE = AuroraRenderParams()
@@ -100,6 +144,20 @@ data class UserSettings(
     val lockIntensity: Boolean = false,
     val hudEnabled: Boolean = true,
     val showSubScores: Boolean = true,
+    /** Selected aurora style from [com.auroraar.premium.styles.AuroraStyleRegistry]. */
+    val styleId: String = "nordic_classic",
+    /** Premium-only advanced controls. Ignored for Free in FeatureGate. */
+    val cinematicLook: CinematicLook = CinematicLook.NATURAL,
+    val layers: Int = 2,
+    val coverage: Float = 0.75f,
+    val waveAmp: Float = 0.5f,
+    val waveFreq: Float = 0.5f,
+    val advancedSpeed: Float = 1f,
+    val raySharpness: Float = 1f,
+    val burst: Float = 0f,
+    val direction: Float = 1f,
+    val automation: IntensityAutomation = IntensityAutomation.NONE,
+    val automationParam: Float = 0.5f,
 )
 
 /**

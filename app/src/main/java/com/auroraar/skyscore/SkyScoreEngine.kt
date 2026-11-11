@@ -264,6 +264,16 @@ class SkyScoreEngine(initialSettings: UserSettings = UserSettings()) {
             intensity = s.intensity.finiteOr(0.85f).coerceIn(0f, 1f),
             saturation = s.saturation.finiteOr(1f).coerceIn(0f, 2f),
             maxIntensity = s.maxIntensity.finiteOr(1f).coerceIn(0f, 1f),
+            styleId = com.auroraar.premium.styles.AuroraStyleRegistry.sanitizeId(s.styleId),
+            layers = s.layers.coerceIn(1, 4),
+            coverage = s.coverage.finiteOr(0.75f).coerceIn(0f, 1f),
+            waveAmp = s.waveAmp.finiteOr(0.5f).coerceIn(0f, 1f),
+            waveFreq = s.waveFreq.finiteOr(0.5f).coerceIn(0f, 1f),
+            advancedSpeed = s.advancedSpeed.finiteOr(1f).coerceIn(0.4f, 2f),
+            raySharpness = s.raySharpness.finiteOr(1f).coerceIn(0.3f, 1.5f),
+            burst = s.burst.finiteOr(0f).coerceIn(0f, 1f),
+            direction = if (s.direction < 0f) -1f else 1f,
+            automationParam = s.automationParam.finiteOr(0.5f).coerceIn(0f, 1f),
         )
 
         private fun Float.finiteOr(fallback: Float): Float = if (isFinite()) this else fallback

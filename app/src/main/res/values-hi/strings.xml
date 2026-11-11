@@ -136,4 +136,145 @@
     <string name="why_none">अभी चारों कारक मज़बूत हैं।</string>
 
     <string name="settings_about_body">औरोरा AR असली आसमान पर सिम्युलेटेड औरोरा दिखाता है और उसे मापी गई स्थितियों के अनुसार बदलता है। स्काईस्कोर इस सिम्युलेशन के लिए उपयुक्तता का स्कोर है, अंतरिक्ष-मौसम पूर्वानुमान नहीं। INTERNET अनुमति नहीं: कोई डेटा फ़ोन से बाहर नहीं जाता।</string>
+
+    <string name="record_start">रिकॉर्डिंग शुरू करें</string>
+    <string name="record_stop">रिकॉर्डिंग रोकें</string>
+    <string name="record_pause">रिकॉर्डिंग रोकें</string>
+    <string name="record_resume">रिकॉर्डिंग जारी रखें</string>
+    <string name="record_timer_a11y">%2$s में से %1$s रिकॉर्ड हो रहा है</string>
+    <string name="record_timer_unlimited_a11y">%1$s रिकॉर्ड हो रहा है</string>
+    <string name="record_paused">रुका हुआ</string>
+    <string name="record_preparing">शुरू हो रहा है…</string>
+    <string name="record_countdown_cancel">रद्द करने के लिए टैप करें</string>
+    <string name="record_saved_title">क्लिप सहेजी गई</string>
+    <string name="record_saved_body">Movies/AuroraAR में सहेजा गया</string>
+    <string name="record_share">शेयर करें</string>
+    <string name="record_delete">हटाएँ</string>
+    <string name="record_again">फिर रिकॉर्ड करें</string>
+    <string name="record_close">बंद करें</string>
+    <string name="record_ai_tip">सुझाव: कई प्लेटफ़ॉर्म इसे AI-निर्मित या बदला हुआ बताने की सुविधा देते हैं।</string>
+    <string name="record_upsell">आपकी क्लिप तैयार है। प्रीमियम वॉटरमार्क और 10 सेकंड की सीमा हटा देता है।</string>
+    <string name="record_see_premium">प्रीमियम देखें</string>
+    <string name="record_watermark_note">मुफ़्त क्लिप पर छोटा Aurora AR वॉटरमार्क होता है।</string>
+    <string name="record_error_start">रिकॉर्डिंग शुरू नहीं हो सकी</string>
+    <string name="record_error_storage">रिकॉर्ड करने के लिए पर्याप्त खाली जगह नहीं है</string>
+    <string name="record_error_encoder">वीडियो एनकोडर विफल रहा</string>
+    <string name="record_error_source">रिकॉर्डिंग के दौरान कैमरा रुक गया</string>
+    <string name="record_error_unknown">रिकॉर्डिंग विफल रही</string>
+    <string name="record_mic_denied">बिना आवाज़ रिकॉर्ड हो रहा है — माइक्रोफ़ोन अनुमति नहीं मिली</string>
+    <string name="record_warn_storage">जगह कम है — क्लिप जल्दी रुक सकती है</string>
+    <string name="record_warn_battery">बैटरी कम है — क्लिप जल्दी रुक सकती है</string>
+    <string name="record_warn_thermal">डिवाइस गर्म है — क्लिप जल्दी रुक सकती है</string>
+    <string name="record_stopped_storage">रिकॉर्डिंग रुकी: जगह कम है। क्लिप सहेजी गई।</string>
+    <string name="record_stopped_battery">रिकॉर्डिंग रुकी: बैटरी बहुत कम है। क्लिप सहेजी गई।</string>
+    <string name="record_stopped_thermal">रिकॉर्डिंग रुकी: डिवाइस बहुत गर्म हो गया। क्लिप सहेजी गई।</string>
+    <string name="record_share_caption">मेरे आसमान पर औरोरा 🌌 #AuroraAR (सिम्युलेटेड)</string>
+    <string name="record_delete_failed">क्लिप हटाई नहीं जा सकी</string>
+    <string name="record_share_failed">शेयर करने के लिए कोई ऐप नहीं मिला</string>
+    <string name="recording_unavailable">यह डिवाइस औरोरा इफ़ेक्ट के साथ रिकॉर्ड नहीं कर सकता। सिर्फ़ लाइव प्रीव्यू।</string>
+    <string name="aurora_inactive">इस डिवाइस पर औरोरा इफ़ेक्ट उपलब्ध नहीं है</string>
+    <string name="aurora_orb">औरोरा</string>
+    <string name="aurora_orb_hint">औरोरा चालू/बंद करने के लिए टैप करें। मोड के लिए दबाए रखें।</string>
+    <string name="camera_flip">कैमरा बदलें</string>
+    <string name="settings_recording">रिकॉर्डिंग</string>
+    <string name="settings_record_audio">आवाज़ रिकॉर्ड करें</string>
+    <string name="settings_countdown">3–2–1 उलटी गिनती</string>
+    <string name="settings_watermark">वॉटरमार्क</string>
+    <string name="settings_watermark_on">चालू (मुफ़्त)</string>
+    <string name="settings_watermark_off">बंद (प्रीमियम)</string>
+    <string name="settings_quality">क्वालिटी</string>
+    <string name="settings_quality_free">720p · मुफ़्त</string>
+    <string name="settings_quality_premium">1080p · प्रीमियम</string>
+    <string name="settings_plan">प्लान</string>
+    <string name="settings_plan_free">मुफ़्त</string>
+    <string name="settings_plan_premium">प्रीमियम (डीबग)</string>
+    <string name="settings_premium_toggle">प्रीमियम चालू करें (सिर्फ़ डीबग)</string>
+    <string name="settings_premium_unavailable">इस बिल्ड में प्रीमियम उपलब्ध नहीं है।</string>
+    <string name="premium_title">औरोरा प्रीमियम</string>
+    <string name="premium_body">प्रीमियम वॉटरमार्क और 10 सेकंड की सीमा हटाता है, और 1080p में रिकॉर्ड करता है।</string>
+    <string name="premium_benefit_quality">1080p रिकॉर्डिंग</string>
+    <string name="premium_benefit_length">10 सेकंड की सीमा नहीं</string>
+    <string name="premium_benefit_watermark">Aurora AR वॉटरमार्क नहीं</string>
+    <string name="premium_note_debug">सिर्फ़ डीबग प्रीव्यू: यह टॉगल पैसे नहीं लेता और रिलीज़ बिल्ड से हटा दिया जाता है।</string>
+    <string name="premium_note_release">इस बिल्ड में बिलिंग नहीं जोड़ी गई है। रिलीज़ ऐप मुफ़्त ही रहता है।</string>
+    <string name="premium_close">बंद करें</string>
+    <string name="watermark_wordmark">AURORA AR</string>
+    <string name="watermark_simulated">सिम्युलेटेड</string>
+    <string name="record_silent">बिना आवाज़</string>
+
+    <!-- Premium aurora styles -->
+    <string name="style_nordic_classic">नॉर्डिक क्लासिक</string>
+    <string name="style_arctic_violet">आर्कटिक वायलेट</string>
+    <string name="style_rose_quartz">रोज़ क्वार्ट्ज़</string>
+    <string name="style_solar_storm">सोलर स्टॉर्म</string>
+    <string name="style_emerald_veil">एमराल्ड वेल</string>
+    <string name="style_desert_dream">डेज़र्ट ड्रीम</string>
+    <string name="style_corona_crown">कोरोना क्राउन</string>
+    <string name="style_crimson_arc">क्रिमसन आर्क</string>
+    <string name="style_pillars_light">पिलर्स ऑफ़ लाइट</string>
+    <string name="style_festival">फ़ेस्टिवल</string>
+    <string name="style_tier_free">मुफ़्त</string>
+    <string name="style_tier_premium">प्रीमियम</string>
+
+    <!-- Customize sheet -->
+    <string name="customize_open">कस्टमाइज़</string>
+    <string name="customize_title">औरोरा कस्टमाइज़ करें</string>
+    <string name="customize_styles">औरोरा स्टाइल</string>
+    <string name="customize_advanced">एडवांस्ड नियंत्रण</string>
+    <string name="customize_look">सिनेमैटिक लुक</string>
+    <string name="customize_automation">तीव्रता ऑटोमेशन</string>
+    <string name="customize_layers">पर्दे की परतें</string>
+    <string name="customize_coverage">विस्तार</string>
+    <string name="customize_wave_amp">लहर की ऊँचाई</string>
+    <string name="customize_wave_freq">लहर की गति</string>
+    <string name="customize_speed">एनिमेशन गति</string>
+    <string name="customize_ray_sharpness">किरणों की तीक्ष्णता</string>
+    <string name="customize_burst">बर्स्ट तीव्रता</string>
+    <string name="customize_direction">दिशा</string>
+    <string name="customize_direction_forward">आगे</string>
+    <string name="customize_direction_reverse">उलटी</string>
+    <string name="customize_automation_none">कोई नहीं</string>
+    <string name="customize_automation_fade">धीरे प्रकट</string>
+    <string name="customize_automation_swell">धीमी लहर</string>
+    <string name="customize_automation_pulse">स्पंदन</string>
+    <string name="customize_automation_substorm">सबस्टॉर्म बर्स्ट</string>
+    <string name="customize_look_natural">प्राकृतिक</string>
+    <string name="customize_look_cinematic">सिनेमैटिक</string>
+    <string name="customize_look_dreamy">स्वप्निल</string>
+    <string name="customize_locked_title">प्रीमियम लुक</string>
+    <string name="customize_locked_body">यह लुक 3 सेकंड के लिए दिख रहा है। प्रीमियम सभी स्टाइल और एडवांस्ड नियंत्रण खोलता है।</string>
+    <string name="customize_reset">लुक रीसेट करें</string>
+    <string name="customize_premium_hint">लॉक किए नियंत्रण पहले प्रीव्यू दिखाते हैं। लाइव देखना कभी बंद नहीं होता।</string>
+
+    <!-- Gallery -->
+    <string name="gallery_open">गैलरी</string>
+    <string name="gallery_title">आपकी क्लिप</string>
+    <string name="gallery_empty">अभी कोई Aurora AR क्लिप नहीं। पहली क्लिप रिकॉर्ड करें।</string>
+    <plurals name="gallery_count">
+        <item quantity="one">%1$d क्लिप</item>
+        <item quantity="other">%1$d क्लिप</item>
+    </plurals>
+    <string name="gallery_loading">लोड हो रहा है…</string>
+    <string name="gallery_close">बंद करें</string>
+    <string name="gallery_delete_failed">क्लिप हटाई नहीं जा सकी</string>
+    <string name="gallery_share_failed">शेयर करने के लिए कोई ऐप नहीं मिला</string>
+    <string name="gallery_saved_path">Movies/AuroraAR</string>
+    <string name="gallery_share_to">तुरंत शेयर करें</string>
+    <string name="gallery_delete_title">यह क्लिप हटाएँ?</string>
+    <string name="gallery_delete_body">वीडियो फ़ाइल Movies/AuroraAR से हट जाएगी। इसे वापस नहीं लाया जा सकता।</string>
+
+    <!-- Photos -->
+    <string name="photo_take">फ़ोटो लें</string>
+    <string name="photo_saved">फ़ोटो Pictures/AuroraAR में सेव हुई</string>
+    <string name="photo_failed">फ़ोटो सेव नहीं हो सकी</string>
+    <string name="photo_busy">कैप्चर हो रहा है…</string>
+    <string name="photo_blocked_recording">फ़ोटो लेने के लिए रिकॉर्डिंग रोकें</string>
+
+    <!-- Recording extras -->
+    <string name="settings_hold_to_record">दबाकर रखने पर रिकॉर्ड</string>
+    <string name="settings_caps">रिकॉर्डिंग क्षमताएँ</string>
+    <string name="settings_caps_body">मिले हुए एनकोडर। अंतिम चुनाव CameraX करता है।</string>
+    <string name="settings_caps_unavailable">इस डिवाइस पर उपलब्ध नहीं।</string>
+    <string name="settings_quality_note">यह बिल्ड CameraX के साथ H.264 रिकॉर्ड करता है। HEVC, 60 fps और 4K उपलब्ध नहीं हैं।</string>
+    <string name="record_limit_tick">%1$d</string>
 </resources>

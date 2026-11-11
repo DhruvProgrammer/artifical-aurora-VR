@@ -1,7 +1,11 @@
 package com.auroraar.skyscore
 
+import com.auroraar.premium.styles.AuroraStyleRegistry
+import com.auroraar.skyscore.model.CinematicLook
+import com.auroraar.skyscore.model.IntensityAutomation
 import com.auroraar.skyscore.model.UserSettings
 import com.auroraar.skyscore.policy.IntensityMapper
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -53,5 +57,83 @@ class IntensityMapperTest {
             skyLumNorm = 0f,
         )
         assertTrue(capped.intensity <= settings.intensity * 0.4f + 0.0001f)
+    }
+
+    @Test
+    fun `style geometry palette and advanced values reach the renderer`() {
+        val style = AuroraStyleRegistry.byId("festival")
+        val params = IntensityMapper.map(
+            1f,
+            1f,
+            0.05f,
+            settings.copy(
+                styleId = style.id,
+                layers = 4,
+                coverage = 0.9f,
+                waveAmp = 0.7f,
+                waveFreq = 0.6f,
+                advancedSpeed = 1.3f,
+                raySharpness = 1.2f,
+                burst = 0.8f,
+                direction = -1f,
+            ),
+            creative = false,
+            skyLumNorm = 0f,
+        )
+        assertEquals(style.geometry.shaderId, params.geometry)
+        assertEquals(style.lowColor, params.lowColor)
+        assertEquals(style.midColor, params.midColor)
+        assertEquals(style.highColor, params.highColor)
+        assertEquals(4f, params.layers, 0.0001f)
+        assertEquals(0.9f, params.coverage, 0.0001f)
+        assertEquals(0.7f, params.waveAmp, 0.0001f)
+        assertEquals(0.6f, params.waveFreq, 0.0001f)
+        assertEquals(0.8f, params.burst, 0.0001f)
+        assertEquals(-1f, params.direction, 0.0001f)
+        assertTrue(params.speed > 1f)
+    }
+
+    @Test
+    fun `cinematic look sets the grade id and grain`() {
+        val natural = IntensityMapper.map(1f, 1f, 0.05f, settings, creative = false, skyLumNorm = 0f)
+        val cinematic = IntensityMapper.map(
+            1f,
+            1f,
+            0.05f,
+            settings.copy(cinematicLook = CinematicLook.CINEMATIC),
+            creative = false,
+            skyLumNorm = 0f,
+        )
+        val dreamy = IntensityMapper.map(
+            1f,
+            1f,
+            0.05f,
+            settings.copy(cinematicLook = CinematicLook.DREAMY),
+            creative = false,
+            skyLumNorm = 0f,
+        )
+        assertEquals(CinematicLook.NATURAL.shaderId, natural.look)
+        assertEquals(0f, natural.grain, 0.0001f)
+        assertEquals(CinematicLook.CINEMATIC.shaderId, cinematic.look)
+        assertTrue(cinematic.grain > 0f)
+        assertEquals(CinematicLook.DREAMY.shaderId, dreamy.look)
+        assertTrue(dreamy.grain > 0f)
+    }
+
+    @Test
+    fun `automation is forwarded`() {
+        val params = IntensityMapper.map(
+            1f,
+            1f,
+            0.05f,
+            settings.copy(
+                automation = IntensityAutomation.SUBSTORM,
+                automationParam = 0.7f,
+            ),
+            creative = false,
+            skyLumNorm = 0f,
+        )
+        assertEquals(IntensityAutomation.SUBSTORM.shaderId, params.automation)
+        assertEquals(0.7f, params.automationParam, 0.0001f)
     }
 }
