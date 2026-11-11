@@ -152,3 +152,25 @@ $env:PIP_CACHE_DIR = "$PWD\.toolchain\pip-cache"
 ```
 
 The app itself has no Python, OpenCV or NumPy dependency.
+
+---
+
+## 5. Editor/agent skills (not part of the app build)
+
+These are markdown instruction files for the coding agent, not app dependencies.
+They do **not** live in this folder: OpenCode only discovers skills from its own
+configuration directory, so they are installed under `~/.config/opencode/skills/`.
+Nothing is compiled, no package manager is involved, and removing them cannot
+affect the Android build.
+
+| Skill | Location | Why | Uninstall |
+|---|---|---|---|
+| `bug-free-workflow` | `%USERPROFILE%\.config\opencode\skills\bug-free-workflow\SKILL.md` | Verification-first workflow: test-first changes, mandatory build/test/lint proof before claiming done, adversarial review passes | `Remove-Item -Recurse -Force "$env:USERPROFILE\.config\opencode\skills\bug-free-workflow"` |
+
+To confirm it is installed:
+
+```powershell
+Get-ChildItem "$env:USERPROFILE\.config\opencode\skills"
+```
+
+Skills are read at startup; restart the session after adding or removing one.
