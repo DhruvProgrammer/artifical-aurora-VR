@@ -76,10 +76,20 @@ Uninstall = delete the line, then `.\gradlew.bat --refresh-dependencies build`.
 
 | Coordinate | Version | Purpose |
 |---|---|---|
-| `androidx.camera:camera-core` | `1.4.1` | `ImageAnalysis`, `Preview` |
+| `androidx.camera:camera-core` | `1.4.1` | `ImageAnalysis`, `Preview`, `CameraEffect`, `SurfaceProcessor` |
 | `androidx.camera:camera-camera2` | `1.4.1` | Camera2 backend + `Camera2Interop` for `CaptureResult` |
 | `androidx.camera:camera-lifecycle` | `1.4.1` | binds use cases to the lifecycle |
 | `androidx.camera:camera-view` | `1.4.1` | `PreviewView` |
+| `androidx.camera:camera-video` | `1.4.1` | `VideoCapture`, `Recorder`, audio, MP4 muxing, `MediaStoreOutputOptions` |
+
+`camera-video` is the only dependency added for the recording module. Uninstall it with:
+
+```powershell
+# delete the camera-video implementation line in app/build.gradle.kts, then
+.\gradlew.bat --refresh-dependencies build
+```
+
+The cached artifact lives under `.toolchain/gradle-home`; remove that whole folder to reclaim the space (see §1).
 
 ### Async / tests
 
@@ -104,6 +114,41 @@ Uninstall = delete the line, then `.\gradlew.bat --refresh-dependencies build`.
 No third-party SDKs, no analytics, no network stack. The manifest asks only for:
 
 - `android.permission.CAMERA` — read the sky.
+- `android.permission.RECORD_AUDIO` — **optional**, audio on recorded clips. Requested only when recording with sound enabled; denial records silent video.
 - `android.permission.ACCESS_COARSE_LOCATION` — **optional**, refines the offline sun position. Default off.
 
-There is deliberately **no `INTERNET` permission**.
+There is deliberately **no `INTERNET` permission**, and no `WRITE_EXTERNAL_STORAGE`: API 26–28 recordings use the app-specific external files folder plus `MediaScannerConnection`, and API 29+ uses MediaStore. Verify the built APK with:
+
+```powershell
+& .\.toolchain\android-sdk\build-tools\35.0.0\aapt2.exe dump permissions app\build\outputs\apk\debug\app-debug.apk
+```
+
+(`aapt2.exe` is under `.toolchain/android-sdk/build-tools/35.0.0/`.)
+
+---
+
+## 4. Optional offline tooling (not installed)
+
+`tools/alignment_check.py` is an optional measurement harness. It is **not** part
+of the app build and was **not installed** in this workspace. If you choose to
+run it, keep it inside this folder:
+
+```powershell
+python -m venv .toolchain\venv
+.\.toolchain\venv\Scripts\python.exe -m pip install opencv-python numpy
+.\.toolchain\venv\Scripts\python.exe tools\alignment_check.py clip.mp4
+```
+
+Uninstall:
+
+```powershell
+Remove-Item -Recurse -Force .\.toolchain\venv
+```
+
+The pip cache defaults to the user profile; to keep it inside this folder:
+
+```powershell
+$env:PIP_CACHE_DIR = "$PWD\.toolchain\pip-cache"
+```
+
+The app itself has no Python, OpenCV or NumPy dependency.
