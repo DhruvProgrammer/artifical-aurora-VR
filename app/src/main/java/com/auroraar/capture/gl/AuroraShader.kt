@@ -189,6 +189,49 @@ class AuroraShader {
                 return v;
             }
 
+            // Time-evolving fbm. Each octave is offset at its own rate, so
+            // features of different sizes evolve at different speeds instead
+            // of the whole field sliding rigidly. Measured on reference
+            // footage: real aurora puts roughly 0.3-4% of its temporal energy
+            // in the 3-8 Hz band, while a rigid slide puts none there.
+            float fbmBoil(vec2 p, float t, float drift) {
+                float v = 0.0;
+                float amp = 0.5;
+                for (int i = 0; i < 4; i++) {
+                    float o = drift * t * (1.0 + float(i) * 0.7);
+                    v += amp * vnoise(p + vec2(o * 0.31, -o * 0.17 + float(i) * 3.1));
+                    p = p * 2.03 + vec2(11.3, 7.7);
+                    amp *= 0.5;
+                }
+                return v;
+            }
+
+            // 3- and 2-octave variants. Large, slow shapes do not need four
+            // octaves, and every octave saved is per-pixel work on a phone.
+            float fbmBoil3(vec2 p, float t, float drift) {
+                float v = 0.0;
+                float amp = 0.5;
+                for (int i = 0; i < 3; i++) {
+                    float o = drift * t * (1.0 + float(i) * 0.7);
+                    v += amp * vnoise(p + vec2(o * 0.31, -o * 0.17 + float(i) * 3.1));
+                    p = p * 2.03 + vec2(11.3, 7.7);
+                    amp *= 0.5;
+                }
+                return v;
+            }
+
+            float fbmBoil2(vec2 p, float t, float drift) {
+                float v = 0.0;
+                float amp = 0.5;
+                for (int i = 0; i < 2; i++) {
+                    float o = drift * t * (1.0 + float(i) * 0.7);
+                    v += amp * vnoise(p + vec2(o * 0.31, -o * 0.17 + float(i) * 3.1));
+                    p = p * 2.03 + vec2(11.3, 7.7);
+                    amp *= 0.5;
+                }
+                return v;
+            }
+
             vec3 palette(float y, float t) {
                 float yy = clamp(y, 0.0, 1.0);
                 vec3 c = mix(uLow, uMid, smoothstep(0.10, 0.55, yy));
@@ -249,15 +292,36 @@ class AuroraShader {
             }
 
             float curtainShape(vec2 p, float yy, float t, float seed, float aspect) {
-                float wave = uWaveAmp * 0.14 * sin(p.x * (3.0 + 9.0 * uWaveFreq) + t * 0.7 + seed);
-                float y = yy + wave;
-                float edge = 0.24 + 0.20 * fbm(vec2(p.x * 1.7 + t * 0.05 + seed, 3.0));
-                float top = edge + 0.50 + 0.22 * fbm(vec2(p.x * 2.3 - t * 0.03 + seed, 7.0));
-                float band = smoothstep(edge, edge + 0.07, y) * (1.0 - smoothstep(top, top + 0.30, y));
-                float coverNoise = fbm(vec2(p.x * 1.3 - t * 0.03 + seed * 0.3, 5.0));
-                band *= mix(1.0, 0.35 + 0.75 * coverNoise, 0.55);
-                band *= mix(0.55, 1.0, uCoverage);
-                return band;
+                // Real curtains are bright along a ragged lower hem and fade
+                // upward. The old model was a slab of nearly constant
+                // brightness, which read as a painted smudge.
+                float breathe = 0.022 * sin(t * 0.45 + seed * 2.1)
+                              + 0.012 * sin(t * 1.13 + seed * 0.7);
+                // Irregular, low-frequency undulation. A plain sine on the
+                // lower edge produced a repeating sawtooth that read as
+                // flames; real edges are random at every scale.
+                float undulate = 0.050 * (fbmBoil3(vec2(p.x * 1.4 + seed * 0.7, 2.5), t, 0.036) - 0.5) * 2.0;
+                float wave = uWaveAmp * 0.03 * sin(p.x * (8.0 + 40.0 * uWaveFreq) + t * 1.15 + seed);
+                float y = yy + wave - breathe - undulate;
+
+                float ragged = 0.070 * fbmBoil(vec2(p.x * 6.0 + t * 0.08, 3.0), t, 0.12)
+                             + 0.024 * fbmBoil2(vec2(p.x * 15.0 - t * 0.08, 9.0), t, 0.17);
+                float edge = 0.18 + ragged;
+                float height = 0.40 + 0.24 * fbmBoil(vec2(p.x * 1.8 - t * 0.05, 7.0), t, 0.072);
+
+                float v = (y - edge) / max(height, 0.02);
+                float body = smoothstep(0.0, 0.015, v) * exp(-max(v, 0.0) * 1.3);
+                // Bright hem just above the lower edge. Every reference clip
+                // has one: the densest part of a curtain is its lowest part.
+                // d*d, never pow(d, 2.0): the base is negative below the edge
+                // and GLSL pow() is undefined there on some drivers.
+                float d = (v - 0.045) / 0.07;
+                body += 0.35 * exp(-d * d);
+
+                float coverNoise = fbmBoil(vec2(p.x * 1.6 - t * 0.06, 5.0), t, 0.072);
+                body *= 0.72 + 0.28 * smoothstep(0.15, 0.85, coverNoise);
+                body *= 0.70 + 0.30 * uCoverage;
+                return body;
             }
 
             float coronaShape(vec2 p, float yy, float t, float seed, float aspect) {
@@ -325,9 +389,15 @@ class AuroraShader {
             void main() {
                 vec2 uv = vUv;
                 float aspect = uRes.x / max(uRes.y, 1.0);
+                // On a portrait phone aspect is ~0.47, so uv.x * aspect spans
+                // less than one noise cell: the curtain had no horizontal
+                // structure and read as a flat wash. Normalise the horizontal
+                // coordinate so a portrait screen still gets several features
+                // across its width, as a real sky does.
+                float spanX = aspect < 0.6 ? 1.0 : aspect;
                 float dir = uDirection < 0.0 ? -1.0 : 1.0;
                 float t = uTime * uSpeed * dir;
-                vec2 p = vec2(uv.x * aspect * dir, uv.y);
+                vec2 p = vec2(uv.x * spanX * dir, uv.y);
 
                 float a = 0.0;
                 for (int i = 0; i < 4; i++) {
@@ -336,25 +406,40 @@ class AuroraShader {
                         float off = fi * 0.055;
                         vec2 q = vec2(p.x * (1.0 + fi * 0.11) + off, p.y);
                         float yy = uv.y - off * 0.35;
-                        float s = shapeAt(q, yy, t * (1.0 - fi * 0.10), fi * 7.31, aspect);
-                        a = max(a, s * (1.0 - fi * 0.16));
+                        // Layers drift at slightly different speeds so they
+                        // shear past each other instead of moving as one sheet.
+                        float s = shapeAt(q, yy, t * (1.0 + fi * 0.13), fi * 7.31, aspect);
+                        a = max(a, s * (1.0 - fi * 0.14));
                     }
                 }
 
-                float rayNoise = fbm(vec2(p.x * 14.0 + t * 0.20, uv.y * 2.5 - t * 0.35));
-                float rays = mix(1.0, smoothstep(0.22, 0.85, rayNoise), uRay);
-                float folds = fbm(vec2(p.x * 3.0 - t * 0.12, uv.y * 3.0 + t * 0.08));
-                float detail = mix(0.55, 1.15, folds);
-                float sharp = mix(1.0, 0.35 + 0.65 * smoothstep(0.30, 0.90, rayNoise), uSharp);
+                // Rays: vertically stretched noise, drifting slowly. Real rays
+                // are long and thin, and move far slower than a naive
+                // advection implies: 0.35 cells/s across 16 stripes is ~5 Hz,
+                // which reads as TV static, not as aurora.
+                float rayNoise = fbmBoil(vec2(p.x * 16.0 + t * 0.08, uv.y * 0.35 - t * 0.05), t, 0.264);
+                float rays = mix(1.0, smoothstep(0.20, 0.80, rayNoise), uRay);
+                float folds = fbmBoil(vec2(p.x * 3.0 - t * 0.08, uv.y * 3.0 + t * 0.048), t, 0.12);
+                float detail = mix(0.72, 1.10, folds);
+                // Sharpness still sharpens the rays but no longer eats the
+                // silhouette the way the old mix(1.0, 0.35+..., uSharp) did.
+                float sharp = mix(1.0, 0.72 + 0.28 * smoothstep(0.30, 0.90, rayNoise), uSharp);
 
                 a *= rays * detail * sharp * uDensity;
+
+                // Brightness shimmer. Real rays are quasi-stationary but their
+                // emission varies, and that is what reads as "alive". Slow
+                // drift alone can be followed by the eye and still looks like
+                // a still image.
+                float shimmer = fbmBoil3(vec2(p.x * 5.0 + t * 0.12, uv.y * 2.0), t, 0.18);
+                a *= 1.0 + 0.35 * (shimmer - 0.5) * 2.0;
 
                 float skyHere = uSkyLum * mix(1.0, 0.55, uv.y);
                 float gate = 1.0 - smoothstep(0.10, 0.45, skyHere);
                 a *= mix(gate, 1.0, uCreative);
 
-                a *= smoothstep(0.0, 0.10, uv.y);
-                a *= 1.0 - smoothstep(0.92, 1.0, uv.y);
+                a *= smoothstep(0.0, 0.08, uv.y);
+                a *= 1.0 - smoothstep(0.94, 1.0, uv.y);
 
                 vec3 col = palette(uv.y, t);
                 col = mix(vec3(dot(col, vec3(0.299, 0.587, 0.114))), col, uSaturation);
