@@ -100,6 +100,27 @@ class MessagePolicyTest {
     }
 
     @Test
+    fun `creative mode drawing on a covered lens does not claim the camera is covered`() {
+        // Creative mode now draws a simulated aurora even when the camera sees
+        // nothing. Saying "camera covered" over a bright curtain is the same
+        // contradiction as promising an aurora above an empty screen.
+        assertNull(
+            MessagePolicy.message(
+                Gate.CAMERA_BLOCKED, Phase.NIGHT, CloudClass.CLEAR, 1f, indoors = false,
+                creative = true, auroraShown = true, auroraRequested = true,
+            ),
+        )
+        // In AUTO nothing renders on a covered lens, so the warning must stay.
+        assertEquals(
+            MessageId.CAMERA_COVERED,
+            MessagePolicy.message(
+                Gate.CAMERA_BLOCKED, Phase.NIGHT, CloudClass.CLEAR, 1f, indoors = false,
+                creative = false, auroraShown = false, auroraRequested = true,
+            ),
+        )
+    }
+
+    @Test
     fun `a twilight frame that draws nothing must not promise an aurora`() {
         // The gate can be OPEN while the score is too low to render: darkness
         // 0.279 gives skyScore 1, and IntensityMapper disables the renderer at
