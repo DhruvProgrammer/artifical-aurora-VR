@@ -180,6 +180,55 @@ class SkyScoreEngineTest {
     }
 
     @Test
+    fun `creative mode draws the aurora even when the preview is black`() {
+        // A covered lens, a black frame, or a pitch-dark room gives the
+        // renderer nothing, yet Creative mode is exactly where the user asked
+        // to see a simulated aurora. A black preview must still show it.
+        val engine = SkyScoreEngine(
+            com.auroraar.skyscore.model.UserSettings(mode = Mode.CREATIVE),
+        )
+        // Digital black: no light, no texture, no stars.
+        val blackFeatures = FrameFeatures(
+            meanLum = 0.004f,
+            skyMeanLum = 0.003f,
+            skyMeanLinear = 0.002f,
+            blueDominance = 0f,
+            warmth = 1f,
+            saturation = 0f,
+            noiseSigma = 0.001f,
+            starCount = 0,
+            clippedFraction = 0f,
+            textureEnergy = 0.004f,
+            fSky = 0f,
+            maskConfidence = 0f,
+            foregroundLum = 0.003f,
+        )
+        var now = 1_000L
+        var conditions = engine.conditions.value
+        repeat(60) {
+            conditions = engine.onInput(
+                com.auroraar.skyscore.model.EngineInput(
+                    features = blackFeatures,
+                    exposure = null,
+                    lux = 0.5f,
+                    astro = nightAstro,
+                    cameraElevationDeg = 30f,
+                    nowMs = now,
+                ),
+            )
+            now += 200L
+        }
+        assertTrue(
+            "creative mode must render even on a black frame",
+            engine.renderParams.value.enabled,
+        )
+        assertTrue(
+            "the aurora must have visible intensity on a black frame",
+            engine.renderParams.value.intensity > 0.05f,
+        )
+    }
+
+    @Test
     fun `dark clear night opens the gate and converges to a high score`() {
         val engine = SkyScoreEngine()
         var now = 1_000L
