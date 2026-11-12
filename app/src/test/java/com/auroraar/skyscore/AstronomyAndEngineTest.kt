@@ -5,11 +5,13 @@ import com.auroraar.skyscore.model.AstroPrior
 import com.auroraar.skyscore.model.ExposureInfo
 import com.auroraar.skyscore.model.FrameFeatures
 import com.auroraar.skyscore.model.Gate
+import com.auroraar.skyscore.model.MessageId
 import com.auroraar.skyscore.model.Mode
 import com.auroraar.skyscore.model.Phase
 import java.time.Instant
 import java.util.TimeZone
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -239,5 +241,60 @@ class SkyScoreEngineTest {
             ),
         )
         assertTrue(!engine.renderParams.value.enabled)
+    }
+
+    @Test
+    fun `off mode never blames the sky for a disabled aurora`() {
+        // Mode.OFF forces intensity index 0, so nothing renders. Blaming that on
+        // a bright sky would be wrong and confusing: the user switched the
+        // aurora off deliberately. Uses a genuine twilight frame, because that
+        // is the only phase where the new branch can fire.
+        val engine = SkyScoreEngine(
+            com.auroraar.skyscore.model.UserSettings(mode = Mode.OFF),
+        )
+        val twilightFeatures = FrameFeatures(
+            meanLum = 0.10f,
+            skyMeanLum = 0.07f,
+            skyMeanLinear = 0.05f,
+            blueDominance = 0.22f,
+            warmth = 1.0f,
+            saturation = 0.45f,
+            noiseSigma = 0.01f,
+            starCount = 1,
+            clippedFraction = 0.001f,
+            textureEnergy = 0.02f,
+            fSky = 0.60f,
+            maskConfidence = 0.90f,
+            foregroundLum = 0.05f,
+        )
+        val twilightAstro = AstroPrior(
+            sunElevationDeg = -5f,
+            prob = listOf(0.01f, 0.15f, 0.70f, 0.14f),
+            confidence = 0.9f,
+            hasLocation = true,
+        )
+        var now = 1_000L
+        var conditions = engine.conditions.value
+        repeat(40) {
+            conditions = engine.onInput(
+                com.auroraar.skyscore.model.EngineInput(
+                    features = twilightFeatures,
+                    exposure = null,
+                    lux = 20f,
+                    astro = twilightAstro,
+                    cameraElevationDeg = 30f,
+                    nowMs = now,
+                ),
+            )
+            now += 200L
+        }
+        assertEquals("test must actually reach twilight", Phase.TWILIGHT, conditions.phase)
+        assertEquals(Gate.OPEN, conditions.gate)
+        assertTrue("off mode must not render", !engine.renderParams.value.enabled)
+        assertNotEquals(
+            "off mode must not report the sky as too bright",
+            MessageId.SKY_TOO_BRIGHT,
+            conditions.message,
+        )
     }
 }
