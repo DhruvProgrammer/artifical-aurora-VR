@@ -60,6 +60,7 @@ class AuroraShader {
         GLES20.glUniform3f(u("uMid"), red(current.midColor), green(current.midColor), blue(current.midColor))
         GLES20.glUniform3f(u("uHigh"), red(current.highColor), green(current.highColor), blue(current.highColor))
         GLES20.glUniform1f(u("uGeometry"), current.geometry.toFloat())
+        GLES20.glUniform1f(u("uEmission"), if (current.emission) 1f else 0f)
         GLES20.glUniform1f(u("uLayers"), current.layers)
         GLES20.glUniform1f(u("uCoverage"), current.coverage)
         GLES20.glUniform1f(u("uWaveAmp"), current.waveAmp)
@@ -117,7 +118,7 @@ class AuroraShader {
             "uRay", "uSpeed", "uSharp", "uStars", "uCloud", "uSkyLum",
             "uCreative", "uNightGrade", "uLow", "uMid", "uHigh", "uGeometry",
             "uLayers", "uCoverage", "uWaveAmp", "uWaveFreq", "uDirection",
-            "uBurst", "uAutomation", "uAutoParam",
+            "uBurst", "uAutomation", "uAutoParam", "uEmission",
         )
 
         const val VERTEX = """
@@ -150,6 +151,7 @@ class AuroraShader {
             uniform vec3 uMid;
             uniform vec3 uHigh;
             uniform float uGeometry;
+            uniform float uEmission;
             uniform float uLayers;
             uniform float uCoverage;
             uniform float uWaveAmp;
@@ -191,6 +193,48 @@ class AuroraShader {
                 float yy = clamp(y, 0.0, 1.0);
                 vec3 c = mix(uLow, uMid, smoothstep(0.10, 0.55, yy));
                 c = mix(c, uHigh, smoothstep(0.55, 0.95, yy));
+
+                if (uEmission > 0.5) {
+                    // Height-resolved emission. Quenching is strongest low down,
+                    // so the emitting species changes with altitude, which is
+                    // what gives real curtains blue edges, a green body and a
+                    // faint red crown. Blue: N2+ 428 nm. Green: OI 557.7 nm.
+                    // Red: OI 630 nm, only survives above ~150 km.
+                    //
+                    // The weights live in a curtain-local coordinate, not screen
+                    // space: the curtain only occupies roughly y 0.22..0.95, so
+                    // mapping emission onto the full screen would push the green
+                    // body below the visible band and render nothing.
+                    float hc = clamp((yy - 0.22) / 0.73, 0.0, 1.0);
+
+                    // Centres and widths mirror AuroraEmission (Kotlin), which is
+                    // the tested reference: blue 85 km, green 110 km, red >150 km
+                    // over the 80..260 km emitting band.
+                    //
+                    // Square with d*d, never pow(d, 2.0): GLSL pow() is undefined
+                    // for a negative base, and both distances are negative over
+                    // most of the curtain, which yields NaN on some drivers.
+                    float dBlue = (hc - 0.0278) / 0.0900;
+                    float dGreen = (hc - 0.1667) / 0.2600;
+                    float blueW = exp(-dBlue * dBlue);
+                    float greenW = exp(-dGreen * dGreen);
+                    float redW = smoothstep(0.3889, 0.95, hc) * 0.45;
+
+                    // Bands move slightly out of phase; real aurora shimmers
+                    // rather than sliding as one flat sheet.
+                    blueW *= 0.85 + 0.15 * sin(t * 0.9 + yy * 6.0);
+                    greenW *= 0.90 + 0.10 * sin(t * 0.6 - yy * 4.0);
+                    redW *= 0.88 + 0.12 * sin(t * 0.4 + yy * 3.0);
+
+                    float total = blueW + greenW + redW;
+                    if (total > 0.0001) {
+                        vec3 emitted = (uLow * blueW + uMid * greenW + uHigh * redW) / total;
+                        // Keep a trace of the base gradient so the curtain still
+                        // has vertical structure instead of three hard zones.
+                        c = mix(c, emitted, 0.88);
+                    }
+                }
+
                 if (uGeometry > 3.5) {
                     float phase = 0.5 + 0.5 * sin(yy * 9.0 + t * 0.8);
                     c = mix(c, mix(uMid, uHigh, phase), 0.55);

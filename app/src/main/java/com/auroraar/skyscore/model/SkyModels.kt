@@ -118,6 +118,12 @@ data class AuroraRenderParams(
     val lowColor: Int = 0xFF51FF9E.toInt(),
     val midColor: Int = 0xFF2EEBD9.toInt(),
     val highColor: Int = 0xFF9E59FF.toInt(),
+    /**
+     * When true the renderer blends [lowColor]/[midColor]/[highColor] by the
+     * measured altitude emission profile (blue edge, green body, red crown)
+     * instead of a plain top-to-bottom gradient. See [AuroraEmission].
+     */
+    val emission: Boolean = false,
     val layers: Float = 2f,
     val coverage: Float = 0.75f,
     val waveAmp: Float = 0.5f,

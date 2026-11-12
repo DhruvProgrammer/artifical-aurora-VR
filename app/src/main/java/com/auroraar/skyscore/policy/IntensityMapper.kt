@@ -53,6 +53,7 @@ object IntensityMapper {
             lowColor = style.lowColor,
             midColor = style.midColor,
             highColor = style.highColor,
+            emission = style.emission,
             layers = settings.layers.coerceIn(1, 4).toFloat(),
             coverage = settings.coverage.finiteOr(style.coverage).coerceIn(0f, 1f),
             waveAmp = settings.waveAmp.finiteOr(style.waveAmp).coerceIn(0f, 1f),
