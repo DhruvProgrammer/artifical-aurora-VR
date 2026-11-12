@@ -267,14 +267,7 @@ fun CameraScreen() {
     val recording by session.recording.state.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
 
-    var showSheet by remember { mutableStateOf(false) }
-    var showSettings by remember { mutableStateOf(false) }
-    var showCustomize by remember { mutableStateOf(false) }
-    var showGallery by remember { mutableStateOf(false) }
-    var showCalibration by remember { mutableStateOf(false) }
-    var showPremium by remember { mutableStateOf(false) }
-    var showPreview by remember { mutableStateOf(false) }
-    var previewUri by remember { mutableStateOf<Uri?>(null) }
+    var overlay by remember { mutableStateOf<CameraOverlay>(CameraOverlay.None) }
     var previewJob by remember { mutableStateOf<Job?>(null) }
     var countdown by remember { mutableIntStateOf(0) }
     var daylightDismissedAt by remember { mutableLongStateOf(0L) }
@@ -367,8 +360,7 @@ fun CameraScreen() {
     }
 
     fun closePreview(reset: Boolean = true) {
-        showPreview = false
-        previewUri = null
+        if (overlay is CameraOverlay.Preview) overlay = CameraOverlay.None
         if (reset) session.recording.reset()
     }
 
@@ -385,9 +377,9 @@ fun CameraScreen() {
     }
 
     LaunchedEffect(recording.phase, recording.uri) {
-        if (recording.phase == RecordingPhase.SAVED && recording.uri != null) {
-            previewUri = recording.uri
-            showPreview = true
+        val uri = recording.uri
+        if (recording.phase == RecordingPhase.SAVED && uri != null) {
+            overlay = CameraOverlay.Preview(uri)
         }
     }
 
@@ -438,12 +430,15 @@ fun CameraScreen() {
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) { PendingRecordingCleanup.clean(context) }
     }
-    LaunchedEffect(recording.phase) {
-        if (holdStopPending &&
-            (recording.phase == RecordingPhase.RECORDING || recording.phase == RecordingPhase.PAUSED)
-        ) {
-            holdStopPending = false
-            session.recording.stop()
+    LaunchedEffect(recording.phase, holdStopPending) {
+        if (!holdStopPending) return@LaunchedEffect
+        when (pendingHoldStop(recording.phase)) {
+            PendingHoldStop.WAIT -> Unit
+            PendingHoldStop.STOP -> {
+                holdStopPending = false
+                session.recording.stop()
+            }
+            PendingHoldStop.DISCARD -> holdStopPending = false
         }
     }
     DisposableEffect(context) {
@@ -516,8 +511,8 @@ fun CameraScreen() {
         }
     }
 
-    LaunchedEffect(showCalibration) {
-        while (showCalibration) {
+    LaunchedEffect(overlay) {
+        while (overlay == CameraOverlay.Calibration) {
             calibSamples = recorder.sampleCount
             delay(1_000L)
         }
@@ -559,9 +554,8 @@ fun CameraScreen() {
         cameraStatus != CameraStatus.ERROR &&
         elevation > -25f &&
         System.currentTimeMillis() - daylightDismissedAt > 10 * 60 * 1000L &&
-        !showSheet && !showSettings && !showCalibration &&
-        !showCustomize && !showGallery &&
-        !recording.active && !showPreview && countdown == 0
+        overlay == CameraOverlay.None &&
+        !recording.active && countdown == 0
 
     val contextualHint = when {
         settings.mode == Mode.CREATIVE -> R.string.creative_badge
@@ -652,13 +646,13 @@ fun CameraScreen() {
                         SkyScoreChip(
                             score = conditions.skyScore,
                             enabled = conditions.gate == Gate.OPEN,
-                            onClick = { showSheet = true },
+                            onClick = { overlay = CameraOverlay.SkyScore },
                         )
                     }
                     Spacer(Modifier.width(8.dp))
                 }
                 IconButton(
-                    onClick = { showSettings = true },
+                    onClick = { overlay = CameraOverlay.Settings },
                     enabled = !recording.active,
                     modifier = Modifier
                         .size(48.dp)
@@ -706,13 +700,13 @@ fun CameraScreen() {
                 QuickAction(
                     text = stringResource(R.string.customize_open),
                     enabled = !recording.active,
-                    onClick = { showCustomize = true },
+                    onClick = { overlay = CameraOverlay.Customize },
                 )
                 Spacer(Modifier.width(8.dp))
                 QuickAction(
                     text = stringResource(R.string.gallery_open),
                     enabled = !recording.active,
-                    onClick = { showGallery = true },
+                    onClick = { overlay = CameraOverlay.Gallery },
                 )
                 if (!isPremium) {
                     Spacer(Modifier.width(8.dp))
@@ -720,7 +714,7 @@ fun CameraScreen() {
                         text = stringResource(R.string.style_tier_premium),
                         enabled = !recording.active,
                         accent = WarmAmber,
-                        onClick = { showPremium = true },
+                        onClick = { overlay = CameraOverlay.Premium },
                     )
                 }
             }
@@ -937,15 +931,15 @@ fun CameraScreen() {
         }
     }
 
-    if (showSheet) {
+    if (overlay == CameraOverlay.SkyScore) {
         SkyScoreSheet(
             conditions = conditions,
             showSubScores = settings.showSubScores,
-            onDismiss = { showSheet = false },
+            onDismiss = { overlay = CameraOverlay.None },
         )
     }
 
-    if (showSettings) {
+    if (overlay == CameraOverlay.Settings) {
         SettingsSheet(
             settings = settings,
             useLocation = useLocation,
@@ -989,22 +983,19 @@ fun CameraScreen() {
                 entitlements.setPremium(it)
                 session.onEntitlementsChanged()
             },
-            onOpenCalibration = {
-                showSettings = false
-                showCalibration = true
-            },
-            onDismiss = { showSettings = false },
+            onOpenCalibration = { overlay = CameraOverlay.Calibration },
+            onDismiss = { overlay = CameraOverlay.None },
         )
     }
 
-    if (showCustomize) {
+    if (overlay == CameraOverlay.Customize) {
         CustomizeSheet(
             settings = settings,
             isPremium = isPremium,
             onSettingsChange = { applySettings(it) },
             onLockedStyle = { style ->
                 previewJob?.cancel()
-                showCustomize = false
+                overlay = CameraOverlay.None
                 val restore = settings
                 // Render the locked style for 3 s with the gate bypassed, then
                 // restore persisted Free settings and open the paywall.
@@ -1015,22 +1006,22 @@ fun CameraScreen() {
                 previewJob = scope.launch {
                     delay(3_000L)
                     engine.setSettings(FeatureGate.effectiveSettings(restore, isPremium))
-                    if (!isPremium) showPremium = true
+                    // Do not steal a sheet the user opened during the 3 s demo.
+                    if (!isPremium && overlay == CameraOverlay.None) {
+                        overlay = CameraOverlay.Premium
+                    }
                 }
             },
-            onLockedControl = {
-                showCustomize = false
-                showPremium = true
-            },
-            onDismiss = { showCustomize = false },
+            onLockedControl = { overlay = CameraOverlay.Premium },
+            onDismiss = { overlay = CameraOverlay.None },
         )
     }
 
-    if (showGallery) {
-        GallerySheet(onDismiss = { showGallery = false })
+    if (overlay == CameraOverlay.Gallery) {
+        GallerySheet(onDismiss = { overlay = CameraOverlay.None })
     }
 
-    if (showPremium) {
+    if (overlay == CameraOverlay.Premium) {
         PremiumInfoSheet(
             isPremium = isPremium,
             debugBuild = BuildConfig.DEBUG,
@@ -1038,21 +1029,19 @@ fun CameraScreen() {
                 entitlements.setPremium(it)
                 session.onEntitlementsChanged()
             },
-            onDismiss = { showPremium = false },
+            onDismiss = { overlay = CameraOverlay.None },
         )
     }
 
-    if (showPreview && previewUri != null) {
+    val preview = overlay as? CameraOverlay.Preview
+    if (preview != null) {
         RecordingPreviewDialog(
-            uri = previewUri!!,
+            uri = preview.uri,
             tier = recording.tier,
             autoStopped = recording.autoStopped,
-            onShare = {
-                previewUri?.let { uri -> shareRecording(context, uri) }
-            },
+            onShare = { shareRecording(context, preview.uri) },
             onDelete = {
-                val deleted = previewUri?.let { deleteRecording(context, it) } == true
-                if (!deleted) {
+                if (!deleteRecording(context, preview.uri)) {
                     Toast.makeText(context, R.string.record_delete_failed, Toast.LENGTH_LONG).show()
                 }
                 closePreview()
@@ -1061,15 +1050,12 @@ fun CameraScreen() {
                 closePreview()
                 requestStart()
             },
-            onSeePremium = {
-                showPreview = false
-                showPremium = true
-            },
+            onSeePremium = { overlay = CameraOverlay.Premium },
             onDismiss = { closePreview() },
         )
     }
 
-    if (showCalibration) {
+    if (overlay == CameraOverlay.Calibration) {
         CalibrationSheet(
             recording = calibRecording,
             sampleCount = calibSamples,
@@ -1117,7 +1103,7 @@ fun CameraScreen() {
             onDismiss = {
                 recorder.stop()
                 calibRecording = false
-                showCalibration = false
+                overlay = CameraOverlay.None
             },
         )
     }

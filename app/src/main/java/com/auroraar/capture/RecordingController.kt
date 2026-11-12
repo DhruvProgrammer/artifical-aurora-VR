@@ -229,6 +229,7 @@ class RecordingController(
     private fun onEvent(event: VideoRecordEvent) {
         when (event) {
             is VideoRecordEvent.Start -> {
+                if (!_state.value.phase.accepts(RecordingEvent.START)) return
                 segmentStartMs = SystemClock.elapsedRealtime()
                 accumulatedMs = 0L
                 _state.update {
@@ -240,6 +241,7 @@ class RecordingController(
             }
 
             is VideoRecordEvent.Pause -> {
+                if (!_state.value.phase.accepts(RecordingEvent.PAUSE)) return
                 accumulatedMs = recordedElapsedMs() ?: accumulatedMs
                 limitJob?.cancel()
                 limitJob = null
@@ -249,12 +251,16 @@ class RecordingController(
             }
 
             is VideoRecordEvent.Resume -> {
+                if (!_state.value.phase.accepts(RecordingEvent.RESUME)) return
                 segmentStartMs = SystemClock.elapsedRealtime()
                 _state.update { it.copy(phase = RecordingPhase.RECORDING) }
                 scheduleLimit()
             }
 
-            is VideoRecordEvent.Finalize -> finalize(event)
+            is VideoRecordEvent.Finalize -> {
+                if (!_state.value.phase.accepts(RecordingEvent.FINALIZE)) return
+                finalize(event)
+            }
             else -> Unit
         }
     }

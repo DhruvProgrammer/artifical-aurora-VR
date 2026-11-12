@@ -155,6 +155,9 @@ class CameraSession(
     fun start(previewView: PreviewView) {
         if (closed || running) return
         running = true
+        // A start supersedes any deferred unbind from the previous take. Its
+        // finalize callback must not tear down the pipeline we bind here.
+        pendingUnbind = false
         this.previewView = previewView
         _status.value = CameraStatus.STARTING
         lightReader.start()
@@ -277,6 +280,10 @@ class CameraSession(
 
     private fun bindWithFallback(view: PreviewView): Boolean {
         val cameraProvider = provider ?: return false
+        // Temporal noise compares consecutive frames. A new bind may be a
+        // different camera, or the first frame after a long unbind, so drop
+        // the previous frame instead of differencing against it.
+        extractor.resetTemporal()
         if (tryBind(cameraProvider, view, withVideo = true)) return true
         Log.w(TAG, "Preview + Video + effect unsupported; trying preview effect only")
         _recordingAvailable.value = false
@@ -390,10 +397,13 @@ class CameraSession(
     }
 
     private fun onRecordingFinalized() {
-        if (pendingUnbind) {
-            pendingUnbind = false
-            unbindNow()
-        }
+        if (!pendingUnbind) return
+        pendingUnbind = false
+        // stop() can be followed by start() before CameraX finishes writing the
+        // MP4 trailer (ON_STOP → ON_START on a quick app switch). When that
+        // happens a new pipeline is already bound; unbinding it here would
+        // leave a black preview with a live status of RUNNING.
+        if (!running) unbindNow()
     }
 
     private fun unbindNow() {

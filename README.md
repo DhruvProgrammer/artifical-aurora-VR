@@ -424,7 +424,7 @@ app/src/main/java/com/auroraar/
 
 ### Test coverage
 
-`./gradlew testDebugUnitTest` currently runs 120 tests across 20 JUnit test classes:
+`./gradlew testDebugUnitTest` currently runs 164 tests across 24 JUnit test classes:
 
 - the §9.3 intensity table rows and the 92/100 illustrative example,
 - monotonicity in cloud cover and darkness,
@@ -439,6 +439,8 @@ app/src/main/java/com/auroraar/
 - adversarial robustness: limited-range YUV expansion, plateau and NaN star rejection, non-finite sliders and probabilities, camera-blocked detection (black frame vs. dark overcast vs. live night sky vs. lit desk), Creative never drawing with no sky, and settings sanitization,
 - recording policy: Free 720p/10 s/watermark vs. Premium 1080p/unlimited/no watermark, duration formatting, watermark visibility only for active Free takes, the `active` phase set, and the HEVC/60 fps/4K flags staying off,
 - safety guards: storage/battery/thermal refusals and warnings, threshold boundaries, unknown battery readings, refusal precedence, and charging exceptions,
+- recording event guards: CameraX Start/Pause/Resume/Finalize only move the take from legal phases, so a stale event cannot resurrect a finalized take,
+- hold-to-stop: a release before the take starts waits, stops a running take, and is discarded after a failed or finished take,
 - premium catalogue: 5 Free + 7 Premium styles, unique ids, fallback for unknown ids, five geometry variants, and shader-contract ranges for layers/coverage/waves/burst/direction,
 - feature gate: both tiers, premium-style locking, unknown-style fallback, Free downgrade of grade/automation/advanced values, and preservation of Premium choices,
 - style-aware intensity mapping: geometry/palette/layers/waves/burst/direction reach the uniforms, cinematic looks set the grade id and grain,
