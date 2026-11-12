@@ -51,12 +51,14 @@ object AuroraEmission {
     /**
      * Where the curtain's own alpha ramp starts, in screen-space v.
      *
-     * The shader fades the curtain in from v ~0.34 to ~0.41 (`curtainShape`'s
-     * `edge`). Emission must be mapped from this knee, not from the top of the
-     * frame: starting lower put the 428 nm blue band and part of the green body
-     * underneath the fade, so they never became visible pixels. Verified by
-     * comparing rendered output at several mappings; this one is the only
-     * candidate where the blue edge actually survives.
+     * The shader fades each column of the curtain in at its own bottom edge,
+     * `edge = 0.24 + 0.20 * fbm(...)`, which varies roughly 0.24..0.44 across the
+     * frame. Emission must be mapped from a point at or above the typical edge,
+     * not from the top of the frame: starting lower put the 428 nm blue band and
+     * part of the green body underneath the fade, so they never became visible
+     * pixels. 0.41 was chosen by scoring rendered output at several mappings;
+     * it is the only candidate where the blue edge survived, and it sits above
+     * the typical edge (~0.33) so most columns keep their blue band.
      */
     const val CURTAIN_BOTTOM_V = 0.41f
 
