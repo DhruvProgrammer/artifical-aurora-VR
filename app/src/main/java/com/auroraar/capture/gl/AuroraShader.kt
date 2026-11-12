@@ -202,10 +202,14 @@ class AuroraShader {
                     // Red: OI 630 nm, only survives above ~150 km.
                     //
                     // The weights live in a curtain-local coordinate, not screen
-                    // space. The curtain's alpha only ramps in around v 0.34-0.41
-                    // (curtainShape's edge), so mapping emission from lower down
-                    // put the blue edge and part of the green body inside the
-                    // fade, where they never became visible pixels.
+                    // space. The curtain's alpha ramps in at its own bottom
+                    // edge, which is per-column: edge = 0.24 + 0.20 * fbm(...),
+                    // so it varies roughly 0.24..0.44 across the frame. Mapping
+                    // emission from lower down put the blue band and part of the
+                    // green body inside that fade, where they never became
+                    // visible pixels. 0.41 is the value the rendered candidates
+                    // were scored against, and it places the blue band above the
+                    // typical edge (~0.33) so it survives in most columns.
                     // Mirrors AuroraEmission.screenToHeight (0.41 .. 0.95).
                     float hc = clamp((yy - 0.41) / 0.54, 0.0, 1.0);
 
