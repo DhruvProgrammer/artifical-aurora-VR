@@ -8,7 +8,11 @@ is back to a plain source checkout.
 .toolchain/
 ├── android-sdk/           # ANDROID_HOME
 ├── gradle-8.9/            # Gradle distribution
-└── gradle-home/           # GRADLE_USER_HOME (all dependency + build caches)
+├── gradle-home/           # GRADLE_USER_HOME (all dependency + build caches)
+├── keystore/              # release signing key (see section 6)
+├── aurora-refs/           # reference aurora photographs used for palette tuning
+├── make-compare.ps1       # renders the real shader next to those photographs
+└── make-shader-check.ps1  # compiles the app's GLSL on a GPU and renders it
 ```
 
 Environment used for local builds:
@@ -213,3 +217,39 @@ Remove-Item -Recurse -Force .\.toolchain\keystore
 by its signing key: if it is lost, the same `com.auroraar` package can never be
 updated in place again and every user must uninstall first. Deleting the folder
 only stops *new* signed releases; it cannot invalidate already-published ones.
+
+---
+
+## 7. Shader verification harness (no install required)
+
+The aurora IS a GLSL shader, and unit tests cannot catch a shader that compiles
+but renders nothing. `.toolchain/make-shader-check.ps1` and
+`.toolchain/make-compare.ps1` extract the **exact** `VERTEX`/`FRAGMENT` strings
+out of `AuroraShader.kt` and run them through the host GPU via WebGL, which is
+source-compatible with GLES20.
+
+Nothing is installed: the rendering happens in the harness's own headless
+browser. The scripts only need PowerShell and the two already present.
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .toolchain\make-shader-check.ps1
+# -> %TEMP%\aurora-shader-check.html   compiles + renders each style
+powershell -NoProfile -ExecutionPolicy Bypass -File .toolchain\make-compare.ps1
+# -> %TEMP%\aurora-compare.html        scores the shader against real photos
+```
+
+| Path | What it is | Source |
+|---|---|---|
+| `.toolchain/aurora-refs/*.jpg` | 3 reference aurora photographs used to tune the palette | Wikimedia Commons |
+
+Those photographs are **not** dependencies and are **not** shipped in the APK;
+they are local test data only. Uninstall:
+
+```powershell
+Remove-Item -Recurse -Force .\.toolchain\aurora-refs, .\.toolchain\make-*.ps1
+```
+
+What the harness proved, and what it cannot: it verifies the shader compiles,
+links, and produces the intended per-band colours on a GPU. It does **not**
+prove the effect looks right through an actual camera sensor, because it has no
+camera. That still needs the phone.
