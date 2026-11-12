@@ -25,6 +25,12 @@ data class AuroraStyle(
     val waveFreq: Float = 0.5f,
     val burst: Float = 0f,
     val direction: Float = 1f,
+    /**
+     * Use the measured altitude emission profile (blue edge, green body, red
+     * crown) instead of a plain vertical gradient. See
+     * [com.auroraar.skyscore.policy.AuroraEmission].
+     */
+    val emission: Boolean = false,
 )
 
 /**
@@ -72,6 +78,39 @@ object AuroraStyleRegistry {
             coverage = 0.82f,
             waveAmp = 0.36f,
             waveFreq = 0.44f,
+        ),
+        AuroraStyle(
+            id = "rose_corona",
+            nameRes = R.string.style_rose_corona,
+            tier = StyleTier.FREE,
+            geometry = AuroraGeometry.CURTAIN,
+            // Pink is not a spectral line: it is 630 nm red plus 428 nm blue
+            // mixing in the eye, seen during high solar activity. low/mid/high
+            // are the blue/green/red bands, blended by altitude at render time.
+            lowColor = 0xFF6FA8FF.toInt(),
+            midColor = 0xFFFF6FB4.toInt(),
+            highColor = 0xFFFF3D6E.toInt(),
+            emission = true,
+            layers = 3,
+            coverage = 0.86f,
+            waveAmp = 0.44f,
+            waveFreq = 0.52f,
+        ),
+        AuroraStyle(
+            id = "cobalt_cascade",
+            nameRes = R.string.style_cobalt_cascade,
+            tier = StyleTier.FREE,
+            geometry = AuroraGeometry.CURTAIN,
+            // Nitrogen-dominated look: strong 428 nm blue at the lower edge
+            // with a thin green body, as seen at high particle energies.
+            lowColor = 0xFF2E6BFF.toInt(),
+            midColor = 0xFF3FD9FF.toInt(),
+            highColor = 0xFF7C6BFF.toInt(),
+            emission = true,
+            layers = 3,
+            coverage = 0.78f,
+            waveAmp = 0.55f,
+            waveFreq = 0.60f,
         ),
     )
 
