@@ -42,7 +42,11 @@ object MessagePolicy {
             phase == Phase.TWILIGHT -> MessageId.TWILIGHT
             phase == Phase.SUNSET -> MessageId.SUNSET
             cloudClass == CloudClass.HEAVY || cloudClass == CloudClass.OVERCAST -> MessageId.CLOUDY
-            darkness >= 0.80f && cloudClass == CloudClass.CLEAR -> MessageId.CLEAR_DARK
+            // "Strong simulated aurora" is only true while something is drawn.
+            // Seen on a real device: with the aurora switched off, a dark clear
+            // night kept promising one above a grey, inactive orb.
+            darkness >= 0.80f && cloudClass == CloudClass.CLEAR && auroraShown ->
+                MessageId.CLEAR_DARK
             else -> MessageId.PARTLY_CLEAR
         }
     }
