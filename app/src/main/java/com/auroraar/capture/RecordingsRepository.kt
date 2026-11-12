@@ -82,8 +82,8 @@ class RecordingsRepository(private val context: Context) {
             MediaStore.Video.Media.SIZE,
             MediaStore.Video.Media.DATE_ADDED,
         )
-        val selection = "${MediaStore.Video.Media.RELATIVE_PATH} LIKE ?"
-        val args = arrayOf("Movies/$FOLDER%")
+        val selection = RecordingGallery.SELECTION
+        val args = RecordingGallery.args()
         val sort = "${MediaStore.Video.Media.DATE_ADDED} DESC"
         val clips = mutableListOf<RecordedClip>()
         context.contentResolver.query(
@@ -136,10 +136,13 @@ class RecordingsRepository(private val context: Context) {
         }.sortedByDescending { it.dateAddedMs }
     }
 
-    private companion object {
-        const val TAG = "RecordingsRepository"
+    companion object {
+        private const val TAG = "RecordingsRepository"
+
+        /** Public folder under Movies/ that the recorder writes into. */
         const val FOLDER = "AuroraAR"
-        val QUICK_TARGETS = listOf(
+
+        private val QUICK_TARGETS = listOf(
             ShareTarget("WhatsApp", "com.whatsapp"),
             ShareTarget("Instagram", "com.instagram.android"),
             ShareTarget("YouTube", "com.google.android.youtube"),
