@@ -15,6 +15,43 @@ class IntensityMapperTest {
     private val settings = UserSettings()
 
     @Test
+    fun `style emission flag reaches the renderer regardless of tier`() {
+        // The emission palette is a property of the style, not of user settings,
+        // so a Free render must still receive it. If this ever read from
+        // settings instead, both new Free styles would silently fall back to the
+        // plain gradient in a release build, where Premium is locked.
+        val rose = AuroraStyleRegistry.byId("rose_corona")
+        val cobalt = AuroraStyleRegistry.byId("cobalt_cascade")
+
+        listOf(rose, cobalt).forEach { style ->
+            val params = IntensityMapper.map(
+                intensityIndex = 1f,
+                darkness = 1f,
+                cloudEffective = 0.2f,
+                settings = settings.copy(styleId = style.id),
+                creative = false,
+                skyLumNorm = 0.1f,
+            )
+            assertTrue("${style.id} must request the emission palette", params.emission)
+            assertEquals(style.lowColor, params.lowColor)
+            assertEquals(style.midColor, params.midColor)
+            assertEquals(style.highColor, params.highColor)
+        }
+
+        // A legacy style must not opt in.
+        val nordic = AuroraStyleRegistry.byId("nordic_classic")
+        val legacy = IntensityMapper.map(
+            intensityIndex = 1f,
+            darkness = 1f,
+            cloudEffective = 0.2f,
+            settings = settings.copy(styleId = nordic.id),
+            creative = false,
+            skyLumNorm = 0.1f,
+        )
+        assertFalse("legacy styles must keep the gradient path", legacy.emission)
+    }
+
+    @Test
     fun `zero index disables rendering`() {
         val params = IntensityMapper.map(0f, 1f, 0.05f, settings, creative = false, skyLumNorm = 0f)
         assertFalse(params.enabled)
