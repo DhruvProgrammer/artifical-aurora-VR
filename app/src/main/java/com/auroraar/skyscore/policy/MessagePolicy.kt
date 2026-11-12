@@ -13,6 +13,9 @@ object MessagePolicy {
      *   this frame. [Gate.OPEN] alone does not imply that: the score can be low
      *   enough that [IntensityMapper] disables rendering, and copy that promises
      *   an aurora is then contradicted by an empty screen.
+     * @param auroraRequested whether the user asked for the aurora at all. In
+     *   [Mode.OFF] nothing renders by design, so a blank preview must not be
+     *   blamed on the sky.
      */
     fun message(
         gate: Gate,
@@ -22,6 +25,7 @@ object MessagePolicy {
         indoors: Boolean,
         creative: Boolean = false,
         auroraShown: Boolean = true,
+        auroraRequested: Boolean = true,
     ): MessageId? = when (gate) {
         Gate.CAMERA_BLOCKED -> MessageId.CAMERA_COVERED
         Gate.NO_SKY -> if (indoors) MessageId.INDOORS else MessageId.LOW_SKY
@@ -34,7 +38,7 @@ object MessagePolicy {
             // IntensityMapper disables the renderer at <= 0.01. The twilight
             // copy promises "a subtle simulated aurora for now", which an empty
             // screen then contradicts. Say why instead.
-            phase == Phase.TWILIGHT && !auroraShown -> MessageId.SKY_TOO_BRIGHT
+            phase == Phase.TWILIGHT && auroraRequested && !auroraShown -> MessageId.SKY_TOO_BRIGHT
             phase == Phase.TWILIGHT -> MessageId.TWILIGHT
             phase == Phase.SUNSET -> MessageId.SUNSET
             cloudClass == CloudClass.HEAVY || cloudClass == CloudClass.OVERCAST -> MessageId.CLOUDY
