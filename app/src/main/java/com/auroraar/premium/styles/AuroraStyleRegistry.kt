@@ -85,11 +85,12 @@ object AuroraStyleRegistry {
             tier = StyleTier.FREE,
             geometry = AuroraGeometry.CURTAIN,
             // Pink is not a spectral line: it is 630 nm red plus 428 nm blue
-            // mixing in the eye, seen during high solar activity. low/mid/high
-            // are the blue/green/red bands, blended by altitude at render time.
-            lowColor = 0xFF6FA8FF.toInt(),
-            midColor = 0xFFFF6FB4.toInt(),
-            highColor = 0xFFFF3D6E.toInt(),
+            // mixing in the eye, seen during high solar activity. The palette
+            // was tuned against Wikimedia magenta aurora photographs, which
+            // measure R > B > G with a violet base rather than a blue one.
+            lowColor = 0xFFA85CFF.toInt(),
+            midColor = 0xFFFF2E96.toInt(),
+            highColor = 0xFFFF1F55.toInt(),
             emission = true,
             layers = 3,
             coverage = 0.86f,
@@ -101,8 +102,8 @@ object AuroraStyleRegistry {
             nameRes = R.string.style_cobalt_cascade,
             tier = StyleTier.FREE,
             geometry = AuroraGeometry.CURTAIN,
-            // Nitrogen-dominated look: strong 428 nm blue at the lower edge
-            // with a thin green body, as seen at high particle energies.
+            // Nitrogen-dominated look: strong 428 nm blue with a cyan body,
+            // as seen at high particle energies.
             lowColor = 0xFF2E6BFF.toInt(),
             midColor = 0xFF3FD9FF.toInt(),
             highColor = 0xFF7C6BFF.toInt(),

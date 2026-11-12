@@ -78,8 +78,27 @@ class AuroraEmissionTest {
     }
 
     @Test
-    fun `non-finite heights fall back to a plausible curtain`() {
-        val nan = AuroraEmission.weights(Float.NaN)
+    fun `screen mapping starts at the curtain alpha knee`() {
+        // Regression guard. Mapping emission from the top of the frame instead
+        // of the curtain's alpha ramp put the blue band and part of the green
+        // body inside the fade, where they rendered as nothing.
+        assertEquals(0f, AuroraEmission.screenToHeight(AuroraEmission.CURTAIN_BOTTOM_V), 1e-6f)
+        assertEquals(1f, AuroraEmission.screenToHeight(AuroraEmission.CURTAIN_TOP_V), 1e-6f)
+        assertTrue(AuroraEmission.screenToHeight(0f) == 0f)
+        assertTrue(AuroraEmission.screenToHeight(1f) == 1f)
+        assertTrue("non-finite must not escape", AuroraEmission.screenToHeight(Float.NaN).isFinite())
+        // The blue peak must land above the alpha knee, i.e. be visible at all.
+        assertTrue(AuroraEmission.CURTAIN_BOTTOM_V < 0.55f)
+    }
+
+    @Test
+    fun `red ceiling stays well below green so the crown cannot flood the curtain`() {
+        assertTrue(AuroraEmission.RED_CEILING > 0f)
+        assertTrue("red must stay a faint crown", AuroraEmission.RED_CEILING <= 0.40f)
+    }
+
+    @Test
+    fun `non-finite heights fall back to a plausible curtain`() {        val nan = AuroraEmission.weights(Float.NaN)
         val infinite = AuroraEmission.weights(Float.POSITIVE_INFINITY)
         val reference = AuroraEmission.weights(AuroraEmission.normalize(AuroraEmission.GREEN_PEAK_KM))
 
@@ -99,6 +118,5 @@ class AuroraEmissionTest {
     }
 
     private fun blueChannel(color: Int) = color and 0xFF
-
     private fun redChannel(color: Int) = (color shr 16) and 0xFF
 }

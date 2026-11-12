@@ -1,5 +1,6 @@
 package com.auroraar.premium.styles
 
+import com.auroraar.skyscore.policy.AuroraEmission
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -86,7 +87,44 @@ class AuroraStyleRegistryTest {
         }
     }
 
+    @Test
+    fun `pink style renders the measured magenta signature`() {
+        // Wikimedia magenta aurora photographs measure chroma R > B > G with a
+        // violet base. The earlier palette shipped a blue lower edge, which the
+        // references show does not happen; this pins the corrected ordering.
+        val rose = AuroraStyleRegistry.byId("rose_corona")
+        val body = AuroraEmission.screenToHeight(0.55f)
+        val mixed = AuroraEmission.mix(body, rose.lowColor, rose.midColor, rose.highColor)
+
+        val r = redChannel(mixed)
+        val g = greenChannel(mixed)
+        val b = blueChannel(mixed)
+
+        assertTrue("red must lead, got r=$r g=$g b=$b", r > g)
+        assertTrue("blue must sit between red and green, got r=$r g=$g b=$b", b > g)
+        assertTrue("green must be the weakest channel, got r=$r g=$g b=$b", r > b)
+    }
+
+    @Test
+    fun `blue style stays blue dominant through the body`() {
+        val cobalt = AuroraStyleRegistry.byId("cobalt_cascade")
+        listOf(0.45f, 0.55f, 0.65f).forEach { v ->
+            val mixed = AuroraEmission.mix(
+                AuroraEmission.screenToHeight(v),
+                cobalt.lowColor,
+                cobalt.midColor,
+                cobalt.highColor,
+            )
+            assertTrue(
+                "blue must dominate at v=$v",
+                blueChannel(mixed) > redChannel(mixed),
+            )
+        }
+    }
+
     private fun blueChannel(color: Int) = color and 0xFF
+
+    private fun greenChannel(color: Int) = (color shr 8) and 0xFF
 
     private fun redChannel(color: Int) = (color shr 16) and 0xFF
 }

@@ -202,10 +202,12 @@ class AuroraShader {
                     // Red: OI 630 nm, only survives above ~150 km.
                     //
                     // The weights live in a curtain-local coordinate, not screen
-                    // space: the curtain only occupies roughly y 0.22..0.95, so
-                    // mapping emission onto the full screen would push the green
-                    // body below the visible band and render nothing.
-                    float hc = clamp((yy - 0.22) / 0.73, 0.0, 1.0);
+                    // space. The curtain's alpha only ramps in around v 0.34-0.41
+                    // (curtainShape's edge), so mapping emission from lower down
+                    // put the blue edge and part of the green body inside the
+                    // fade, where they never became visible pixels.
+                    // Mirrors AuroraEmission.screenToHeight (0.41 .. 0.95).
+                    float hc = clamp((yy - 0.41) / 0.54, 0.0, 1.0);
 
                     // Centres and widths mirror AuroraEmission (Kotlin), which is
                     // the tested reference: blue 85 km, green 110 km, red >150 km
@@ -218,7 +220,7 @@ class AuroraShader {
                     float dGreen = (hc - 0.1667) / 0.2600;
                     float blueW = exp(-dBlue * dBlue);
                     float greenW = exp(-dGreen * dGreen);
-                    float redW = smoothstep(0.3889, 0.95, hc) * 0.45;
+                    float redW = smoothstep(0.3889, 0.95, hc) * 0.35;
 
                     // Bands move slightly out of phase; real aurora shimmers
                     // rather than sliding as one flat sheet.

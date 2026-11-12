@@ -48,6 +48,28 @@ object AuroraEmission {
     /** 630.0 nm red only becomes visible above roughly 150 km. */
     const val RED_ONSET_KM = 150f
 
+    /**
+     * Where the curtain's own alpha ramp starts, in screen-space v.
+     *
+     * The shader fades the curtain in from v ~0.34 to ~0.41 (`curtainShape`'s
+     * `edge`). Emission must be mapped from this knee, not from the top of the
+     * frame: starting lower put the 428 nm blue band and part of the green body
+     * underneath the fade, so they never became visible pixels. Verified by
+     * comparing rendered output at several mappings; this one is the only
+     * candidate where the blue edge actually survives.
+     */
+    const val CURTAIN_BOTTOM_V = 0.41f
+
+    /** Where the curtain's alpha ramp ends, in screen-space v. */
+    const val CURTAIN_TOP_V = 0.95f
+
+    /**
+     * Peak red is deliberately well below green. The 630 nm line is faint in
+     * real spectra; letting it approach parity paints the whole upper curtain a
+     * flat slab of red over the pink body.
+     */
+    const val RED_CEILING = 0.35f
+
     /** Relative strength of the three emission bands at one altitude. */
     data class Weights(
         val blue: Float,
@@ -89,8 +111,19 @@ object AuroraEmission {
         // 630 nm is intrinsically faint and only survives above the quenching
         // altitude, so its ceiling is well below the green peak. Letting red
         // approach parity with green paints the whole upper curtain solid red.
-        val red = SkyScoreFormula.smoothstep(normalize(RED_ONSET_KM), 0.95f, h) * 0.45f
+        val red = SkyScoreFormula.smoothstep(normalize(RED_ONSET_KM), 0.95f, h) * RED_CEILING
         return Weights(blue = blue, green = green, red = red)
+    }
+
+    /**
+     * Converts screen-space v (0 bottom, 1 top) into the curtain coordinate.
+     * The curtain only exists between [CURTAIN_BOTTOM_V] and [CURTAIN_TOP_V]
+     * because its alpha ramps in and out there; mapping emission over the whole
+     * frame hides the lower bands in the fade.
+     */
+    fun screenToHeight(v: Float): Float {
+        if (!v.isFinite()) return 0.5f
+        return ((v - CURTAIN_BOTTOM_V) / (CURTAIN_TOP_V - CURTAIN_BOTTOM_V)).coerceIn(0f, 1f)
     }
 
     /**
