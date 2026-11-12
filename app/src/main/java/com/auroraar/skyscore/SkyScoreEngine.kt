@@ -167,14 +167,25 @@ class SkyScoreEngine(initialSettings: UserSettings = UserSettings()) {
 
         val skyLumNorm = ((smoothedLogLum + 2f) / 4.5f).coerceIn(0f, 1f)
 
-        // --- Adaptive rendering. Creative may bypass darkness, never "no sky".
+        // --- Adaptive rendering. Creative is the mode where the user asked to
+        // see a simulated aurora, so it ignores everything the camera failed to
+        // measure: darkness, and also a black/covered frame. A black preview
+        // used to render nothing at all, which is the opposite of what the mode
+        // is for. Only Mode.OFF truly disables rendering.
         val index = when (settings.mode) {
             Mode.OFF -> 0f
             Mode.AUTO -> if (gate == Gate.OPEN) skyScore / 100f else 0f
             Mode.CREATIVE -> when {
-                gate != Gate.OPEN -> 0f
                 settings.lockIntensity -> 1f
-                else -> max(skyScore / 100f, 0.60f)
+                gate == Gate.OPEN -> max(skyScore / 100f, 0.60f)
+                // The camera sees nothing (covered lens, black frame). There is
+                // no sky to score, but Creative is the mode where a simulated
+                // aurora is the point, so draw it anyway. A black preview used
+                // to render nothing at all.
+                gate == Gate.CAMERA_BLOCKED -> CREATIVE_FALLBACK_INDEX
+                // Low visibility and daylight still count as "there is a sky,
+                // it just isn't dark or clear", so they stay disabled.
+                else -> 0f
             }
         }
         val target = IntensityMapper.map(
@@ -259,6 +270,13 @@ class SkyScoreEngine(initialSettings: UserSettings = UserSettings()) {
     }
 
     companion object {
+        /**
+         * Intensity index used by Creative mode when the camera gives nothing to
+         * score (covered lens, black frame). High enough to be clearly visible,
+         * low enough to leave headroom under the user's max intensity.
+         */
+        const val CREATIVE_FALLBACK_INDEX = 0.75f
+
         fun initialConditions() = SkyConditions(
             phase = Phase.DAYLIGHT,
             skyScore = 0,
