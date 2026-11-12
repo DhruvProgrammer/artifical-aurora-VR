@@ -208,6 +208,7 @@ class SkyScoreEngine(initialSettings: UserSettings = UserSettings()) {
                 indoors,
                 creative,
                 auroraShown = renderParams.enabled,
+                auroraRequested = settings.mode != Mode.OFF,
             ),
             timestampMs = now,
             skyLumNorm = skyLumNorm,
