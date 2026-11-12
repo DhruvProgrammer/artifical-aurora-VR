@@ -36,14 +36,15 @@ obsolete `mipmap-anydpi-v26` note). `assembleDebug`: APK
 | `RecordingPolicyTest` | 6 | Free 720p / 10 s / watermark vs Premium 1080p / unlimited / no watermark; duration formatting; watermark visibility; active phase set; HEVC/60 fps/4K flags stay off |
 | `RecordingGuardsTest` | 9 | storage / battery / thermal refusals and warnings, boundaries, unknown battery, precedence, charging exceptions |
 | `PendingRecordingCleanupTest` | 4 | 60 s grace period; recent, missing and future `dateAdded` are not stale |
-| `DeviceRecordingCapsTest` | 5 | per-codec resolution/frame-rate support, hardware flags, empty-device fallback, summary text |
+| `DeviceRecordingCapsTest` | 7 | per-codec resolution/frame-rate support, hardware flags, empty-device fallback, unknown `maxFps=0`, summary text |
+| `RecordingGalleryQueryTest` | 5 | gallery selects only `Movies/AuroraAR/`, not sibling folders sharing the prefix |
 | `FeatureGateTest` | 6 | Free styles open to both tiers; Premium styles locked; unknown id fallback; Free downgrades grade/automation/advanced values; Premium keeps choices |
-| `AuroraStyleRegistryTest` | 9 | 5 Free + 7 Premium, unique ids, five geometries, shader-contract ranges, opaque palette, pink/blue styles free and emission-based |
-| `AuroraEmissionTest` | 8 | measured 428/557.7/630 nm heights, blue-green-red vertical order, non-finite fallback |
-| `IntensityMapperTest` | 8 | daylight/cap/stars behaviour, style geometry/palette/layers/waves/burst/direction reaching uniforms, cinematic grade + grain, automation |
+| `AuroraStyleRegistryTest` | 11 | 5 Free + 7 Premium, unique ids, five geometries, shader-contract ranges, opaque palette, pink/blue styles free and emission-based, measured magenta signature |
+| `AuroraEmissionTest` | 10 | measured 428/557.7/630 nm heights, blue-green-red vertical order, curtain-local screen mapping, non-finite fallback |
+| `IntensityMapperTest` | 9 | daylight/cap/stars behaviour, style geometry/palette/layers/waves/burst/direction reaching uniforms, cinematic grade + grain, automation, emission flag reaching Free renders |
 | `SkyScoreFormulaTest` | 14 | §9.3 table + illustrative example |
 | `SkyMaskColorTest` | 12 | colour plausibility |
-| `MessagePolicyTest` | 9 | message selection |
+| `MessagePolicyTest` | 13 | message selection, including "open gate but nothing drawn" no longer promising an aurora |
 | `NonFiniteInputTest` | 7 | NaN/∞ sliders, probabilities and features |
 | `CameraBlockedTest` | 5 | covered lens vs dark overcast vs live night |
 | `SkyScoreEngineTest` | 6 | end-to-end gates and Off mode |
