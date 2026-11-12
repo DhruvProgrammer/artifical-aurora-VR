@@ -27,7 +27,10 @@ object MessagePolicy {
         auroraShown: Boolean = true,
         auroraRequested: Boolean = true,
     ): MessageId? = when (gate) {
-        Gate.CAMERA_BLOCKED -> MessageId.CAMERA_COVERED
+        // Creative mode draws a simulated aurora even when the lens is covered,
+        // so the "camera covered" warning would contradict the bright curtain
+        // on screen. Every other mode renders nothing there and keeps it.
+        Gate.CAMERA_BLOCKED -> if (creative && auroraShown) null else MessageId.CAMERA_COVERED
         Gate.NO_SKY -> if (indoors) MessageId.INDOORS else MessageId.LOW_SKY
         Gate.BLOCKED_DAYLIGHT -> MessageId.DAYLIGHT
         Gate.OPEN -> when {
