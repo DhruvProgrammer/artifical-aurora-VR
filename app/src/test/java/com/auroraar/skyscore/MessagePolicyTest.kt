@@ -6,6 +6,8 @@ import com.auroraar.skyscore.model.MessageId
 import com.auroraar.skyscore.model.Phase
 import com.auroraar.skyscore.policy.MessagePolicy
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 
@@ -94,6 +96,85 @@ class MessagePolicyTest {
         assertEquals(
             MessageId.CAMERA_COVERED,
             MessagePolicy.message(Gate.CAMERA_BLOCKED, Phase.DAYLIGHT, CloudClass.HEAVY, 0f, indoors = false),
+        )
+    }
+
+    @Test
+    fun `a twilight frame that draws nothing must not promise an aurora`() {
+        // The gate can be OPEN while the score is too low to render: darkness
+        // 0.279 gives skyScore 1, and IntensityMapper disables the renderer at
+        // intensityIndex <= 0.01. The twilight copy promises "a subtle
+        // simulated aurora for now", which is then contradicted by an empty
+        // screen. The message must follow what is actually drawn.
+        val params = com.auroraar.skyscore.policy.IntensityMapper.map(
+            intensityIndex = 0.01f,
+            darkness = 0.279f,
+            cloudEffective = 0.9f,
+            settings = com.auroraar.skyscore.model.UserSettings(),
+            creative = false,
+            skyLumNorm = 0.4f,
+        )
+        assertFalse("this frame must not render", params.enabled)
+
+        val message = MessagePolicy.message(
+            gate = Gate.OPEN,
+            phase = Phase.TWILIGHT,
+            cloudClass = CloudClass.PARTLY,
+            darkness = 0.279f,
+            indoors = false,
+            auroraShown = params.enabled,
+        )
+        assertNotEquals(
+            "message claimed an aurora while the renderer was disabled",
+            MessageId.TWILIGHT,
+            message,
+        )
+    }
+
+    @Test
+    fun `an unrendered twilight frame reports the real reason`() {
+        assertEquals(
+            MessageId.SKY_TOO_BRIGHT,
+            MessagePolicy.message(
+                gate = Gate.OPEN,
+                phase = Phase.TWILIGHT,
+                cloudClass = CloudClass.CLEAR,
+                darkness = 0.279f,
+                indoors = false,
+                auroraShown = false,
+            ),
+        )
+    }
+
+    @Test
+    fun `a rendered twilight frame keeps the twilight message`() {
+        assertEquals(
+            MessageId.TWILIGHT,
+            MessagePolicy.message(
+                gate = Gate.OPEN,
+                phase = Phase.TWILIGHT,
+                cloudClass = CloudClass.CLEAR,
+                darkness = 0.4f,
+                indoors = false,
+                auroraShown = true,
+            ),
+        )
+    }
+
+    @Test
+    fun `not rendering does not override a cloudy sky`() {
+        // Cloud is the more useful explanation when it is present; the new
+        // branch must not swallow it.
+        assertEquals(
+            MessageId.CLOUDY,
+            MessagePolicy.message(
+                gate = Gate.OPEN,
+                phase = Phase.NIGHT,
+                cloudClass = CloudClass.OVERCAST,
+                darkness = 0.9f,
+                indoors = false,
+                auroraShown = false,
+            ),
         )
     }
 }

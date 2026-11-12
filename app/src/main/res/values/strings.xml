@@ -57,6 +57,7 @@
     <string name="msg_low_sky">Point your camera at the open sky.</string>
     <string name="msg_indoors">Looks like you\'re indoors. Step outside for the full effect.</string>
     <string name="msg_camera_covered">Camera seems covered. Clean the lens and try again.</string>
+    <string name="msg_sky_too_bright">Sky is too bright for the aurora right now. Point away from lights, or try Creative mode.</string>
 
     <string name="daylight_card_title">It\'s daytime!</string>
     <string name="daylight_card_body">The overlay is simulated. It looks best after sunset — come back tonight.</string>

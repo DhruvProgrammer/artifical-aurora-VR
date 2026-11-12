@@ -57,6 +57,7 @@
     <string name="msg_low_sky">अपना कैमरा खुले आसमान की ओर करें।</string>
     <string name="msg_indoors">लगता है आप अंदर हैं। पूरा असर देखने के लिए बाहर जाइए।</string>
     <string name="msg_camera_covered">कैमरा ढका हुआ लगता है। लेंस साफ़ करके फिर कोशिश करें।</string>
+    <string name="msg_sky_too_bright">अभी आसमान औरोरा के लिए बहुत चमकीला है। रोशनी से दूर कैमरा करें, या क्रिएटिव मोड आज़माएँ।</string>
 
     <string name="daylight_card_title">दिन का समय है!</string>
     <string name="daylight_card_body">यह ओवरले सिम्युलेटेड है। सूर्यास्त के बाद यह सबसे अच्छा दिखता है — आज रात फिर आइए।</string>

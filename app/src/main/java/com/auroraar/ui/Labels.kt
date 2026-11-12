@@ -52,6 +52,7 @@ fun messageText(id: MessageId): String = stringResource(
         MessageId.LOW_SKY -> R.string.msg_low_sky
         MessageId.INDOORS -> R.string.msg_indoors
         MessageId.CAMERA_COVERED -> R.string.msg_camera_covered
+        MessageId.SKY_TOO_BRIGHT -> R.string.msg_sky_too_bright
     },
 )
 

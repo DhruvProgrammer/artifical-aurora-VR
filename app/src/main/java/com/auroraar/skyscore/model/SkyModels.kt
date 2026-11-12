@@ -28,6 +28,9 @@ enum class MessageId {
     LOW_SKY,
     INDOORS,
     CAMERA_COVERED,
+
+    /** Gate is open but the frame is too bright for the aurora to render. */
+    SKY_TOO_BRIGHT,
 }
 
 enum class RatingBand { EXCELLENT, GREAT, GOOD, FAIR, LIMITED, UNAVAILABLE }
