@@ -145,6 +145,41 @@ class SkyScoreEngineTest {
     }
 
     @Test
+    fun `off mode never promises an aurora on a clear night`() {
+        // Seen on a real device: with the aurora switched off, a dark clear
+        // night still showed "Dark, clear sky - strong simulated aurora" while
+        // the orb was grey and nothing was drawn. The earlier fix only covered
+        // the twilight branch; the generic clear-night copy needs the same
+        // check.
+        val engine = SkyScoreEngine(
+            com.auroraar.skyscore.model.UserSettings(mode = Mode.OFF),
+        )
+        var now = 1_000L
+        var conditions = engine.conditions.value
+        repeat(60) {
+            conditions = engine.onInput(
+                com.auroraar.skyscore.model.EngineInput(
+                    features = nightFeatures(),
+                    exposure = ExposureInfo(0.1f, 3200f, 1.8f, true, 0f, 0L),
+                    lux = 0.5f,
+                    astro = nightAstro,
+                    cameraElevationDeg = 30f,
+                    nowMs = now,
+                ),
+            )
+            now += 200L
+        }
+        assertEquals("test must reach a night frame", Phase.NIGHT, conditions.phase)
+        assertEquals(Gate.OPEN, conditions.gate)
+        assertTrue("off mode must not render", !engine.renderParams.value.enabled)
+        assertNotEquals(
+            "off mode must not claim a strong aurora is showing",
+            MessageId.CLEAR_DARK,
+            conditions.message,
+        )
+    }
+
+    @Test
     fun `dark clear night opens the gate and converges to a high score`() {
         val engine = SkyScoreEngine()
         var now = 1_000L
