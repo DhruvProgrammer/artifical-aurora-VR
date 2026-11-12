@@ -11,6 +11,10 @@ is back to a plain source checkout.
 ├── gradle-home/           # GRADLE_USER_HOME (all dependency + build caches)
 ├── keystore/              # release signing key (see section 6)
 ├── aurora-refs/           # reference aurora photographs used for palette tuning
+├── aurora-video/          # reference aurora footage + numpy analysis/fitting scripts
+├── venv/                  # Python venv for that analysis (av, numpy, scipy, pillow)
+├── pip-cache/             # pip download cache
+├── tmp/                   # harness HTML, headless-browser profiles, scratch output
 ├── make-compare.ps1       # renders the real shader next to those photographs
 └── make-shader-check.ps1  # compiles the app's GLSL on a GPU and renders it
 ```
@@ -233,9 +237,16 @@ browser. The scripts only need PowerShell and the two already present.
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .toolchain\make-shader-check.ps1
-# -> %TEMP%\aurora-shader-check.html   compiles + renders each style
+# -> .toolchain\tmp\aurora-shader-check.html   compiles + renders each style
 powershell -NoProfile -ExecutionPolicy Bypass -File .toolchain\make-compare.ps1
-# -> %TEMP%\aurora-compare.html        scores the shader against real photos
+# -> .toolchain\tmp\aurora-compare.html        scores the shader against real photos
+```
+
+To keep the generated pages inside this folder, set `TEMP` first (otherwise the
+scripts fall back to the user's `%TEMP%`):
+
+```powershell
+$env:TMP = "$PWD\.toolchain\tmp"; $env:TEMP = $env:TMP
 ```
 
 | Path | What it is | Source |
@@ -253,3 +264,55 @@ What the harness proved, and what it cannot: it verifies the shader compiles,
 links, and produces the intended per-band colours on a GPU. It does **not**
 prove the effect looks right through an actual camera sensor, because it has no
 camera. That still needs the phone.
+
+---
+
+## 8. Aurora motion-analysis toolchain (local research only)
+
+The shader's motion model was tuned by measuring real aurora footage rather than
+by guessing. This section records exactly what that added; **none of it is part
+of the Android build or the APK**.
+
+| Dependency | Version | Why | Uninstall |
+|---|---|---|---|
+| Python venv | 3.14 (system interpreter) | isolates the analysis packages from the system Python | `Remove-Item -Recurse -Force .\.toolchain\venv` |
+| `av` (PyAV) | 19.0.2 | decodes the reference `.webm` clips frame by frame | `.\.toolchain\venv\Scripts\python.exe -m pip uninstall -y av` |
+| `numpy` | 2.5.4 | all array maths: fbm, FFT, phase correlation | `.\.toolchain\venv\Scripts\python.exe -m pip uninstall -y numpy` |
+| `scipy` | 1.18.1 | parameter search for the shape fit | `.\.toolchain\venv\Scripts\python.exe -m pip uninstall -y scipy` |
+| `pillow` | 13.0.0 | writes the comparison PNGs | `.\.toolchain\venv\Scripts\python.exe -m pip uninstall -y pillow` |
+
+The venv was created without `--system-site-packages`, so it cannot accidentally
+pick up a globally installed package:
+
+```powershell
+$env:PIP_CACHE_DIR = "$PWD\.toolchain\pip-cache"
+$env:TMP = "$PWD\.toolchain\tmp"; $env:TEMP = $env:TMP
+python -m venv .toolchain\venv --without-pip
+.\.toolchain\venv\Scripts\python.exe -m ensurepip --upgrade
+.\.toolchain\venv\Scripts\python.exe -m pip install av numpy scipy pillow
+```
+
+Reference footage in `.toolchain/aurora-video/` (not shipped, not dependencies):
+
+| File | Licence | Use |
+|---|---|---|
+| `norway_cc0.webm` | CC0 | real-time 30 fps clip, the motion reference |
+| `timelapse_ccby3.webm` | CC BY 3.0 | long timelapse, shape/profile reference |
+| `iceland_ccby4.webm` | CC BY 4.0 | real-time clip, profile reference |
+| `berlin_cc0.webm`, `blueshafts_cc0.webm` | CC0 | ray and colour reference |
+
+All four were downloaded from Wikimedia Commons. The analysis scripts
+(`analyze.py`, `motion.py`, `liveliness.py`, `target.py`, `model.py`,
+`fit_shape.py`, `measure.py`, `compare.py`, `render.py`) are local research
+tools; they are not invoked by Gradle.
+
+Uninstall everything from this section:
+
+```powershell
+Remove-Item -Recurse -Force .\.toolchain\aurora-video, .\.toolchain\venv, .\.toolchain\pip-cache
+```
+
+`render.py` and `fit_shape.py` import `model.py`, which is a line-by-line numpy
+transcription of `AuroraShader.kt`. If the shader changes, that port must be
+updated too or the measurements stop describing the app.
+
