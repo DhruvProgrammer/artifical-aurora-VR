@@ -38,7 +38,8 @@ obsolete `mipmap-anydpi-v26` note). `assembleDebug`: APK
 | `PendingRecordingCleanupTest` | 4 | 60 s grace period; recent, missing and future `dateAdded` are not stale |
 | `DeviceRecordingCapsTest` | 5 | per-codec resolution/frame-rate support, hardware flags, empty-device fallback, summary text |
 | `FeatureGateTest` | 6 | Free styles open to both tiers; Premium styles locked; unknown id fallback; Free downgrades grade/automation/advanced values; Premium keeps choices |
-| `AuroraStyleRegistryTest` | 5 | 3 Free + 7 Premium, unique ids, five geometries, shader-contract ranges, opaque palette |
+| `AuroraStyleRegistryTest` | 9 | 5 Free + 7 Premium, unique ids, five geometries, shader-contract ranges, opaque palette, pink/blue styles free and emission-based |
+| `AuroraEmissionTest` | 8 | measured 428/557.7/630 nm heights, blue-green-red vertical order, non-finite fallback |
 | `IntensityMapperTest` | 8 | daylight/cap/stars behaviour, style geometry/palette/layers/waves/burst/direction reaching uniforms, cinematic grade + grain, automation |
 | `SkyScoreFormulaTest` | 14 | §9.3 table + illustrative example |
 | `SkyMaskColorTest` | 12 | colour plausibility |

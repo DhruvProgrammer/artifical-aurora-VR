@@ -393,7 +393,7 @@ No labelled field dataset ships with the repo, and no thresholds have been fitte
 | 4K, HEVC, 60 fps, custom bitrates | Not exposed; CameraX `Recorder` owns codec/frame-rate selection. `DeviceRecordingCaps` reports what the hardware can do |
 | Premium auto-split at ~3.5 GB / 30 min | Deferred; CameraX writes one file |
 | Hold-to-record and cinematic looks | Implemented: hold gesture plus Natural/Cinematic/Dreamy grades and grain |
-| Advanced/premium aurora styles and controls | Implemented: 3 Free + 7 Premium styles, four geometries, layers, coverage, waves, speed, ray sharpness, burst, direction, automation |
+| Advanced/premium aurora styles and controls | Implemented: 5 Free + 7 Premium styles, four geometries, layers, coverage, waves, speed, ray sharpness, burst, direction, automation, plus a height-resolved emission palette (blue 428 nm edge, green 557.7 nm body, red 630 nm crown) |
 | Mid-recording call / audio-focus / mic-revocation handling | Audio focus pauses the take; mic revocation mid-take is not handled; storage, battery and thermal stops are handled |
 | Process-death recovery of orphaned pending files | Implemented: stale `IS_PENDING` rows and legacy temp files are cleaned at launch |
 | Device capability probe screen | Implemented in Settings (encoder list and supported sizes); informational only |
@@ -439,7 +439,7 @@ app/src/main/java/com/auroraar/
 - adversarial robustness: limited-range YUV expansion, plateau and NaN star rejection, non-finite sliders and probabilities, camera-blocked detection (black frame vs. dark overcast vs. live night sky vs. lit desk), Creative never drawing with no sky, and settings sanitization,
 - recording policy: Free 720p/10 s/watermark vs. Premium 1080p/unlimited/no watermark, duration formatting, watermark visibility only for active Free takes, the `active` phase set, and the HEVC/60 fps/4K flags staying off,
 - safety guards: storage/battery/thermal refusals and warnings, threshold boundaries, unknown battery readings, refusal precedence, and charging exceptions,
-- premium catalogue: 3 Free + 7 Premium styles, unique ids, fallback for unknown ids, five geometry variants, and shader-contract ranges for layers/coverage/waves/burst/direction,
+- premium catalogue: 5 Free + 7 Premium styles, unique ids, fallback for unknown ids, five geometry variants, and shader-contract ranges for layers/coverage/waves/burst/direction,
 - feature gate: both tiers, premium-style locking, unknown-style fallback, Free downgrade of grade/automation/advanced values, and preservation of Premium choices,
 - style-aware intensity mapping: geometry/palette/layers/waves/burst/direction reach the uniforms, cinematic looks set the grade id and grain,
 - orphan cleanup grace period: stale, recent, missing and future `dateAdded` values,
