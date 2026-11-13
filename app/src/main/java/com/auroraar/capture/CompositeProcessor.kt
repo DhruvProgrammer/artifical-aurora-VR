@@ -2,6 +2,7 @@ package com.auroraar.capture
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.graphics.SurfaceTexture
 import android.opengl.EGL14
 import android.opengl.EGLSurface
@@ -21,6 +22,7 @@ import com.auroraar.capture.gl.AuroraShader
 import com.auroraar.capture.gl.CameraShader
 import com.auroraar.capture.gl.EglCore
 import com.auroraar.capture.gl.GlUtil
+import com.auroraar.capture.gl.OverlayBlit
 import com.auroraar.capture.gl.WatermarkRenderer
 import com.auroraar.skyscore.model.AuroraRenderParams
 import java.nio.ByteBuffer
@@ -41,6 +43,8 @@ class CompositeProcessor(
     private val context: Context,
     private val params: () -> AuroraRenderParams,
     private val watermarkAlpha: () -> Float,
+    /** Clockwise rotation CameraX will apply to the effect output (0/90/180/270). */
+    private val rotation: () -> Int,
     private val clock: RecordingClock,
     private val onError: (Throwable) -> Unit,
 ) : SurfaceProcessor, SurfaceTexture.OnFrameAvailableListener {
@@ -56,6 +60,14 @@ class CompositeProcessor(
     private var cameraShader: CameraShader? = null
     private var auroraShader: AuroraShader? = null
     private var watermark: WatermarkRenderer? = null
+    private var overlayBlit: OverlayBlit? = null
+
+    // Overlays are rendered in display orientation, then rotated into the
+    // effect surface. Recreated when the output size or orientation changes.
+    private var overlayTexture = 0
+    private var overlayFbo = 0
+    private var overlayWidth = 0
+    private var overlayHeight = 0
 
     private var input: Input? = null
     private var output: SurfaceOutput? = null
@@ -160,6 +172,16 @@ class CompositeProcessor(
         val textureId = input?.textureId ?: return
         val currentParams = params()
 
+        // CameraX gives the effect a surface in sensor orientation (landscape
+        // on a phone held upright) and rotates the whole surface afterwards.
+        // Overlays therefore have to be rendered in display orientation and
+        // pre-rotated into this surface, or they end up sideways in portrait.
+        val clockwise = normalizeRotation(rotation())
+        val overlayW = if (clockwise % 180 == 0) outputWidth else outputHeight
+        val overlayH = if (clockwise % 180 == 0) outputHeight else outputWidth
+        ensureOverlayTarget(overlayW, overlayH)
+
+        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0)
         GLES20.glViewport(0, 0, outputWidth, outputHeight)
         GLES20.glDisable(GLES20.GL_SCISSOR_TEST)
         GLES20.glClearColor(0f, 0f, 0f, 1f)
@@ -173,20 +195,118 @@ class CompositeProcessor(
         // used so a pause/resume in the file does not jump the aurora animation.
         val recordedMs = clock.recordedElapsedMs()
         val timeSeconds = recordedMs?.div(1000f) ?: (timestampNs / 1_000_000_000f)
-        auroraShader?.draw(outputWidth, outputHeight, timeSeconds, currentParams)
-        GLES20.glDisable(GLES20.GL_BLEND)
+        drawOverlay(overlayW, overlayH) {
+            auroraShader?.draw(overlayW, overlayH, timeSeconds, currentParams)
+            GLES20.glDisable(GLES20.GL_BLEND)
+        }
+        overlayBlit?.draw(overlayTexture, clockwise, premultiplied = true)
 
         // Photos are read back before the Free watermark is drawn: v5 §6.4
         // keeps stills unwatermarked on every plan. The preview/file path
-        // continues with the watermark below.
-        capturePhotoIfRequested()
+        // continues with the watermark below. The readback is in effect-surface
+        // orientation, so rotate it to match what the user sees.
+        capturePhotoIfRequested(clockwise)
 
-        watermark?.draw(outputWidth, outputHeight, watermarkAlpha())
+        drawOverlay(overlayW, overlayH) {
+            watermark?.draw(overlayW, overlayH, watermarkAlpha())
+        }
+        // Blending the straight-alpha wordmark into the transparent target
+        // already premultiplies it, so the blit must not multiply alpha again.
+        overlayBlit?.draw(overlayTexture, clockwise, premultiplied = true)
 
         egl.setPresentationTime(eglSurface, timestampNs)
         if (!egl.swapBuffers(eglSurface)) {
             Log.w(TAG, "eglSwapBuffers failed: 0x${Integer.toHexString(EGL14.eglGetError())}")
         }
+    }
+
+    /** Renders one overlay pass into the transparent display-oriented target. */
+    private inline fun drawOverlay(width: Int, height: Int, draw: () -> Unit) {
+        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, overlayFbo)
+        GLES20.glViewport(0, 0, width, height)
+        GLES20.glClearColor(0f, 0f, 0f, 0f)
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT)
+        draw()
+        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0)
+        GLES20.glViewport(0, 0, outputWidth, outputHeight)
+    }
+
+    private fun normalizeRotation(degrees: Int): Int = ((degrees % 360) + 360) % 360
+
+    private fun ensureOverlayTarget(width: Int, height: Int) {
+        if (overlayTexture != 0 && overlayWidth == width && overlayHeight == height) return
+        releaseOverlayTarget()
+
+        val textures = IntArray(1)
+        GLES20.glGenTextures(1, textures, 0)
+        overlayTexture = textures[0]
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, overlayTexture)
+        GLES20.glTexImage2D(
+            GLES20.GL_TEXTURE_2D,
+            0,
+            GLES20.GL_RGBA,
+            width,
+            height,
+            0,
+            GLES20.GL_RGBA,
+            GLES20.GL_UNSIGNED_BYTE,
+            null,
+        )
+        GLES20.glTexParameteri(
+            GLES20.GL_TEXTURE_2D,
+            GLES20.GL_TEXTURE_MIN_FILTER,
+            GLES20.GL_LINEAR,
+        )
+        GLES20.glTexParameteri(
+            GLES20.GL_TEXTURE_2D,
+            GLES20.GL_TEXTURE_MAG_FILTER,
+            GLES20.GL_LINEAR,
+        )
+        GLES20.glTexParameteri(
+            GLES20.GL_TEXTURE_2D,
+            GLES20.GL_TEXTURE_WRAP_S,
+            GLES20.GL_CLAMP_TO_EDGE,
+        )
+        GLES20.glTexParameteri(
+            GLES20.GL_TEXTURE_2D,
+            GLES20.GL_TEXTURE_WRAP_T,
+            GLES20.GL_CLAMP_TO_EDGE,
+        )
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0)
+
+        val framebuffers = IntArray(1)
+        GLES20.glGenFramebuffers(1, framebuffers, 0)
+        overlayFbo = framebuffers[0]
+        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, overlayFbo)
+        GLES20.glFramebufferTexture2D(
+            GLES20.GL_FRAMEBUFFER,
+            GLES20.GL_COLOR_ATTACHMENT0,
+            GLES20.GL_TEXTURE_2D,
+            overlayTexture,
+            0,
+        )
+        val status = GLES20.glCheckFramebufferStatus(GLES20.GL_FRAMEBUFFER)
+        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0)
+        if (status != GLES20.GL_FRAMEBUFFER_COMPLETE) {
+            releaseOverlayTarget()
+            error("overlay framebuffer incomplete: 0x${Integer.toHexString(status)}")
+        }
+
+        overlayWidth = width
+        overlayHeight = height
+    }
+
+    private fun releaseOverlayTarget() {
+        if (overlayFbo != 0) {
+            GLES20.glDeleteFramebuffers(1, intArrayOf(overlayFbo), 0)
+            overlayFbo = 0
+        }
+        if (overlayTexture != 0) {
+            GLES20.glDeleteTextures(1, intArrayOf(overlayTexture), 0)
+            overlayTexture = 0
+        }
+        overlayWidth = 0
+        overlayHeight = 0
     }
 
     /**
@@ -201,7 +321,7 @@ class CompositeProcessor(
         }
     }
 
-    private fun capturePhotoIfRequested() {
+    private fun capturePhotoIfRequested(rotationDegrees: Int) {
         val callback = pendingPhoto ?: return
         pendingPhoto = null
         val w = outputWidth
@@ -226,7 +346,16 @@ class CompositeProcessor(
                 pixels[targetRow + x] = (a shl 24) or (r shl 16) or (g shl 8) or b
             }
         }
-        callback(Bitmap.createBitmap(pixels, w, h, Bitmap.Config.ARGB_8888))
+        val bitmap = Bitmap.createBitmap(pixels, w, h, Bitmap.Config.ARGB_8888)
+        val clockwise = normalizeRotation(rotationDegrees)
+        if (clockwise == 0) {
+            callback(bitmap)
+            return
+        }
+        val matrix = Matrix().apply { postRotate(clockwise.toFloat()) }
+        val rotated = Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true)
+        if (rotated !== bitmap) bitmap.recycle()
+        callback(rotated)
     }
 
     private fun ensureGl() {
@@ -238,6 +367,7 @@ class CompositeProcessor(
         cameraShader = CameraShader().also { it.init() }
         auroraShader = AuroraShader().also { it.init() }
         watermark = WatermarkRenderer(context).also { it.init() }
+        overlayBlit = OverlayBlit().also { it.init() }
         eglReady = true
     }
 
@@ -286,6 +416,8 @@ class CompositeProcessor(
                 cameraShader?.release()
                 auroraShader?.release()
                 watermark?.release()
+                overlayBlit?.release()
+                releaseOverlayTarget()
                 pbuffer?.let { egl.destroySurface(it) }
                 pbuffer = null
                 egl.release()

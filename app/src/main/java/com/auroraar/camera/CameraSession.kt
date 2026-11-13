@@ -7,6 +7,7 @@ import android.os.SystemClock
 import android.util.Log
 import android.util.Size
 import android.view.Surface
+import androidx.camera.core.Camera
 import androidx.camera.core.CameraEffect
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
@@ -80,10 +81,18 @@ class CameraSession(
     @Volatile
     private var renderParams: AuroraRenderParams = AuroraRenderParams.IDLE
 
+    /**
+     * Clockwise rotation CameraX applies to the effect surface. The compositor
+     * pre-rotates its overlays by this amount so they land upright on screen.
+     */
+    @Volatile
+    private var overlayRotation = 0
+
     private val processor = CompositeProcessor(
         context = context,
         params = { renderParams },
         watermarkAlpha = { if (recording.state.value.watermarkVisible) WATERMARK_ALPHA else 0f },
+        rotation = { overlayRotation },
         clock = recording,
         onError = { t ->
             Log.e(TAG, "Composite effect failed", t)
@@ -128,6 +137,7 @@ class CameraSession(
 
     private var provider: ProcessCameraProvider? = null
     private var previewView: PreviewView? = null
+    private var activeCamera: Camera? = null
     private var activePreview: Preview? = null
     private var activeVideo: VideoCapture<Recorder>? = null
     private var selector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
@@ -246,6 +256,7 @@ class CameraSession(
         if (!running || recording.state.value.active) return
         activePreview?.targetRotation = rotation
         activeVideo?.targetRotation = rotation
+        updateOverlayRotation(rotation)
     }
 
     /**
@@ -334,7 +345,9 @@ class CameraSession(
 
         return try {
             runCatching { cameraProvider.unbindAll() }
-            cameraProvider.bindToLifecycle(lifecycleOwner, selector, group.build())
+            val bound = cameraProvider.bindToLifecycle(lifecycleOwner, selector, group.build())
+            activeCamera = bound
+            updateOverlayRotation(rotation)
             activePreview = preview
             activeVideo = video
             if (video != null) {
@@ -374,6 +387,7 @@ class CameraSession(
             )
             activePreview = preview
             activeVideo = null
+            activeCamera = null
             recording.detach()
             _recordingAvailable.value = false
             _auroraInPreview.value = false
@@ -415,9 +429,16 @@ class CameraSession(
 
     private fun unbindNow() {
         runCatching { provider?.unbindAll() }
+        activeCamera = null
         activePreview = null
         activeVideo = null
+        overlayRotation = 0
         recording.detach()
+    }
+
+    private fun updateOverlayRotation(displayRotation: Int) {
+        val camera = activeCamera ?: return
+        overlayRotation = camera.cameraInfo.getSensorRotationDegrees(displayRotation)
     }
 
     private fun analyze(proxy: ImageProxy) {

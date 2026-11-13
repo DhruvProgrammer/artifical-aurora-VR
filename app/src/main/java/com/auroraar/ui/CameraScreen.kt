@@ -658,7 +658,7 @@ fun CameraScreen() {
                     )
                     Spacer(Modifier.width(8.dp))
                 }
-                if (settings.hudEnabled && settings.mode != Mode.OFF) {
+                if (settings.hudEnabled && settings.mode != Mode.OFF && !recording.active) {
                     Box(Modifier.alpha(if (recording.active) 0.55f else 1f)) {
                         SkyScoreChip(
                             score = conditions.skyScore,
