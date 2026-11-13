@@ -8,6 +8,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.Typeface
 import android.opengl.GLES20
+import android.util.Log
 import java.nio.FloatBuffer
 
 /**
@@ -25,6 +26,7 @@ class WatermarkRenderer(context: Context) {
     private var uOffset = -1
     private var uAlpha = -1
     private var aPos = -1
+    private var loggedSize = ""
     private val quad: FloatBuffer = GlUtil.quad()
 
     init {
@@ -59,6 +61,19 @@ class WatermarkRenderer(context: Context) {
         val halfH = heightPx / frameHeight.toFloat()
         val centerX = 1f - 2f * MARGIN_FRACTION - halfW
         val centerY = -1f + 2f * BOTTOM_FRACTION + halfH
+        val key = "${frameWidth}x$frameHeight"
+        if (key != loggedSize) {
+            loggedSize = key
+            Log.i(
+                TAG,
+                "quad ${widthPx.toInt()}x${heightPx.toInt()}px " +
+                    "x=[${((centerX - halfW + 1f) * 0.5f * frameWidth).toInt()}," +
+                    "${((centerX + halfW + 1f) * 0.5f * frameWidth).toInt()}] " +
+                    "y=[${((centerY - halfH + 1f) * 0.5f * frameHeight).toInt()}," +
+                    "${((centerY + halfH + 1f) * 0.5f * frameHeight).toInt()}] " +
+                    "frame=${frameWidth}x$frameHeight",
+            )
+        }
 
         GLES20.glEnable(GLES20.GL_BLEND)
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA)
@@ -142,6 +157,7 @@ class WatermarkRenderer(context: Context) {
     }
 
     private companion object {
+        const val TAG = "AuroraWatermark"
         const val BITMAP_WIDTH = 1024
         const val BITMAP_HEIGHT = 288
         const val TEXT_LEFT = 226f
