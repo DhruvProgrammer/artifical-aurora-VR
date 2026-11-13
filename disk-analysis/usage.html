@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C: drive usage — 12 Nov 2026</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--font-sans); color: var(--foreground); }
+  .wrap { width: 100%; max-width: 728px; margin: 0 auto; display: grid; gap: 14px; }
+  header { padding: 2px 2px 0; }
+  h1 { font-size: 21px; margin: 0 0 3px; letter-spacing: -0.02em; }
+  .sub { margin: 0 0 14px; color: var(--muted-foreground); font-size: 12.5px; }
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .tile { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
+  .tile .k { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted-foreground); }
+  .tile .v { font-size: 23px; font-weight: 650; margin-top: 3px; font-variant-numeric: tabular-nums; }
+  .tile .s { font-size: 11px; color: var(--muted-foreground); margin-top: 1px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+  .card h2 { font-size: 13.5px; margin: 0 0 2px; font-weight: 600; }
+  .card .hint { font-size: 11.5px; color: var(--muted-foreground); margin: 0 0 13px; }
+  .rows { display: grid; gap: 7px; }
+  .row { display: grid; grid-template-columns: 172px 1fr 64px; align-items: center; gap: 10px; font-size: 12px; }
+  .row .lbl { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .track { height: 9px; border-radius: 999px; background: rgba(127,127,127,0.16); overflow: hidden; }
+  .row .bar { height: 100%; border-radius: 999px; }
+  .row .val { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted-foreground); }
+  .note { font-size: 11.5px; color: var(--muted-foreground); line-height: 1.55; margin: 11px 0 0; }
+  .note strong { color: var(--foreground); font-weight: 600; }
+  @media (max-width: 520px) {
+    .tiles { grid-template-columns: 1fr 1fr; }
+    .row { grid-template-columns: 128px 1fr 58px; }
+    .row .lbl { font-size: 11.5px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>C: drive — where 157 GB went</h1>
+    <p class="sub">208.25 GB NTFS volume · Windows 10 Pro · read-only scan, 12 Nov 2026 · nothing deleted</p>
+    <div class="tiles">
+      <div class="tile">
+        <div class="k">Used</div>
+        <div class="v">157.0 GB</div>
+        <div class="s">75.4% of volume</div>
+      </div>
+      <div class="tile">
+        <div class="k">Free</div>
+        <div class="v">51.3 GB</div>
+        <div class="s">24.6% — tight, not full</div>
+      </div>
+      <div class="tile">
+        <div class="k">Reclaimable caches</div>
+        <div class="v">~26 GB</div>
+        <div class="s">no personal files</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="card">
+    <h2>Top-level usage</h2>
+    <p class="hint">156.97 GB used, measured by folder + pagefile</p>
+    <div class="rows">
+      <div class="row"><span class="lbl">C:\Users</span><div class="track"><div class="bar" style="width:100%;background:var(--chart-1)"></div></div><span class="val">84.0 GB</span></div>
+      <div class="row"><span class="lbl">Program Files</span><div class="track"><div class="bar" style="width:25.1%;background:var(--chart-2)"></div></div><span class="val">21.1 GB</span></div>
+      <div class="row"><span class="lbl">C:\Windows</span><div class="track"><div class="bar" style="width:24.8%;background:var(--chart-3)"></div></div><span class="val">20.9 GB</span></div>
+      <div class="row"><span class="lbl">Restore points + metadata (est.)</span><div class="track"><div class="bar" style="width:12.9%;background:var(--warning)"></div></div><span class="val">10.9 GB</span></div>
+      <div class="row"><span class="lbl">pagefile.sys</span><div class="track"><div class="bar" style="width:11.4%;background:var(--chart-4)"></div></div><span class="val">9.5 GB</span></div>
+      <div class="row"><span class="lbl">Program Files (x86)</span><div class="track"><div class="bar" style="width:7%;background:var(--chart-5)"></div></div><span class="val">5.9 GB</span></div>
+      <div class="row"><span class="lbl">ProgramData</span><div class="track"><div class="bar" style="width:3.3%;background:var(--chart-6)"></div></div><span class="val">2.7 GB</span></div>
+      <div class="row"><span class="lbl">Other root folders</span><div class="track"><div class="bar" style="width:2.4%;background:var(--muted-foreground)"></div></div><span class="val">2.0 GB</span></div>
+    </div>
+    <p class="note">The 10.9 GB gap is outside what a non-admin scan can read. Most likely <strong>System Restore shadow copies</strong> (~5% default cap) plus NTFS metadata. Verify with elevated <code>vssadmin list shadowstorage</code>.</p>
+  </section>
+
+  <section class="card">
+    <h2>Inside C:\Users\MR.PC — 84.0 GB</h2>
+    <p class="hint">The user profile alone is 53.5% of everything on the drive</p>
+    <div class="rows">
+      <div class="row"><span class="lbl">AppData</span><div class="track"><div class="bar" style="width:100%;background:var(--chart-1)"></div></div><span class="val">58.6 GB</span></div>
+      <div class="row"><span class="lbl">Desktop (projects)</span><div class="track"><div class="bar" style="width:11.6%;background:var(--chart-2)"></div></div><span class="val">6.8 GB</span></div>
+      <div class="row"><span class="lbl">.vscode extensions</span><div class="track"><div class="bar" style="width:9.4%;background:var(--chart-3)"></div></div><span class="val">5.5 GB</span></div>
+      <div class="row"><span class="lbl">.t3 (app database)</span><div class="track"><div class="bar" style="width:4.3%;background:var(--chart-4)"></div></div><span class="val">2.5 GB</span></div>
+      <div class="row"><span class="lbl">Documents (mostly Image-Line)</span><div class="track"><div class="bar" style="width:3.8%;background:var(--chart-5)"></div></div><span class="val">2.2 GB</span></div>
+      <div class="row"><span class="lbl">Rust toolchain + crates</span><div class="track"><div class="bar" style="width:3.2%;background:var(--chart-6)"></div></div><span class="val">1.9 GB</span></div>
+      <div class="row"><span class="lbl">Downloads</span><div class="track"><div class="bar" style="width:1.8%;background:var(--chart-1)"></div></div><span class="val">1.0 GB</span></div>
+      <div class="row"><span class="lbl">Other dotfolders + files</span><div class="track"><div class="bar" style="width:9.6%;background:var(--muted-foreground)"></div></div><span class="val">5.6 GB</span></div>
+    </div>
+    <p class="note">Desktop projects: <strong>bcode\aether</strong> 3.25 GB (Rust <code>target</code>) and <strong>auror</strong> 2.52 GB (<code>.toolchain</code>). Both are build artifacts owned by the projects, not system junk.</p>
+  </section>
+
+  <section class="card">
+    <h2>AppData\Local — 41.9 GB</h2>
+    <p class="hint">Package-manager caches and browser profiles dominate this folder</p>
+    <div class="rows">
+      <div class="row"><span class="lbl">npm cache</span><div class="track"><div class="bar" style="width:100%;background:var(--chart-1)"></div></div><span class="val">7.2 GB</span></div>
+      <div class="row"><span class="lbl">Programs (app installs)</span><div class="track"><div class="bar" style="width:87%;background:var(--chart-2)"></div></div><span class="val">6.3 GB</span></div>
+      <div class="row"><span class="lbl">Google Chrome</span><div class="track"><div class="bar" style="width:68%;background:var(--chart-3)"></div></div><span class="val">4.9 GB</span></div>
+      <div class="row"><span class="lbl">Updater installers</span><div class="track"><div class="bar" style="width:48%;background:var(--chart-4)"></div></div><span class="val">3.5 GB</span></div>
+      <div class="row"><span class="lbl">Playwright browsers</span><div class="track"><div class="bar" style="width:44%;background:var(--chart-5)"></div></div><span class="val">3.2 GB</span></div>
+      <div class="row"><span class="lbl">Brave</span><div class="track"><div class="bar" style="width:38%;background:var(--chart-6)"></div></div><span class="val">2.7 GB</span></div>
+      <div class="row"><span class="lbl">Microsoft apps</span><div class="track"><div class="bar" style="width:36%;background:var(--chart-1)"></div></div><span class="val">2.6 GB</span></div>
+      <div class="row"><span class="lbl">Packages (app data)</span><div class="track"><div class="bar" style="width:29%;background:var(--chart-2)"></div></div><span class="val">2.1 GB</span></div>
+      <div class="row"><span class="lbl">pnpm store</span><div class="track"><div class="bar" style="width:21%;background:var(--chart-3)"></div></div><span class="val">1.5 GB</span></div>
+      <div class="row"><span class="lbl">WisprFlow (2 versions)</span><div class="track"><div class="bar" style="width:21%;background:var(--chart-4)"></div></div><span class="val">1.5 GB</span></div>
+    </div>
+    <p class="note">Plus <strong>hermes</strong> 1.3 GB, <strong>Postman</strong> 0.9 GB, <strong>SquirrelTemp</strong> 0.6 GB, OpenAI 0.6 GB and ~40 smaller folders — about 6.5 GB in total.</p>
+  </section>
+
+  <section class="card">
+    <h2>Regenerable caches — ~26 GB</h2>
+    <p class="hint">Analysis only; none of this has been touched</p>
+    <div class="rows">
+      <div class="row"><span class="lbl">npm + pnpm + bun caches</span><div class="track"><div class="bar" style="width:100%;background:var(--chart-1)"></div></div><span class="val">10.2 GB</span></div>
+      <div class="row"><span class="lbl">VS Code caches</span><div class="track"><div class="bar" style="width:48%;background:var(--chart-2)"></div></div><span class="val">4.9 GB</span></div>
+      <div class="row"><span class="lbl">Updater installers + Adobe temp</span><div class="track"><div class="bar" style="width:47%;background:var(--chart-3)"></div></div><span class="val">4.8 GB</span></div>
+      <div class="row"><span class="lbl">Chrome + Brave caches</span><div class="track"><div class="bar" style="width:37%;background:var(--chart-4)"></div></div><span class="val">3.8 GB</span></div>
+      <div class="row"><span class="lbl">Stale Playwright builds</span><div class="track"><div class="bar" style="width:14%;background:var(--chart-5)"></div></div><span class="val">1.4 GB</span></div>
+      <div class="row"><span class="lbl">pip / uv / node-gyp caches</span><div class="track"><div class="bar" style="width:7%;background:var(--chart-6)"></div></div><span class="val">0.7 GB</span></div>
+    </div>
+    <p class="note">Separately: System Restore may hold up to ~10 GB (adjustable cap) and WinSxS cleanup via DISM may return 1–3 GB. With 8 GB RAM, the 9.5 GB pagefile should stay system-managed.</p>
+  </section>
+
+</div>
+</body>
+</html>

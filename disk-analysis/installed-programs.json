@@ -1,0 +1,1631 @@
+﻿[
+    {
+        "DisplayName":  "aether",
+        "DisplayVersion":  "0.29.0",
+        "Publisher":  "aether",
+        "InstallLocation":  "\"C:\\Program Files\\aether\"",
+        "UninstallString":  "\"C:\\Program Files\\aether\\uninstall.exe\"",
+        "EstimatedSize":  12558,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "ASIO4ALL",
+        "DisplayVersion":  "2.15",
+        "Publisher":  "tippach engineering",
+        "InstallLocation":  null,
+        "UninstallString":  "C:\\Program Files (x86)\\ASIO4ALL v2\\uninstall.exe",
+        "EstimatedSize":  null,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Bandicam",
+        "DisplayVersion":  "8.2.1.2530",
+        "Publisher":  "Bandicam.com",
+        "InstallLocation":  "\"C:\\Program Files\\Bandicam\"",
+        "UninstallString":  "\"C:\\Program Files\\Bandicam\\uninstall.exe\"",
+        "EstimatedSize":  107574,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Bandicam MPEG-1 Decoder",
+        "DisplayVersion":  null,
+        "Publisher":  "Bandicam.com",
+        "InstallLocation":  "\"C:\\Program Files (x86)\\BandiMPEG1\"",
+        "UninstallString":  "\"C:\\Program Files (x86)\\BandiMPEG1\\uninstall.exe\"",
+        "EstimatedSize":  null,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "BivaApp",
+        "DisplayVersion":  "5.1.3",
+        "Publisher":  "Bivaji Coms",
+        "InstallLocation":  "C:\\Users\\MR.PC\\AppData\\Roaming\\Bivaji Coms\\BivaApp\\",
+        "UninstallString":  "MsiExec.exe /X{4AC1B34B-94C1-4FFA-BD23-F0C9CC0A4AF8}",
+        "EstimatedSize":  446832,
+        "InstallDate":  "20240714"
+    },
+    {
+        "DisplayName":  "Brave",
+        "DisplayVersion":  "157.1.99.56",
+        "Publisher":  "Brave Software Inc",
+        "InstallLocation":  "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application",
+        "UninstallString":  "\"C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\157.1.99.56\\Installer\\setup.exe\" --uninstall --system-level",
+        "EstimatedSize":  565321,
+        "InstallDate":  "20261111"
+    },
+    {
+        "DisplayName":  "Bun",
+        "DisplayVersion":  null,
+        "Publisher":  null,
+        "InstallLocation":  "C:\\Users\\MR.PC\\.bun",
+        "UninstallString":  "powershell -c \"\u0026 \u0027C:\\Users\\MR.PC\\.bun\\uninstall.ps1\u0027 -PauseOnError\" -ExecutionPolicy Bypass",
+        "EstimatedSize":  null,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Conexant SmartAudio",
+        "DisplayVersion":  "6.0.277.0",
+        "Publisher":  "Conexant Systems",
+        "InstallLocation":  "C:\\Program Files\\Conexant\\SAII",
+        "UninstallString":  "C:\\Program Files\\Conexant\\SAII\\SETUP64.EXE -U -ISAII -SWTM=\"HDAudioAPI-D9A3021B-9BCE-458C-B667-9029C4EF4050,1801\"",
+        "EstimatedSize":  33719,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Copilot",
+        "DisplayVersion":  "157.0.4341.46",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "C:\\Program Files (x86)\\Microsoft\\Copilot\\Application",
+        "UninstallString":  "\"C:\\Program Files (x86)\\Microsoft\\Copilot\\Application\\157.0.4341.46\\Installer\\copilot_setup.exe\" --uninstall --mscopilot --channel=stable --system-level --verbose-logging",
+        "EstimatedSize":  2192405,
+        "InstallDate":  "20261112"
+    },
+    {
+        "DisplayName":  "Create a new Gist",
+        "DisplayVersion":  "1.0",
+        "Publisher":  "Google\\Chrome",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --profile-directory=Default --uninstall-app-id=egjmiafbclkdaakgcdgejfbofpfaeojc",
+        "EstimatedSize":  null,
+        "InstallDate":  "20230917"
+    },
+    {
+        "DisplayName":  "Dolby Audio X2 Windows API SDK",
+        "DisplayVersion":  "0.8.8.90",
+        "Publisher":  "Dolby Laboratories, Inc.",
+        "InstallLocation":  "C:\\Program Files\\Dolby\\Dolby DAX2\\",
+        "UninstallString":  "MsiExec.exe /X{FA0735B6-9E18-437A-A1CD-9152650FC52B}",
+        "EstimatedSize":  8481,
+        "InstallDate":  "20230611"
+    },
+    {
+        "DisplayName":  "Dolby Audio X2 Windows APP",
+        "DisplayVersion":  "0.8.5.74",
+        "Publisher":  "Dolby Laboratories, Inc.",
+        "InstallLocation":  "C:\\Program Files\\Dolby\\Dolby DAX2\\",
+        "UninstallString":  "MsiExec.exe /X{9806D15D-FCE9-4F5E-9934-97DD7B546195}",
+        "EstimatedSize":  21619,
+        "InstallDate":  "20230611"
+    },
+    {
+        "DisplayName":  "FFmpeg 5.0.0 for Audacity - x86_64",
+        "DisplayVersion":  null,
+        "Publisher":  null,
+        "InstallLocation":  "C:\\Program Files\\FFmpeg For Audacity\\",
+        "UninstallString":  "\"C:\\Program Files\\FFmpeg For Audacity\\unins000.exe\"",
+        "EstimatedSize":  28113,
+        "InstallDate":  "20230905"
+    },
+    {
+        "DisplayName":  "FL Cloud Plugins version 1.7.2",
+        "DisplayVersion":  "1.7.2",
+        "Publisher":  null,
+        "InstallLocation":  "C:\\Program Files\\FL Cloud Plugins\\",
+        "UninstallString":  "\"C:\\Program Files\\FL Cloud Plugins\\unins000.exe\"",
+        "EstimatedSize":  20218,
+        "InstallDate":  "20240913"
+    },
+    {
+        "DisplayName":  "FL Studio 2024",
+        "DisplayVersion":  "24.1.1.4285",
+        "Publisher":  "Image-Line",
+        "InstallLocation":  null,
+        "UninstallString":  "C:\\Program Files\\Image-Line\\FL Studio 2024\\uninstall.exe",
+        "EstimatedSize":  null,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "FL Studio ASIO",
+        "DisplayVersion":  null,
+        "Publisher":  "Image-Line",
+        "InstallLocation":  null,
+        "UninstallString":  "C:\\Program Files\\Image-Line\\FL Studio ASIO\\uninstall.exe",
+        "EstimatedSize":  null,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Git",
+        "DisplayVersion":  "2.49.0",
+        "Publisher":  "The Git Development Community",
+        "InstallLocation":  "C:\\Program Files\\Git\\",
+        "UninstallString":  "\"C:\\Program Files\\Git\\unins000.exe\"",
+        "EstimatedSize":  361279,
+        "InstallDate":  "20250428"
+    },
+    {
+        "DisplayName":  "GitHub CLI",
+        "DisplayVersion":  "2.76.2",
+        "Publisher":  "GitHub, Inc.",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{BE85580A-8283-4B4A-A2B9-E0308F8ADBC3}",
+        "EstimatedSize":  54105,
+        "InstallDate":  "20250817"
+    },
+    {
+        "DisplayName":  "Google Chrome",
+        "DisplayVersion":  "157.0.8103.51",
+        "Publisher":  "Google LLC",
+        "InstallLocation":  "C:\\Program Files\\Google\\Chrome\\Application",
+        "UninstallString":  "\"C:\\Program Files\\Google\\Chrome\\Application\\157.0.8103.51\\Installer\\setup.exe\" --uninstall --channel=stable --system-level --verbose-logging",
+        "EstimatedSize":  525648,
+        "InstallDate":  "20261112"
+    },
+    {
+        "DisplayName":  "Intel(R) C++ Redistributables on Intel(R) 64",
+        "DisplayVersion":  "15.0.179",
+        "Publisher":  "Intel Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{F70BCE36-25F2-4475-A918-6209B3D85BF3}",
+        "EstimatedSize":  34516,
+        "InstallDate":  "20230731"
+    },
+    {
+        "DisplayName":  "Jagannatha Hora 8.0",
+        "DisplayVersion":  "8.0",
+        "Publisher":  "PVR Narasimha Rao",
+        "InstallLocation":  "C:\\Program Files (x86)\\Jagannatha Hora\\",
+        "UninstallString":  "\"C:\\Program Files (x86)\\Jagannatha Hora\\unins000.exe\"",
+        "EstimatedSize":  null,
+        "InstallDate":  "20241203"
+    },
+    {
+        "DisplayName":  "Local 10.1.0",
+        "DisplayVersion":  "10.1.0",
+        "Publisher":  "WPEngine, Inc.",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\Users\\MR.PC\\AppData\\Local\\Programs\\Local\\Uninstall Local.exe\" /currentuser",
+        "EstimatedSize":  2265855,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Maxon App",
+        "DisplayVersion":  "2024.1.0",
+        "Publisher":  "Maxon Computer GmbH",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Red Giant\\uninstall\\uninstall-net.maxon.app-manager_v2024.1.0.bat\"",
+        "EstimatedSize":  null,
+        "InstallDate":  "2023-12-10"
+    },
+    {
+        "DisplayName":  "Microsoft .NET Core 3.1 Templates 3.1.426 (x64)",
+        "DisplayVersion":  "3.1.33.016244",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{1F0B1023-8690-4D84-A0F7-6193AF1CA36C}",
+        "EstimatedSize":  4540,
+        "InstallDate":  "20250418"
+    },
+    {
+        "DisplayName":  "Microsoft .NET Core AppHost Pack - 3.1.32 (x64)",
+        "DisplayVersion":  "24.192.31915",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{51FB23C0-2978-423B-BC84-6F4923EFEF6D}",
+        "EstimatedSize":  660,
+        "InstallDate":  "20250418"
+    },
+    {
+        "DisplayName":  "Microsoft .NET Core AppHost Pack - 3.1.32 (x64_arm)",
+        "DisplayVersion":  "24.192.31915",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{270D2A13-4AA7-44FD-B9B3-EA09DD8F32E7}",
+        "EstimatedSize":  492,
+        "InstallDate":  "20250418"
+    },
+    {
+        "DisplayName":  "Microsoft .NET Core AppHost Pack - 3.1.32 (x64_arm64)",
+        "DisplayVersion":  "24.192.31915",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{F11CFE11-BE79-4A34-8649-404C8184A4D4}",
+        "EstimatedSize":  644,
+        "InstallDate":  "20250418"
+    },
+    {
+        "DisplayName":  "Microsoft .NET Core AppHost Pack - 3.1.32 (x64_x86)",
+        "DisplayVersion":  "24.192.31915",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{A4FF0652-BEA3-4E62-91A1-410194316D1F}",
+        "EstimatedSize":  540,
+        "InstallDate":  "20250418"
+    },
+    {
+        "DisplayName":  "Microsoft .NET Core Host - 3.1.32 (x64)",
+        "DisplayVersion":  "24.192.31915",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{8A8E3A04-83BC-4CDE-9259-893B666C1AB1}",
+        "EstimatedSize":  332,
+        "InstallDate":  "20250418"
+    },
+    {
+        "DisplayName":  "Microsoft .NET Core Host FX Resolver - 3.1.32 (x64)",
+        "DisplayVersion":  "24.192.31915",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{ABC6B3C2-1A8D-4C5E-AC16-C2AE44F02743}",
+        "EstimatedSize":  380,
+        "InstallDate":  "20250418"
+    },
+    {
+        "DisplayName":  "Microsoft .NET Core Runtime - 3.1.32 (x64)",
+        "DisplayVersion":  "24.192.31915",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{A741B803-3F0E-4684-81EF-FC128D15A92C}",
+        "EstimatedSize":  67032,
+        "InstallDate":  "20250418"
+    },
+    {
+        "DisplayName":  "Microsoft .NET Core SDK 3.1.426 (x64)",
+        "DisplayVersion":  "3.1.426.16244",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{fe99eef2-4dec-46d1-b6c5-fdeb89e28f17}\\dotnet-sdk-3.1.426-win-x64.exe\"  /uninstall",
+        "EstimatedSize":  585578,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft .NET Core Targeting Pack - 3.1.0 (x64)",
+        "DisplayVersion":  "24.64.28315",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{31EDE1E7-C855-4633-9D73-56F566136567}",
+        "EstimatedSize":  24984,
+        "InstallDate":  "20250418"
+    },
+    {
+        "DisplayName":  "Microsoft .NET Core Toolset 3.1.426 (x64)",
+        "DisplayVersion":  "12.22.49012",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{685DF87E-9750-432A-84F3-51F88AFC817D}",
+        "EstimatedSize":  189832,
+        "InstallDate":  "20250418"
+    },
+    {
+        "DisplayName":  "Microsoft .NET Standard Targeting Pack - 2.1.0 (x64)",
+        "DisplayVersion":  "24.0.28113",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{A7036CFB-B403-4598-85FF-D397ABB88173}",
+        "EstimatedSize":  19892,
+        "InstallDate":  "20250418"
+    },
+    {
+        "DisplayName":  "Microsoft ASP.NET Core 3.1.10 Targeting Pack (x64)",
+        "DisplayVersion":  "3.1.10.20520",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{FEA48357-CE2F-3ED0-B2A0-8548BEC6F111}",
+        "EstimatedSize":  11724,
+        "InstallDate":  "20250418"
+    },
+    {
+        "DisplayName":  "Microsoft ASP.NET Core 3.1.32 Shared Framework (x64)",
+        "DisplayVersion":  "3.1.32.22566",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{2E69E59E-17DF-3977-A405-49096F8B8432}",
+        "EstimatedSize":  19536,
+        "InstallDate":  "20250418"
+    },
+    {
+        "DisplayName":  "Microsoft Edge",
+        "DisplayVersion":  "157.0.4341.46",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "C:\\Program Files (x86)\\Microsoft\\Edge\\Application",
+        "UninstallString":  "\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\157.0.4341.46\\Installer\\setup.exe\" --uninstall --msedge --channel=stable --system-level --verbose-logging",
+        "EstimatedSize":  2192042,
+        "InstallDate":  "20261111"
+    },
+    {
+        "DisplayName":  "Microsoft Edge WebView2 Runtime",
+        "DisplayVersion":  "157.0.4341.46",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application",
+        "UninstallString":  "\"C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\157.0.4341.46\\Installer\\setup.exe\" --uninstall --msedgewebview --system-level --verbose-logging",
+        "EstimatedSize":  2186168,
+        "InstallDate":  "20261111"
+    },
+    {
+        "DisplayName":  "Microsoft Office LTSC Professional Plus 2024 - en-us",
+        "DisplayVersion":  "16.0.17932.20620",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "C:\\Program Files\\Microsoft Office",
+        "UninstallString":  "\"C:\\Program Files\\Common Files\\Microsoft Shared\\ClickToRun\\OfficeClickToRun.exe\" scenario=install scenariosubtype=ARP sourcetype=None productstoremove=ProPlus2024Volume.16_en-us_x-none culture=en-us version.16=16.0",
+        "EstimatedSize":  null,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft OneDrive",
+        "DisplayVersion":  "26.198.1011.0006",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\Program Files\\Microsoft OneDrive\\26.198.1011.0006\\OneDriveSetup.exe\"  /uninstall  /allusers ",
+        "EstimatedSize":  547212,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Update Health Tools",
+        "DisplayVersion":  "3.74.0.0",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{1FC1A6C2-576E-489A-9B4A-92D21F542136}",
+        "EstimatedSize":  1050,
+        "InstallDate":  "20231110"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2005 Redistributable",
+        "DisplayVersion":  "8.0.61001",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{710f4c1c-cc18-4c49-8cbf-51240c89a1a2}",
+        "EstimatedSize":  4964,
+        "InstallDate":  "20241005"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2005 Redistributable - x64 8.0.50727.4053 False",
+        "DisplayVersion":  "8.0.50727.4053",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{B6E3757B-5E77-3915-866A-CCFC4B8D194C}",
+        "EstimatedSize":  244,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2005 Redistributable - x64 8.0.50727.42 False",
+        "DisplayVersion":  "8.0.50727.42",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{6E8E85E8-CE4B-4FF5-91F7-04999C9FAE6A}",
+        "EstimatedSize":  232,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2005 Redistributable - x64 8.0.51011 False",
+        "DisplayVersion":  "8.0.51011",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{aac9fcc4-dd9e-4add-901c-b5496a07ab2e}",
+        "EstimatedSize":  480,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2005 Redistributable - x64 8.0.56336 False",
+        "DisplayVersion":  "8.0.56336",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{071c9b48-7c32-4621-a0ac-3f809523288f}",
+        "EstimatedSize":  7212,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2005 Redistributable - x64 8.0.57102 False",
+        "DisplayVersion":  "8.0.57102",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{f0cbd694-71ce-4391-9690-5da93b2f0445}",
+        "EstimatedSize":  360,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2005 Redistributable - x64 8.0.58298 False",
+        "DisplayVersion":  "8.0.58298",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{f45b48a7-f616-4211-b927-17cab6a96613}",
+        "EstimatedSize":  396,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2005 Redistributable - x64 8.0.59192 False",
+        "DisplayVersion":  "8.0.59192",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{6ce5bae9-d3ca-4b99-891a-1dc6c118a5fc}",
+        "EstimatedSize":  448,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2005 Redistributable - x86 8.0.50727.4053 False",
+        "DisplayVersion":  "8.0.50727.4053",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{770657D0-A123-3C07-8E44-1C83EC895118}",
+        "EstimatedSize":  232,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x64 9.0.21022 False",
+        "DisplayVersion":  "9.0.21022",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{350AA351-21FA-3270-8B7A-835434E766AD}",
+        "EstimatedSize":  236,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x64 9.0.21022.0 False",
+        "DisplayVersion":  "9.0.21022",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{D04659D1-EB2D-3DE5-A833-837A623CCCF7}",
+        "EstimatedSize":  232,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x64 9.0.21022.218 False",
+        "DisplayVersion":  "9.0.21022.218",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{BBBE35B2-9349-3C48-BD3D-F574B17C7924}",
+        "EstimatedSize":  228,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x64 9.0.30411 False",
+        "DisplayVersion":  "9.0.30411",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{D93AC9C8-B6CF-391E-BD2F-48AF4727476C}",
+        "EstimatedSize":  236,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729 False",
+        "DisplayVersion":  "9.0.30729",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{4FFA2088-8317-3B14-93CD-4C699DB37843}",
+        "EstimatedSize":  236,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.0 False",
+        "DisplayVersion":  "9.0.30729",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{2DFD8316-9EF1-3210-908C-4CB61961C1AC}",
+        "EstimatedSize":  232,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.17 False",
+        "DisplayVersion":  "9.0.30729",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{8220EEFE-38CD-377E-8595-13398D740ACE}",
+        "EstimatedSize":  13596,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.4048 False",
+        "DisplayVersion":  "9.0.30729.4048",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{91415F19-4C22-3609-A105-92ED3522D83C}",
+        "EstimatedSize":  228,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.4148 False",
+        "DisplayVersion":  "9.0.30729.4148",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{4B6C7001-C7D6-3710-913E-5BC23FCE91E6}",
+        "EstimatedSize":  228,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.4148.0 False",
+        "DisplayVersion":  "9.0.30729.4148",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{EE936C7A-EA40-31D5-9B65-8E3E089C3828}",
+        "EstimatedSize":  208,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.5570 False",
+        "DisplayVersion":  "9.0.30729.5570",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{8338783A-0968-3B85-AFC7-BAAE0A63DC50}",
+        "EstimatedSize":  232,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x86 9.0.21022 False",
+        "DisplayVersion":  "9.0.21022",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}",
+        "EstimatedSize":  224,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x86 9.0.21022.0 False",
+        "DisplayVersion":  "9.0.21022",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{DCB46B42-723F-350E-B18A-449BC6C21636}",
+        "EstimatedSize":  224,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x86 9.0.21022.218 False",
+        "DisplayVersion":  "9.0.21022.218",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{E503B4BF-F7BB-3D5F-8BC8-F694B1CFF942}",
+        "EstimatedSize":  216,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x86 9.0.30411 False",
+        "DisplayVersion":  "9.0.30411",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{5DA8F6CD-C70E-39D8-8430-3D9808D6BD17}",
+        "EstimatedSize":  228,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x86 9.0.30729 False",
+        "DisplayVersion":  "9.0.30729",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{3C3D696B-0DB7-3C6D-A356-3DB8CE541918}",
+        "EstimatedSize":  228,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x86 9.0.30729.0 False",
+        "DisplayVersion":  "9.0.30729",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{527BBE2F-1FED-3D8B-91CB-4DB0F838E69E}",
+        "EstimatedSize":  224,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x86 9.0.30729.17 False",
+        "DisplayVersion":  "9.0.30729",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{9A25302D-30C0-39D9-BD6F-21E6EC160475}",
+        "EstimatedSize":  10528,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x86 9.0.30729.4048 False",
+        "DisplayVersion":  "9.0.30729.4048",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{5B1F2843-B379-3FF2-B0D3-64DD143ED53A}",
+        "EstimatedSize":  220,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x86 9.0.30729.4148 False",
+        "DisplayVersion":  "9.0.30729.4148",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{1F1C2DFC-2D24-3E06-BCB8-725134ADF989}",
+        "EstimatedSize":  216,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x86 9.0.30729.4148.0 False",
+        "DisplayVersion":  "9.0.30729.4148",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{002D9D5E-29BA-3E6D-9BC4-3D7D6DBC735C}",
+        "EstimatedSize":  200,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x86 9.0.30729.5570 False",
+        "DisplayVersion":  "9.0.30729.5570",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{86CE85E6-DBAC-3FFD-B977-E4B79F83C909}",
+        "EstimatedSize":  224,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2008 Redistributable - x86 9.0.30729.6161",
+        "DisplayVersion":  "9.0.30729.6161",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{9BE518E6-ECC6-35A9-88E4-87755C07200F}",
+        "EstimatedSize":  10436,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2010 Redistributable - x64 10.0.30319 False",
+        "DisplayVersion":  "10.0.30319",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{DA5E371C-6333-3D8A-93A4-6FD5B20BCC6E}",
+        "EstimatedSize":  172,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2010 Redistributable - x64 10.0.40219",
+        "DisplayVersion":  "10.0.40219",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{1D8E6291-B0D5-35EC-8441-6616F567A0F7}",
+        "EstimatedSize":  14140,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2010 Redistributable - x86 10.0.30319 False",
+        "DisplayVersion":  "10.0.30319",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{196BB40D-1578-3D01-B289-BEFC77A11A1E}",
+        "EstimatedSize":  160,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2010 Redistributable - x86 10.0.40219",
+        "DisplayVersion":  "10.0.40219",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}",
+        "EstimatedSize":  11376,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 Redistributable (x64) - 11.0.61030",
+        "DisplayVersion":  "11.0.61030.0",
+        "Publisher":  "Корпорация Майкрософт",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{a2199617-3609-410f-a8e8-e8806c73545b}\\vcredist_x64.exe\"  /uninstall",
+        "EstimatedSize":  21014,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 Redistributable (x64) - 11.0.61030 False Eng",
+        "DisplayVersion":  "11.0.61030.0",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{ca67548a-5ebe-413a-b50c-4b9ceb6d66c6}\\vcredist_x64.exe\"  /uninstall",
+        "EstimatedSize":  21014,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 Redistributable (x86) - 11.0.61030",
+        "DisplayVersion":  "11.0.61030.0",
+        "Publisher":  "Корпорация Майкрософт",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{f0080ca2-80ae-4958-b6eb-e8fa916d744a}\\vcredist_x86.exe\"  /uninstall",
+        "EstimatedSize":  17800,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 Redistributable (x86) - 11.0.61030 False Eng",
+        "DisplayVersion":  "11.0.61030.0",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{33d1fd90-4274-48a1-9bc1-97e33d9c2d6f}\\vcredist_x86.exe\"  /uninstall",
+        "EstimatedSize":  17800,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 x64 Additional Runtime - 11.0.50727 False",
+        "DisplayVersion":  "11.0.50727",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{AC53FC8B-EE18-3F9C-9B59-60937D0B182C}",
+        "EstimatedSize":  140,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 x64 Additional Runtime - 11.0.51106 False",
+        "DisplayVersion":  "11.0.51106",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{3C28BFD4-90C7-3138-87EF-418DC16E9598}",
+        "EstimatedSize":  140,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 x64 Additional Runtime - 11.0.60610 False",
+        "DisplayVersion":  "11.0.60610",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{764384C5-BCA9-307C-9AAC-FD443662686A}",
+        "EstimatedSize":  140,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 x64 Additional Runtime - 11.0.61030",
+        "DisplayVersion":  "11.0.61030",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{37B8F9C7-03FB-3253-8781-2517C99D7C00}",
+        "EstimatedSize":  12272,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 x64 Minimum Runtime - 11.0.50727 False",
+        "DisplayVersion":  "11.0.50727",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{A2CB1ACB-94A2-32BA-A15E-7D80319F7589}",
+        "EstimatedSize":  136,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 x64 Minimum Runtime - 11.0.51106 False",
+        "DisplayVersion":  "11.0.51106",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{5AF4E09F-5C9B-3AAF-B731-544D3DC821DD}",
+        "EstimatedSize":  140,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 x64 Minimum Runtime - 11.0.60610 False",
+        "DisplayVersion":  "11.0.60610",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{2EDC2FA3-1F34-34E5-9085-588C9EFD1CC6}",
+        "EstimatedSize":  140,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 x64 Minimum Runtime - 11.0.61030",
+        "DisplayVersion":  "11.0.61030",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{CF2BEA3C-26EA-32F8-AA9B-331F7E34BA97}",
+        "EstimatedSize":  2000,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 x86 Additional Runtime - 11.0.50727 False",
+        "DisplayVersion":  "11.0.50727",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{FDB30193-FDA0-3DAA-ACCA-A75EEFE53607}",
+        "EstimatedSize":  140,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 x86 Additional Runtime - 11.0.51106 False",
+        "DisplayVersion":  "11.0.51106",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{6C772996-BFF3-3C8C-860B-B3D48FF05D65}",
+        "EstimatedSize":  140,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 x86 Additional Runtime - 11.0.60610 False",
+        "DisplayVersion":  "11.0.60610",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{3D6AD258-61EA-35F5-812C-B7A02152996E}",
+        "EstimatedSize":  140,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 x86 Additional Runtime - 11.0.61030",
+        "DisplayVersion":  "11.0.61030",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{B175520C-86A2-35A7-8619-86DC379688B9}",
+        "EstimatedSize":  9900,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 x86 Minimum Runtime - 11.0.50727 False",
+        "DisplayVersion":  "11.0.50727",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{2F73A7B2-E50E-39A6-9ABC-EF89E4C62E36}",
+        "EstimatedSize":  136,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 x86 Minimum Runtime - 11.0.51106 False",
+        "DisplayVersion":  "11.0.51106",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{E824E81C-80A4-3DFF-B5F9-4842A9FF5F7F}",
+        "EstimatedSize":  140,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 x86 Minimum Runtime - 11.0.60610 False",
+        "DisplayVersion":  "11.0.60610",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{E7D4E834-93EB-351F-B8FB-82CDAE623003}",
+        "EstimatedSize":  140,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2012 x86 Minimum Runtime - 11.0.61030",
+        "DisplayVersion":  "11.0.61030",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{BD95A8CD-1D9F-35AD-981A-3E7925026EBB}",
+        "EstimatedSize":  1772,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 Redistributable (x64) - 12.0.30501 False",
+        "DisplayVersion":  "12.0.30501.0",
+        "Publisher":  "Корпорация Майкрософт",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{1a63c099-febd-4eaf-83ad-a82ea4fdac49}\\vcredist_x64.exe\"  /uninstall",
+        "EstimatedSize":  21062,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 Redistributable (x64) - 12.0.30501 False Eng",
+        "DisplayVersion":  "12.0.30501.0",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{050d4fc8-5d48-4b8f-8972-47c82c46020f}\\vcredist_x64.exe\"  /uninstall",
+        "EstimatedSize":  21062,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 Redistributable (x64) - 12.0.40649 False",
+        "DisplayVersion":  "12.0.40649.5",
+        "Publisher":  "Корпорация Майкрософт",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{c6870a89-ef30-4f22-bbd1-49cd2516bc56}\\vcredist_x64.exe\"  /uninstall",
+        "EstimatedSize":  21063,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 Redistributable (x64) - 12.0.40649 False Eng",
+        "DisplayVersion":  "12.0.40649.5",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{5d0723d3-cff7-4e07-8d0b-ada737deb5e6}\\vcredist_x64.exe\"  /uninstall",
+        "EstimatedSize":  21063,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 Redistributable (x64) - 12.0.40660 False",
+        "DisplayVersion":  "12.0.40660.0",
+        "Publisher":  "Корпорация Майкрософт",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{0513c9cf-7191-45a7-ace9-ecdad03c93a4}\\vcredist_x64.exe\"  /uninstall",
+        "EstimatedSize":  21062,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 Redistributable (x64) - 12.0.40660 False Eng",
+        "DisplayVersion":  "12.0.40660.0",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{ef6b00ec-13e1-4c25-9064-b2f383cb8412}\\vcredist_x64.exe\"  /uninstall",
+        "EstimatedSize":  21062,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 Redistributable (x64) - 12.0.40664",
+        "DisplayVersion":  "12.0.40664.0",
+        "Publisher":  "Корпорация Майкрософт",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{49e969a1-2990-464d-92b5-25f6f34573c6}\\vcredist_x64.exe\"  /uninstall",
+        "EstimatedSize":  21062,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 Redistributable (x64) - 12.0.40664 False Eng",
+        "DisplayVersion":  "12.0.40664.0",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{042d26ef-3dbe-4c25-95d3-4c1b11b235a7}\\vcredist_x64.exe\"  /uninstall",
+        "EstimatedSize":  21062,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.30501 False",
+        "DisplayVersion":  "12.0.30501.0",
+        "Publisher":  "Корпорация Майкрософт",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{b55f7208-e02b-4828-ac78-59c73ddf5bc7}\\vcredist_x86.exe\"  /uninstall",
+        "EstimatedSize":  17600,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.30501 False Eng",
+        "DisplayVersion":  "12.0.30501.0",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{f65db027-aff3-4070-886a-0d87064aabb1}\\vcredist_x86.exe\"  /uninstall",
+        "EstimatedSize":  17600,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.40649 False",
+        "DisplayVersion":  "12.0.40649.5",
+        "Publisher":  "Корпорация Майкрософт",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{78142960-066b-4581-b984-0bdcf560c4be}\\vcredist_x86.exe\"  /uninstall",
+        "EstimatedSize":  17601,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.40649 False Eng",
+        "DisplayVersion":  "12.0.40649.5",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{35b83883-40fa-423c-ae73-2aff7e1ea820}\\vcredist_x86.exe\"  /uninstall",
+        "EstimatedSize":  17601,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.40660 False",
+        "DisplayVersion":  "12.0.40660.0",
+        "Publisher":  "Корпорация Майкрософт",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{10dc8dbf-d3d7-4e23-be07-120fe5c66b78}\\vcredist_x86.exe\"  /uninstall",
+        "EstimatedSize":  17601,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.40660 False Eng",
+        "DisplayVersion":  "12.0.40660.0",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{61087a79-ac85-455c-934d-1fa22cc64f36}\\vcredist_x86.exe\"  /uninstall",
+        "EstimatedSize":  17601,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.40664",
+        "DisplayVersion":  "12.0.40664.0",
+        "Publisher":  "Корпорация Майкрософт",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{d2c8df0e-f15d-4426-9e51-f13f329f9cb4}\\vcredist_x86.exe\"  /uninstall",
+        "EstimatedSize":  17602,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.40664 False Eng",
+        "DisplayVersion":  "12.0.40664.0",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{9dff3540-fc85-4ed5-ac84-9e3c7fd8bece}\\vcredist_x86.exe\"  /uninstall",
+        "EstimatedSize":  17602,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 x64 Additional Runtime - 12.0.21005 False",
+        "DisplayVersion":  "12.0.21005",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{929FBD26-9020-399B-9A7A-751D61F0B942}",
+        "EstimatedSize":  132,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 x64 Additional Runtime - 12.0.40649 False",
+        "DisplayVersion":  "12.0.40649",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{20C1086D-C843-36B1-B678-990089D1BD44}",
+        "EstimatedSize":  132,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 x64 Additional Runtime - 12.0.40660 False",
+        "DisplayVersion":  "12.0.40660",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{5740BD44-B58D-321A-AFC0-6D3D4556DD6C}",
+        "EstimatedSize":  132,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 x64 Additional Runtime - 12.0.40664",
+        "DisplayVersion":  "12.0.40664",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{010792BA-551A-3AC0-A7EF-0FAB4156C382}",
+        "EstimatedSize":  11784,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 x64 Minimum Runtime - 12.0.21005 False",
+        "DisplayVersion":  "12.0.21005",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{A749D8E6-B613-3BE3-8F5F-045C84EBA29B}",
+        "EstimatedSize":  132,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 x64 Minimum Runtime - 12.0.40649 False",
+        "DisplayVersion":  "12.0.40649",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{ABB19BB4-838D-3082-BDA4-87C6604181A2}",
+        "EstimatedSize":  132,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 x64 Minimum Runtime - 12.0.40660 False",
+        "DisplayVersion":  "12.0.40660",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{CB0836EC-B072-368D-82B2-D3470BF95707}",
+        "EstimatedSize":  132,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 x64 Minimum Runtime - 12.0.40664",
+        "DisplayVersion":  "12.0.40664",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{53CF6934-A98D-3D84-9146-FC4EDF3D5641}",
+        "EstimatedSize":  2524,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 x86 Additional Runtime - 12.0.21005 False",
+        "DisplayVersion":  "12.0.21005",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{F8CFEB22-A2E7-3971-9EDA-4B11EDEFC185}",
+        "EstimatedSize":  132,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 x86 Additional Runtime - 12.0.40649 False",
+        "DisplayVersion":  "12.0.40649",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{A8589745-51BC-3963-B4E9-201CF8693538}",
+        "EstimatedSize":  132,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 x86 Additional Runtime - 12.0.40660 False",
+        "DisplayVersion":  "12.0.40660",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{7DAD0258-515C-3DD4-8964-BD714199E0F7}",
+        "EstimatedSize":  132,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 x86 Additional Runtime - 12.0.40664",
+        "DisplayVersion":  "12.0.40664",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{D401961D-3A20-3AC7-943B-6139D5BD490A}",
+        "EstimatedSize":  9456,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 x86 Minimum Runtime - 12.0.21005 False",
+        "DisplayVersion":  "12.0.21005",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{13A4EE12-23EA-3371-91EE-EFB36DDFFF3E}",
+        "EstimatedSize":  132,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 x86 Minimum Runtime - 12.0.40649 False",
+        "DisplayVersion":  "12.0.40649",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{DEA7F8E3-B7B9-3C3C-945B-7F8CE9041748}",
+        "EstimatedSize":  132,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 x86 Minimum Runtime - 12.0.40660 False",
+        "DisplayVersion":  "12.0.40660",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{E30D8B21-D82D-3211-82CC-0F0A5D1495E8}",
+        "EstimatedSize":  132,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2013 x86 Minimum Runtime - 12.0.40664",
+        "DisplayVersion":  "12.0.40664",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{8122DAB1-ED4D-3676-BB0A-CA368196543E}",
+        "EstimatedSize":  2076,
+        "InstallDate":  "20230620"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2015-2022 Redistributable (x86) - 14.44.35211",
+        "DisplayVersion":  "14.44.35211.0",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{0b5169e3-39da-4313-808e-1f9c0407f3bf}\\VC_redist.x86.exe\"  /uninstall",
+        "EstimatedSize":  18673,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2022 X64 Additional Runtime - 14.51.36247",
+        "DisplayVersion":  "14.51.36247",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{6FA797CF-6B76-4B6D-87EE-768F92008720}",
+        "EstimatedSize":  11756,
+        "InstallDate":  "20261023"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2022 X64 Minimum Runtime - 14.51.36247",
+        "DisplayVersion":  "14.51.36247",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{931A2CF0-2404-45EA-82F5-345735AE6A90}",
+        "EstimatedSize":  2600,
+        "InstallDate":  "20261023"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2022 X86 Additional Runtime - 14.44.35211",
+        "DisplayVersion":  "14.44.35211",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{C18FB403-1E88-43C8-AD8A-CED50F23DE8B}",
+        "EstimatedSize":  10352,
+        "InstallDate":  "20260317"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ 2022 X86 Minimum Runtime - 14.44.35211",
+        "DisplayVersion":  "14.44.35211",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{922480B5-CAEB-4B1B-AAA4-9716EFDCE26B}",
+        "EstimatedSize":  2024,
+        "InstallDate":  "20260317"
+    },
+    {
+        "DisplayName":  "Microsoft Visual C++ v14 Redistributable (x64) - 14.51.36247",
+        "DisplayVersion":  "14.51.36247.0",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\ProgramData\\Package Cache\\{0e3bb569-69d6-4c34-bff9-c2f81db5e5f0}\\VC_redist.x64.exe\"  /uninstall",
+        "EstimatedSize":  21328,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Microsoft Visual Studio Code (User)",
+        "DisplayVersion":  "1.145.2",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "C:\\Users\\MR.PC\\AppData\\Local\\Programs\\Microsoft VS Code\\",
+        "UninstallString":  "\"C:\\Users\\MR.PC\\AppData\\Local\\Programs\\Microsoft VS Code\\unins000.exe\"",
+        "EstimatedSize":  1064106,
+        "InstallDate":  "20261110"
+    },
+    {
+        "DisplayName":  "Microsoft Visual Studio Installer",
+        "DisplayVersion":  "4.7.25.22189",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\Installer\"",
+        "UninstallString":  "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\Installer\\setup.exe\" /uninstall",
+        "EstimatedSize":  0,
+        "InstallDate":  "20260701"
+    },
+    {
+        "DisplayName":  "Microsoft Windows Desktop Runtime - 3.1.32 (x64)",
+        "DisplayVersion":  "24.192.31915",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{5BEE5F3E-4D78-4DE8-A8F3-36D3E9D8868C}",
+        "EstimatedSize":  85908,
+        "InstallDate":  "20250418"
+    },
+    {
+        "DisplayName":  "Microsoft Windows Desktop Targeting Pack - 3.1.0 (x64)",
+        "DisplayVersion":  "24.64.28315",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{7519423C-A977-4160-83A2-48633600A216}",
+        "EstimatedSize":  26388,
+        "InstallDate":  "20250418"
+    },
+    {
+        "DisplayName":  "Mozilla Firefox (x64 en-GB)",
+        "DisplayVersion":  "160.0",
+        "Publisher":  "Mozilla",
+        "InstallLocation":  "C:\\Program Files\\Mozilla Firefox",
+        "UninstallString":  "\"C:\\Program Files\\Mozilla Firefox\\uninstall\\helper.exe\"",
+        "EstimatedSize":  372273,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Mozilla Maintenance Service",
+        "DisplayVersion":  "153.0",
+        "Publisher":  "Mozilla",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\Program Files (x86)\\Mozilla Maintenance Service\\uninstall.exe\"",
+        "EstimatedSize":  371,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Native Instruments NTKDaemon",
+        "DisplayVersion":  "1.21.0.0",
+        "Publisher":  "Native Instruments",
+        "InstallLocation":  "C:\\Program Files\\Native Instruments\\NTKDaemon\\",
+        "UninstallString":  "\"C:\\ProgramData\\{A4012A35-AFDE-4CEB-82C1-56089D8CC042}\\NTKDaemon Setup PC.exe\" REMOVE=TRUE MODIFY=FALSE",
+        "EstimatedSize":  45089,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Native Instruments NTKDaemon",
+        "DisplayVersion":  "1.21.0.0",
+        "Publisher":  "Native Instruments",
+        "InstallLocation":  "C:\\Program Files\\Native Instruments\\NTKDaemon\\",
+        "UninstallString":  null,
+        "EstimatedSize":  44819,
+        "InstallDate":  "20241027"
+    },
+    {
+        "DisplayName":  "Node.js",
+        "DisplayVersion":  "22.18.0",
+        "Publisher":  "Node.js Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{DDBAF135-0177-467C-9C52-495EA778B218}",
+        "EstimatedSize":  100665,
+        "InstallDate":  "20250811"
+    },
+    {
+        "DisplayName":  "Office 16 Click-to-Run Extensibility Component",
+        "DisplayVersion":  "16.0.17928.20216",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{90160000-008C-0000-1000-0000000FF1CE}",
+        "EstimatedSize":  27424,
+        "InstallDate":  "20251210"
+    },
+    {
+        "DisplayName":  "Office 16 Click-to-Run Licensing Component",
+        "DisplayVersion":  "16.0.17932.20620",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{90160000-007E-0000-1000-0000000FF1CE}",
+        "EstimatedSize":  3944,
+        "InstallDate":  "20251210"
+    },
+    {
+        "DisplayName":  "OpenCode 2.2.7",
+        "DisplayVersion":  "2.2.7",
+        "Publisher":  "OpenCode",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\Users\\MR.PC\\AppData\\Local\\Programs\\ai.opencode.desktop\\Uninstall OpenCode.exe\" /currentuser",
+        "EstimatedSize":  873104,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Postman x64 11.87.4",
+        "DisplayVersion":  "11.87.4",
+        "Publisher":  "Postman",
+        "InstallLocation":  "C:\\Users\\MR.PC\\AppData\\Local\\Postman",
+        "UninstallString":  "\"C:\\Users\\MR.PC\\AppData\\Local\\Postman\\Update.exe\" --uninstall",
+        "EstimatedSize":  143874,
+        "InstallDate":  "20260309"
+    },
+    {
+        "DisplayName":  "Proton VPN",
+        "DisplayVersion":  "5.1.8",
+        "Publisher":  "Proton AG",
+        "InstallLocation":  "C:\\Program Files\\Proton\\VPN\\",
+        "UninstallString":  "\"C:\\Program Files\\Proton\\VPN\\unins000.exe\"",
+        "EstimatedSize":  389934,
+        "InstallDate":  "20261023"
+    },
+    {
+        "DisplayName":  "Python 3.13.7 (64-bit)",
+        "DisplayVersion":  "3.13.7150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\Users\\MR.PC\\AppData\\Local\\Package Cache\\{9a46f6d0-8f11-4f8f-a23d-d617db01bbb6}\\python-3.13.7-amd64.exe\"  /uninstall",
+        "EstimatedSize":  163730,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Python 3.13.7 Core Interpreter (64-bit)",
+        "DisplayVersion":  "3.13.7150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{BE75E968-78F4-411D-92E4-73EC3043F7E4}",
+        "EstimatedSize":  6040,
+        "InstallDate":  "20250915"
+    },
+    {
+        "DisplayName":  "Python 3.13.7 Development Libraries (64-bit)",
+        "DisplayVersion":  "3.13.7150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{96A23710-E014-4A5B-96A1-DE64AC37251B}",
+        "EstimatedSize":  2832,
+        "InstallDate":  "20250915"
+    },
+    {
+        "DisplayName":  "Python 3.13.7 Documentation (64-bit)",
+        "DisplayVersion":  "3.13.7150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{CFAAA24B-16EF-4D9D-80A5-F67798771571}",
+        "EstimatedSize":  60616,
+        "InstallDate":  "20250915"
+    },
+    {
+        "DisplayName":  "Python 3.13.7 Executables (64-bit)",
+        "DisplayVersion":  "3.13.7150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{E4047598-558F-4468-8B53-9FCEF7F86E0D}",
+        "EstimatedSize":  2608,
+        "InstallDate":  "20250915"
+    },
+    {
+        "DisplayName":  "Python 3.13.7 pip Bootstrap (64-bit)",
+        "DisplayVersion":  "3.13.7150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{CD31E178-F872-466B-A231-9C8AA53A89FD}",
+        "EstimatedSize":  288,
+        "InstallDate":  "20250915"
+    },
+    {
+        "DisplayName":  "Python 3.13.7 Standard Library (64-bit)",
+        "DisplayVersion":  "3.13.7150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{A139F43E-8105-465D-AC80-28F349CBE08D}",
+        "EstimatedSize":  23416,
+        "InstallDate":  "20250915"
+    },
+    {
+        "DisplayName":  "Python 3.13.7 Tcl/Tk Support (64-bit)",
+        "DisplayVersion":  "3.13.7150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{A65B1339-6492-4CA4-AEB5-2B25A83A20B9}",
+        "EstimatedSize":  13880,
+        "InstallDate":  "20250915"
+    },
+    {
+        "DisplayName":  "Python 3.13.7 Test Suite (64-bit)",
+        "DisplayVersion":  "3.13.7150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{6BD2B618-9A2B-47D9-B24B-2F05BD2768E4}",
+        "EstimatedSize":  33248,
+        "InstallDate":  "20250915"
+    },
+    {
+        "DisplayName":  "Python 3.14.0 (64-bit)",
+        "DisplayVersion":  "3.14.150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\Users\\MR.PC\\AppData\\Local\\Package Cache\\{a9c48b80-2c48-47ac-8c9e-32a1b0ec69e5}\\python-3.14.0-amd64.exe\"  /uninstall",
+        "EstimatedSize":  171653,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Python 3.14.0 Add to Path (64-bit)",
+        "DisplayVersion":  "3.14.150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{6EDF736F-CA9A-400A-9C0C-2B11B62E6AC0}",
+        "EstimatedSize":  52,
+        "InstallDate":  "20251111"
+    },
+    {
+        "DisplayName":  "Python 3.14.0 Core Interpreter (64-bit)",
+        "DisplayVersion":  "3.14.150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{89B75A5B-F4F9-44B4-ABCF-C8A3DFEE1A27}",
+        "EstimatedSize":  6664,
+        "InstallDate":  "20251111"
+    },
+    {
+        "DisplayName":  "Python 3.14.0 Development Libraries (64-bit)",
+        "DisplayVersion":  "3.14.150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{0A6EDF73-71A4-4F2B-8BCA-91067F2F01C5}",
+        "EstimatedSize":  3076,
+        "InstallDate":  "20251111"
+    },
+    {
+        "DisplayName":  "Python 3.14.0 Documentation (64-bit)",
+        "DisplayVersion":  "3.14.150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{970CB7C4-1F70-4860-ABDE-6D682CAFB977}",
+        "EstimatedSize":  63656,
+        "InstallDate":  "20251111"
+    },
+    {
+        "DisplayName":  "Python 3.14.0 Executables (64-bit)",
+        "DisplayVersion":  "3.14.150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{BE522E46-7788-47C3-8D6A-B74AC8A651FA}",
+        "EstimatedSize":  2764,
+        "InstallDate":  "20251111"
+    },
+    {
+        "DisplayName":  "Python 3.14.0 pip Bootstrap (64-bit)",
+        "DisplayVersion":  "3.14.150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{69A09B9E-1AB6-4149-9417-AB1328275CF1}",
+        "EstimatedSize":  288,
+        "InstallDate":  "20251111"
+    },
+    {
+        "DisplayName":  "Python 3.14.0 Standard Library (64-bit)",
+        "DisplayVersion":  "3.14.150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{85274239-67A0-46A4-8894-05E2B7992229}",
+        "EstimatedSize":  24348,
+        "InstallDate":  "20251111"
+    },
+    {
+        "DisplayName":  "Python 3.14.0 Tcl/Tk Support (64-bit)",
+        "DisplayVersion":  "3.14.150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{5C3ABD97-E8B3-440F-AD61-CCED4B913579}",
+        "EstimatedSize":  14036,
+        "InstallDate":  "20251111"
+    },
+    {
+        "DisplayName":  "Python 3.14.0 Test Suite (64-bit)",
+        "DisplayVersion":  "3.14.150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /I{B3F34206-BD7F-44A1-B56E-15C814D96300}",
+        "EstimatedSize":  35124,
+        "InstallDate":  "20251111"
+    },
+    {
+        "DisplayName":  "Python Launcher",
+        "DisplayVersion":  "3.14.150.0",
+        "Publisher":  "Python Software Foundation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{87108F9B-23F3-4E96-8A88-E9CD5F46F008}",
+        "EstimatedSize":  1560,
+        "InstallDate":  "20251111"
+    },
+    {
+        "DisplayName":  "Rustup: the Rust toolchain installer",
+        "DisplayVersion":  "1.29.0",
+        "Publisher":  null,
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\Users\\MR.PC\\.cargo\\bin\\rustup.exe\" self uninstall",
+        "EstimatedSize":  null,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "T3 Code (Nightly) 0.1.10-nightly.20261111.4529",
+        "DisplayVersion":  "0.1.10-nightly.20261111.4529",
+        "Publisher":  "T3 Tools",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\Users\\MR.PC\\AppData\\Local\\Programs\\t3code\\Uninstall T3 Code (Nightly).exe\" /currentuser",
+        "EstimatedSize":  778383,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Telegram Desktop",
+        "DisplayVersion":  "7.4.2",
+        "Publisher":  "Telegram FZ-LLC",
+        "InstallLocation":  "C:\\Users\\MR.PC\\AppData\\Roaming\\Telegram Desktop\\",
+        "UninstallString":  "\"C:\\Users\\MR.PC\\AppData\\Roaming\\Telegram Desktop\\unins000.exe\"",
+        "EstimatedSize":  137751,
+        "InstallDate":  "20261111"
+    },
+    {
+        "DisplayName":  "Update for x64-based Windows Systems (KB5001716)",
+        "DisplayVersion":  "8.94.0.0",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{B8D93870-98D1-4980-AFCA-E26563CDFB79}",
+        "EstimatedSize":  864,
+        "InstallDate":  "20250630"
+    },
+    {
+        "DisplayName":  "Visual Studio Community 2022",
+        "DisplayVersion":  "17.14.35",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community",
+        "UninstallString":  "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\Installer\\setup.exe\" uninstall --installPath \"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\"",
+        "EstimatedSize":  null,
+        "InstallDate":  "20260701"
+    },
+    {
+        "DisplayName":  "VLC media player",
+        "DisplayVersion":  "3.0.16",
+        "Publisher":  "VideoLAN",
+        "InstallLocation":  "C:\\Program Files\\VideoLAN\\VLC",
+        "UninstallString":  "\"C:\\Program Files\\VideoLAN\\VLC\\uninstall.exe\"",
+        "EstimatedSize":  null,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Wacom Pen",
+        "DisplayVersion":  "7.3.4-33",
+        "Publisher":  "Wacom Technology Corp.",
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\Program Files\\Tablet\\ISD\\setup\\Remove.exe\" /u",
+        "EstimatedSize":  45008,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Windows Subsystem for Linux",
+        "DisplayVersion":  "3.0.5.0",
+        "Publisher":  "Microsoft Corporation",
+        "InstallLocation":  "",
+        "UninstallString":  "MsiExec.exe /X{8ACC61B3-7BB9-4E69-9382-B0F4AA8F2677}",
+        "EstimatedSize":  1197195,
+        "InstallDate":  "20261110"
+    },
+    {
+        "DisplayName":  "WinRAR 6.22 (64-bit)",
+        "DisplayVersion":  "6.22.0",
+        "Publisher":  "win.rar GmbH",
+        "InstallLocation":  "C:\\Program Files\\WinRAR\\",
+        "UninstallString":  "C:\\Program Files\\WinRAR\\uninstall.exe",
+        "EstimatedSize":  null,
+        "InstallDate":  null
+    },
+    {
+        "DisplayName":  "Wispr Flow",
+        "DisplayVersion":  "1.6.1457",
+        "Publisher":  "Wispr Flow",
+        "InstallLocation":  "C:\\Users\\MR.PC\\AppData\\Local\\WisprFlow",
+        "UninstallString":  "\"C:\\Users\\MR.PC\\AppData\\Local\\WisprFlow\\Update.exe\" --uninstall",
+        "EstimatedSize":  327012,
+        "InstallDate":  "20261111"
+    },
+    {
+        "DisplayName":  "WO Mic Client",
+        "DisplayVersion":  null,
+        "Publisher":  null,
+        "InstallLocation":  null,
+        "UninstallString":  "\"C:\\Program Files (x86)\\WOMic\\uninstall.exe\"",
+        "EstimatedSize":  null,
+        "InstallDate":  null
+    }
+]

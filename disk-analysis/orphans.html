@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ghost apps — gone from the list, still on disk</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--font-sans); color: var(--foreground); }
+  .wrap { width: 100%; max-width: 728px; margin: 0 auto; display: grid; gap: 14px; }
+  header { padding: 2px 2px 0; }
+  h1 { font-size: 21px; margin: 0 0 3px; letter-spacing: -0.02em; }
+  .sub { margin: 0 0 14px; color: var(--muted-foreground); font-size: 12.5px; }
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .tile { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
+  .tile .k { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted-foreground); }
+  .tile .v { font-size: 23px; font-weight: 650; margin-top: 3px; font-variant-numeric: tabular-nums; }
+  .tile .s { font-size: 11px; color: var(--muted-foreground); margin-top: 1px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+  .card h2 { font-size: 13.5px; margin: 0 0 2px; font-weight: 600; }
+  .card .hint { font-size: 11.5px; color: var(--muted-foreground); margin: 0 0 13px; }
+  .rows { display: grid; gap: 7px; }
+  .row { display: grid; grid-template-columns: 186px 1fr 62px; align-items: center; gap: 10px; font-size: 12px; }
+  .row .lbl { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .track { height: 9px; border-radius: 999px; background: rgba(127,127,127,0.16); overflow: hidden; }
+  .row .bar { height: 100%; border-radius: 999px; }
+  .row .val { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted-foreground); }
+  .note { font-size: 11.5px; color: var(--muted-foreground); line-height: 1.55; margin: 11px 0 0; }
+  .note strong { color: var(--foreground); font-weight: 600; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .mini { border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; }
+  .mini .k { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-foreground); }
+  .mini .v { font-size: 17px; font-weight: 620; margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .mini .s { font-size: 11px; color: var(--muted-foreground); margin-top: 2px; line-height: 1.4; }
+  ul.tight { margin: 0; padding-left: 18px; font-size: 11.5px; line-height: 1.75; color: var(--muted-foreground); }
+  ul.tight strong { color: var(--foreground); font-weight: 600; }
+  @media (max-width: 520px) {
+    .tiles { grid-template-columns: 1fr 1fr; }
+    .row { grid-template-columns: 132px 1fr 56px; }
+    .row .lbl { font-size: 11.5px; }
+    .split { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Ghost apps — gone from the list, still on disk</h1>
+    <p class="sub">181 uninstall entries checked · app folders, profiles and installers that no installer owns · read-only, 12 Nov 2026</p>
+    <div class="tiles">
+      <div class="tile">
+        <div class="k">Orphaned app files</div>
+        <div class="v">~16.3 GB</div>
+        <div class="s">not cache — real folders</div>
+      </div>
+      <div class="tile">
+        <div class="k">Still launchable</div>
+        <div class="v">6.9 GB</div>
+        <div class="s">AE 2020 + Premiere 2022</div>
+      </div>
+      <div class="tile">
+        <div class="k">Deleted so far</div>
+        <div class="v">0 B</div>
+        <div class="s">report only</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="card">
+    <h2>What is actually left behind</h2>
+    <p class="hint">The app has no uninstall entry, no service and no working shortcut — but the bytes are still there</p>
+    <div class="rows">
+      <div class="row"><span class="lbl">Adobe (AE 2020, Premiere 2022, PS 2024, shared)</span><div class="track"><div class="bar" style="width:100%;background:var(--chart-1)"></div></div><span class="val">10.45 GB</span></div>
+      <div class="row"><span class="lbl">Boris FX Sapphire / Continuum</span><div class="track"><div class="bar" style="width:14.2%;background:var(--chart-2)"></div></div><span class="val">1.48 GB</span></div>
+      <div class="row"><span class="lbl">Claude Desktop (not Claude Code)</span><div class="track"><div class="bar" style="width:14.1%;background:var(--chart-3)"></div></div><span class="val">1.47 GB</span></div>
+      <div class="row"><span class="lbl">Other vendor leftovers</span><div class="track"><div class="bar" style="width:9.7%;background:var(--chart-4)"></div></div><span class="val">1.01 GB</span></div>
+      <div class="row"><span class="lbl">Avast</span><div class="track"><div class="bar" style="width:8.5%;background:var(--chart-5)"></div></div><span class="val">0.89 GB</span></div>
+      <div class="row"><span class="lbl">MiniMax Code</span><div class="track"><div class="bar" style="width:7.8%;background:var(--chart-6)"></div></div><span class="val">0.82 GB</span></div>
+      <div class="row"><span class="lbl">Visual Studio 2022 ghost</span><div class="track"><div class="bar" style="width:1.2%;background:var(--muted-foreground)"></div></div><span class="val">0.13 GB</span></div>
+    </div>
+    <p class="note">Registry says <strong>no Adobe, Avast, BorisFX, Waves, Red Giant or Native Access installation exists</strong>. Yet their folders are intact. The cluster of folders last touched on <strong>16 Jul 2026</strong> suggests a removal pass that deleted the uninstallers but not the payloads.</p>
+  </section>
+
+  <section class="card">
+    <h2>Adobe is the big one — 10.45 GB unregistered</h2>
+    <p class="hint">No uninstall entry, no Start Menu shortcut, but two executables still run</p>
+    <div class="rows">
+      <div class="row"><span class="lbl">After Effects 2020</span><div class="track"><div class="bar" style="width:100%;background:var(--chart-1)"></div></div><span class="val">3.61 GB</span></div>
+      <div class="row"><span class="lbl">Premiere Pro 2022</span><div class="track"><div class="bar" style="width:90.3%;background:var(--chart-1)"></div></div><span class="val">3.26 GB</span></div>
+      <div class="row"><span class="lbl">Shared data &amp; caches</span><div class="track"><div class="bar" style="width:86.4%;background:var(--chart-2)"></div></div><span class="val">3.12 GB</span></div>
+      <div class="row"><span class="lbl">Photoshop 2024 (broken)</span><div class="track"><div class="bar" style="width:11.1%;background:var(--chart-4)"></div></div><span class="val">0.40 GB</span></div>
+    </div>
+    <div class="split" style="margin-top:12px">
+      <div class="mini">
+        <div class="k">AfterFX.exe</div>
+        <div class="v">Present</div>
+        <div class="s">1.2 MB · dated 18 Dec 2020</div>
+      </div>
+      <div class="mini">
+        <div class="k">Photoshop.exe</div>
+        <div class="v">Missing</div>
+        <div class="s">only a 398 MB <code>Required</code> folder remains</div>
+      </div>
+    </div>
+    <p class="note">So it is not one clean ghost. <strong>AE 2020 and Premiere 2022 are usable, unregistered installs</strong>; Photoshop 2024 and the 2023/2024 stub folders are broken partials. Remove shared components via a deliberate Adobe cleanup, not by deleting subfolders.</p>
+  </section>
+
+  <section class="card">
+    <h2>Evidence of removal that never finished</h2>
+    <p class="hint">Pointers that now lead nowhere</p>
+    <div class="split">
+      <div class="mini">
+        <div class="k">Dead shortcuts</div>
+        <div class="v">14</div>
+        <div class="s">7 Boris FX · 2 Python 3.12 · Antigravity · Camoufox · Hermes · Wireshark · Audacity</div>
+      </div>
+      <div class="mini">
+        <div class="k">Dead startup entries</div>
+        <div class="v">1</div>
+        <div class="s">Windscribe → missing <code>C:\Program Files\Windscribe</code></div>
+      </div>
+      <div class="mini">
+        <div class="k">Services / tasks broken</div>
+        <div class="v">0</div>
+        <div class="s">every service and scheduled task still resolves</div>
+      </div>
+      <div class="mini">
+        <div class="k">Orphaned UWP data</div>
+        <div class="v">0.4 MB</div>
+        <div class="s">22 package folders, negligible</div>
+      </div>
+    </div>
+    <p class="note">Boris FX is the clearest case: <strong>7 Start Menu shortcuts point into <code>C:\Program Files\BorisFX</code>, which does not exist</strong>, while 1.24 GB of Sapphire presets sits in <code>ProgramData</code>. The presets outlived the plugin.</p>
+  </section>
+
+  <section class="card">
+    <h2>Not everything old is junk</h2>
+    <p class="hint">Deliberately excluded after checking for running processes and active binaries</p>
+    <ul class="tight">
+      <li><strong>Red Giant 0.36 GB</strong> — the Red Giant Service is running, so Magic Bullet is live.</li>
+      <li><strong>Hermes 1.26 GB</strong> — a git repo plus venv, not an installed app. Only its shortcut is stale.</li>
+      <li><strong>Waves 0.28 GB</strong> — WavesLocalServer is running and a WaveShell VST3 exists; FL Studio may load it.</li>
+      <li><strong>Antigravity 0.58 GB</strong> — desktop shortcut is dead, but <code>agy.exe</code> is current (Nov 2026). Only the updater and <code>agy.exe.old</code> are leftovers.</li>
+      <li><strong>Java 0.33 GB, Claude Code, Codex, Plannotator</strong> — all resolve to working binaries.</li>
+      <li><strong>DriverStore, WinSxS, Windows Installer</strong> — system stores, not app leftovers; only DISM or Disk Cleanup is safe.</li>
+    </ul>
+    <p class="note">About <strong>2 GB overlaps with the cache totals</strong> (MiniMax, Waves Central, Native Access, Antigravity and Claude SquirrelTemp installers). Don't add the two sums blindly: <strong>~26 GB caches + ~16.3 GB ghosts ≈ 33 GB realistic</strong> if AE/Premiere stay, ~40 GB if they go.</p>
+  </section>
+
+</div>
+</body>
+</html>
