@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Aurora AR app icon">
+  <defs>
+    <linearGradient id="iconBg" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#0a1b33"/>
+      <stop offset="0.55" stop-color="#061020"/>
+      <stop offset="1" stop-color="#02040a"/>
+    </linearGradient>
+    <linearGradient id="iconGreen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#18e0b0" stop-opacity="0"/>
+      <stop offset="0.3" stop-color="#35ffb8"/>
+      <stop offset="0.7" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#7c5cff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="iconViolet" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7c5cff" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#18e0b0" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="iconRidge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#071018"/>
+      <stop offset="1" stop-color="#010307"/>
+    </linearGradient>
+    <linearGradient id="iconBorder" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#35ffb8" stop-opacity="0.55"/>
+      <stop offset="0.5" stop-color="#22d3ee" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#a855f7" stop-opacity="0.5"/>
+    </linearGradient>
+    <filter id="iconBlur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+    <filter id="iconBlurSoft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+    <clipPath id="iconClip">
+      <rect x="16" y="16" width="480" height="480" rx="108"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#iconClip)">
+    <rect width="512" height="512" fill="url(#iconBg)"/>
+    <g fill="#ffffff">
+      <circle cx="96" cy="104" r="3" opacity="0.8"/>
+      <circle cx="156" cy="74" r="2" opacity="0.5"/>
+      <circle cx="392" cy="92" r="2.6" opacity="0.7"/>
+      <circle cx="436" cy="138" r="1.8" opacity="0.45"/>
+      <circle cx="338" cy="62" r="1.8" opacity="0.5"/>
+      <circle cx="68" cy="176" r="2" opacity="0.45"/>
+      <circle cx="458" cy="212" r="1.8" opacity="0.4"/>
+      <circle cx="118" cy="142" r="1.6" opacity="0.4"/>
+      <circle cx="416" cy="60" r="1.4" opacity="0.4"/>
+    </g>
+    <g fill="none" stroke-linecap="round">
+      <path d="M-40 330 C 90 130 170 350 280 210 S 440 130 560 260" stroke="url(#iconGreen)" stroke-width="54" opacity="0.7" filter="url(#iconBlur)"/>
+      <path d="M-40 330 C 90 130 170 350 280 210 S 440 130 560 260" stroke="url(#iconGreen)" stroke-width="15" opacity="0.95" filter="url(#iconBlurSoft)"/>
+      <path d="M-30 250 C 120 380 210 120 330 260 S 470 320 550 180" stroke="url(#iconViolet)" stroke-width="36" opacity="0.55" filter="url(#iconBlur)"/>
+      <path d="M-30 250 C 120 380 210 120 330 260 S 470 320 550 180" stroke="url(#iconViolet)" stroke-width="7" opacity="0.6" filter="url(#iconBlurSoft)"/>
+    </g>
+    <path d="M-10 404 L72 368 L146 396 L236 350 L320 390 L404 358 L512 396 L512 520 L-10 520 Z" fill="url(#iconRidge)"/>
+    <path d="M-10 404 L72 368 L146 396 L236 350 L320 390 L404 358 L512 396" fill="none" stroke="#1de9b6" stroke-opacity="0.35" stroke-width="3"/>
+    <circle cx="256" cy="176" r="5" fill="#ffffff" opacity="0.9"/>
+    <circle cx="256" cy="176" r="13" fill="#35ffb8" opacity="0.18" filter="url(#iconBlurSoft)"/>
+  </g>
+  <rect x="16" y="16" width="480" height="480" rx="108" fill="none" stroke="url(#iconBorder)" stroke-width="3"/>
+</svg>

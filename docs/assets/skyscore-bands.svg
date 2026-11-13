@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="1200" height="360" role="img" aria-label="SkyScore bands from 0 to 100">
+  <defs>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a1526"/>
+      <stop offset="1" stop-color="#050a13"/>
+    </linearGradient>
+    <clipPath id="barClip">
+      <rect x="60" y="132" width="1080" height="62" rx="14"/>
+    </clipPath>
+  </defs>
+
+  <rect width="1200" height="360" rx="18" fill="url(#panel)" stroke="#1b2b44" stroke-width="1"/>
+
+  <g font-family="Segoe UI, Helvetica Neue, Arial, sans-serif">
+    <text x="60" y="54" fill="#eef6ff" font-size="28" font-weight="700">SkyScore bands</text>
+    <text x="60" y="86" fill="#8ea3c0" font-size="17">How good the current view is for a simulated aurora — not an aurora forecast.</text>
+
+    <g clip-path="url(#barClip)">
+      <rect x="60" y="132" width="54" height="62" fill="#4b5563"/>
+      <rect x="114" y="132" width="162" height="62" fill="#ef4444"/>
+      <rect x="276" y="132" width="194.4" height="62" fill="#f97316"/>
+      <rect x="470.4" y="132" width="216" height="62" fill="#eab308"/>
+      <rect x="686.4" y="132" width="216" height="62" fill="#14b8a6"/>
+      <rect x="902.4" y="132" width="237.6" height="62" fill="#22c55e"/>
+      <rect x="60" y="132" width="1080" height="20" fill="#ffffff" opacity="0.10"/>
+    </g>
+
+    <g font-size="15" font-weight="700" text-anchor="middle" fill="#06121f">
+      <text x="87" y="170" fill="#e5e7eb">0</text>
+      <text x="195" y="170">1–29</text>
+      <text x="373" y="170">30–49</text>
+      <text x="578" y="170">50–69</text>
+      <text x="794" y="170">70–89</text>
+      <text x="1021" y="170">90–100</text>
+    </g>
+
+    <g font-size="18" font-weight="600" text-anchor="middle" fill="#dbe7f7">
+      <text x="87" y="224">Unavailable</text>
+      <text x="195" y="224">Limited</text>
+      <text x="373" y="224">Fair</text>
+      <text x="578" y="224">Good</text>
+      <text x="794" y="224">Great</text>
+      <text x="1021" y="224">Excellent</text>
+    </g>
+
+    <g font-size="14" text-anchor="middle" fill="#7f93ad">
+      <text x="87" y="250">daylight · no sky</text>
+      <text x="195" y="250">barely visible</text>
+      <text x="373" y="250">faint at best</text>
+      <text x="578" y="250">some cloud or glow</text>
+      <text x="794" y="250">good conditions</text>
+      <text x="1021" y="250">dark, clear, open sky</text>
+    </g>
+
+    <line x1="60" y1="284" x2="1140" y2="284" stroke="#1b2b44" stroke-width="1"/>
+    <text x="60" y="316" fill="#9fb2c9" font-size="15">score = 100 × brightness × cloud × visibility × lighting</text>
+    <text x="1140" y="316" fill="#7f93ad" font-size="15" text-anchor="end">one bad factor is enough to sink the result</text>
+  </g>
+</svg>

@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" width="1000" height="640" role="img" aria-label="Aurora AR interface map wireframe">
+  <defs>
+    <linearGradient id="mapBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#081426"/>
+      <stop offset="1" stop-color="#03060d"/>
+    </linearGradient>
+    <linearGradient id="screenBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#061225"/>
+      <stop offset="0.62" stop-color="#0a1c33"/>
+      <stop offset="1" stop-color="#03060d"/>
+    </linearGradient>
+    <linearGradient id="screenGreen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#18e0b0" stop-opacity="0"/>
+      <stop offset="0.35" stop-color="#35ffb8" stop-opacity="0.9"/>
+      <stop offset="0.72" stop-color="#22d3ee" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#7c5cff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="screenViolet" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7c5cff" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#a855f7" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#18e0b0" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="orb" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#35ffb8"/>
+      <stop offset="0.55" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#7c5cff"/>
+    </linearGradient>
+    <linearGradient id="phoneEdge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#35ffb8" stop-opacity="0.45"/>
+      <stop offset="0.5" stop-color="#1b2b44" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#a855f7" stop-opacity="0.4"/>
+    </linearGradient>
+    <filter id="mapBlur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="9"/>
+    </filter>
+    <clipPath id="screenClip">
+      <rect x="102" y="52" width="276" height="536" rx="32"/>
+    </clipPath>
+  </defs>
+
+  <rect width="1000" height="640" fill="url(#mapBg)"/>
+
+  <g font-family="Segoe UI, Helvetica Neue, Arial, sans-serif">
+    <text x="90" y="26" fill="#8ea3c0" font-size="12" font-weight="600" letter-spacing="3">INTERFACE MAP · WIREFRAME, NOT A SCREENSHOT</text>
+  </g>
+
+  <!-- Phone -->
+  <rect x="90" y="40" width="300" height="560" rx="42" fill="#050a13" stroke="url(#phoneEdge)" stroke-width="2"/>
+  <g clip-path="url(#screenClip)">
+    <rect x="102" y="52" width="276" height="536" fill="url(#screenBg)"/>
+    <g fill="#ffffff">
+      <circle cx="136" cy="96" r="1.5" opacity="0.7"/>
+      <circle cx="178" cy="76" r="1" opacity="0.4"/>
+      <circle cx="312" cy="88" r="1.3" opacity="0.55"/>
+      <circle cx="344" cy="132" r="1" opacity="0.4"/>
+      <circle cx="150" cy="150" r="1" opacity="0.35"/>
+      <circle cx="290" cy="64" r="1" opacity="0.4"/>
+      <circle cx="330" cy="196" r="1.2" opacity="0.45"/>
+    </g>
+    <g fill="none" stroke-linecap="round">
+      <path d="M70 300 C 150 140 210 330 280 210 S 380 150 430 250" stroke="url(#screenGreen)" stroke-width="34" opacity="0.65" filter="url(#mapBlur)"/>
+      <path d="M70 300 C 150 140 210 330 280 210 S 380 150 430 250" stroke="url(#screenGreen)" stroke-width="8" opacity="0.85" filter="url(#mapBlur)"/>
+      <path d="M60 250 C 160 340 220 160 300 250 S 390 300 440 200" stroke="url(#screenViolet)" stroke-width="22" opacity="0.5" filter="url(#mapBlur)"/>
+    </g>
+    <path d="M96 470 L146 446 L190 466 L238 438 L286 462 L330 442 L390 470 L390 600 L96 600 Z" fill="#02050a"/>
+    <path d="M96 470 L146 446 L190 466 L238 438 L286 462 L330 442 L390 470" fill="none" stroke="#1de9b6" stroke-opacity="0.25" stroke-width="1.5"/>
+
+    <!-- SkyScore chip -->
+    <circle cx="136" cy="90" r="21" fill="#08131f" fill-opacity="0.82" stroke="#35ffb8" stroke-opacity="0.7" stroke-width="2"/>
+    <text x="136" y="96" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="700" fill="#eafff8">87</text>
+    <rect x="163" y="79" width="58" height="22" rx="11" fill="#08131f" fill-opacity="0.82" stroke="#2a3b55"/>
+    <text x="192" y="94" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#9ff5d9">Great</text>
+
+    <!-- Settings -->
+    <circle cx="352" cy="90" r="15" fill="#08131f" fill-opacity="0.82" stroke="#2a3b55"/>
+    <circle cx="352" cy="90" r="4" fill="none" stroke="#b9c9dd" stroke-width="1.6"/>
+    <g stroke="#b9c9dd" stroke-width="1.6" stroke-linecap="round">
+      <line x1="352" y1="71" x2="352" y2="76"/>
+      <line x1="352" y1="104" x2="352" y2="109"/>
+      <line x1="333" y1="90" x2="338" y2="90"/>
+      <line x1="366" y1="90" x2="371" y2="90"/>
+    </g>
+
+    <!-- Intensity rail -->
+    <rect x="352" y="190" width="8" height="170" rx="4" fill="#0b1a2c" stroke="#2a3b55"/>
+    <rect x="352" y="238" width="8" height="122" rx="4" fill="#22d3ee" fill-opacity="0.65"/>
+    <circle cx="356" cy="238" r="8" fill="#eafff8" stroke="#22d3ee" stroke-width="3"/>
+
+    <!-- Aurora orb -->
+    <circle cx="240" cy="410" r="30" fill="url(#orb)" fill-opacity="0.9"/>
+    <circle cx="240" cy="410" r="30" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.5"/>
+    <circle cx="240" cy="410" r="14" fill="#04121a" fill-opacity="0.45"/>
+
+    <!-- Timer -->
+    <rect x="204" y="458" width="72" height="22" rx="11" fill="#08131f" fill-opacity="0.85" stroke="#2a3b55"/>
+    <text x="240" y="473" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#ffd166">00:07</text>
+
+    <!-- Record -->
+    <circle cx="240" cy="522" r="34" fill="none" stroke="#ff5a5f" stroke-opacity="0.25" stroke-width="4"/>
+    <circle cx="240" cy="522" r="34" fill="none" stroke="#ffd166" stroke-width="4" stroke-dasharray="150 64" stroke-linecap="round" transform="rotate(-90 240 522)"/>
+    <circle cx="240" cy="522" r="25" fill="#ff4d55"/>
+    <rect x="232" y="514" width="16" height="16" rx="4" fill="#ffffff"/>
+
+    <!-- Bottom pills -->
+    <rect x="112" y="508" width="62" height="28" rx="14" fill="#08131f" fill-opacity="0.85" stroke="#2a3b55"/>
+    <text x="143" y="526" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#c3d3e6">Gallery</text>
+    <rect x="306" y="508" width="72" height="28" rx="14" fill="#08131f" fill-opacity="0.85" stroke="#2a3b55"/>
+    <text x="342" y="526" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#c3d3e6">Customize</text>
+  </g>
+
+  <!-- Callouts -->
+  <g stroke="#3b5170" stroke-width="1.4" stroke-dasharray="4 4" fill="none">
+    <path d="M382 90 L470 90"/>
+    <path d="M272 410 C 350 410 390 214 470 214"/>
+    <path d="M364 250 C 410 250 430 326 470 326"/>
+    <path d="M276 522 C 360 522 400 438 470 438"/>
+    <path d="M382 522 L470 550"/>
+  </g>
+  <g fill="#35ffb8">
+    <circle cx="470" cy="90" r="4"/>
+    <circle cx="470" cy="214" r="4"/>
+    <circle cx="470" cy="326" r="4"/>
+    <circle cx="470" cy="438" r="4"/>
+    <circle cx="470" cy="550" r="4"/>
+  </g>
+
+  <g font-family="Segoe UI, Helvetica Neue, Arial, sans-serif">
+    <text x="486" y="88" fill="#eef6ff" font-size="17" font-weight="700">SkyScore chip</text>
+    <text x="486" y="110" fill="#8ea3c0" font-size="13">Live 0–100 rating. Tap for the four sub-scores and a plain-language reason.</text>
+
+    <text x="486" y="212" fill="#eef6ff" font-size="17" font-weight="700">Aurora orb</text>
+    <text x="486" y="234" fill="#8ea3c0" font-size="13">Tap to toggle the aurora. Hold for modes: Auto, Creative, Off.</text>
+
+    <text x="486" y="324" fill="#eef6ff" font-size="17" font-weight="700">Intensity rail</text>
+    <text x="486" y="346" fill="#8ea3c0" font-size="13">Manual brightness and saturation, still bounded by the safety gates.</text>
+
+    <text x="486" y="436" fill="#eef6ff" font-size="17" font-weight="700">Record ring</text>
+    <text x="486" y="458" fill="#8ea3c0" font-size="13">Free takes: 720p, 10 seconds, small SIMULATED watermark. Pause cuts dead time.</text>
+
+    <text x="486" y="548" fill="#eef6ff" font-size="17" font-weight="700">Gallery &amp; Customize</text>
+    <text x="486" y="570" fill="#8ea3c0" font-size="13">Clips with thumbnails and sharing, plus 12 aurora styles and cinematic looks.</text>
+
+    <text x="90" y="626" fill="#7f93ad" font-size="12">Compose chrome never enters the MP4 — the file is camera + aurora + Free watermark only.</text>
+  </g>
+</svg>
