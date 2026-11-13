@@ -269,6 +269,7 @@ fun CameraScreen() {
 
     var overlay by remember { mutableStateOf<CameraOverlay>(CameraOverlay.None) }
     var previewJob by remember { mutableStateOf<Job?>(null) }
+    var pendingPremium by remember { mutableStateOf(false) }
     var countdown by remember { mutableIntStateOf(0) }
     var daylightDismissedAt by remember { mutableLongStateOf(0L) }
     var elevation by remember { mutableFloatStateOf(0f) }
@@ -332,10 +333,10 @@ fun CameraScreen() {
             countdown = 0
             return
         }
-        when (recording.phase) {
-            RecordingPhase.RECORDING, RecordingPhase.PAUSED -> session.recording.stop()
-            RecordingPhase.PREPARING -> holdStopPending = true
-            else -> Unit
+        when (pendingHoldStop(recording.phase)) {
+            PendingHoldStop.STOP -> session.recording.stop()
+            PendingHoldStop.WAIT -> holdStopPending = true
+            PendingHoldStop.DISCARD -> Unit
         }
     }
 
@@ -381,6 +382,22 @@ fun CameraScreen() {
         if (recording.phase == RecordingPhase.SAVED && uri != null) {
             overlay = CameraOverlay.Preview(uri)
         }
+    }
+
+    // The locked-style demo ends after 3 s. If a sheet is open, or a take is
+    // running, show the paywall on the next clean transition instead of
+    // replacing the user's surface or covering the camera.
+    LaunchedEffect(overlay, pendingPremium, recording.active, countdown, isPremium) {
+        if (!pendingPremium) return@LaunchedEffect
+        if (isPremium) {
+            pendingPremium = false
+            return@LaunchedEffect
+        }
+        if (overlay != CameraOverlay.None || recording.active || countdown > 0) {
+            return@LaunchedEffect
+        }
+        pendingPremium = false
+        overlay = CameraOverlay.Premium
     }
 
     LaunchedEffect(recording.error) {
@@ -646,7 +663,11 @@ fun CameraScreen() {
                         SkyScoreChip(
                             score = conditions.skyScore,
                             enabled = conditions.gate == Gate.OPEN,
-                            onClick = { overlay = CameraOverlay.SkyScore },
+                            // One surface at a time: a sheet opened mid-take
+                            // would be replaced by the preview when it saves.
+                            onClick = {
+                                if (!recording.active) overlay = CameraOverlay.SkyScore
+                            },
                         )
                     }
                     Spacer(Modifier.width(8.dp))
@@ -1006,10 +1027,7 @@ fun CameraScreen() {
                 previewJob = scope.launch {
                     delay(3_000L)
                     engine.setSettings(FeatureGate.effectiveSettings(restore, isPremium))
-                    // Do not steal a sheet the user opened during the 3 s demo.
-                    if (!isPremium && overlay == CameraOverlay.None) {
-                        overlay = CameraOverlay.Premium
-                    }
+                    if (!isPremium) pendingPremium = true
                 }
             },
             onLockedControl = { overlay = CameraOverlay.Premium },

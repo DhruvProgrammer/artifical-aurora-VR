@@ -207,6 +207,7 @@ class CameraSession(
     fun close() {
         closed = true
         running = false
+        pendingUnbind = false
         lightReader.stop()
         poseReader.stop()
         recording.close()
@@ -379,6 +380,12 @@ class CameraSession(
             true
         } catch (t: Throwable) {
             Log.e(TAG, "Plain preview bind failed", t)
+            // Every fallback failed. Leave a state the Retry button can escape:
+            // start() refuses while `running`, so ERROR with running=true would
+            // make the retry a no-op until the activity restarts.
+            running = false
+            lightReader.stop()
+            poseReader.stop()
             _status.value = CameraStatus.ERROR
             false
         }

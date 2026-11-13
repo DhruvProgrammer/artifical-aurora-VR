@@ -227,6 +227,9 @@ class RecordingController(
     }
 
     private fun onEvent(event: VideoRecordEvent) {
+        // A Finalize queued when close() runs must not touch state after the
+        // processor and analysis executor have been released.
+        if (closed) return
         when (event) {
             is VideoRecordEvent.Start -> {
                 if (!_state.value.phase.accepts(RecordingEvent.START)) return

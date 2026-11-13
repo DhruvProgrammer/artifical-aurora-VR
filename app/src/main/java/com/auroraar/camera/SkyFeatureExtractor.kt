@@ -33,7 +33,18 @@ class SkyFeatureExtractor(
     private val prevLuma = FloatArray(gridW * gridH)
     private var hasPrev = false
 
+    /**
+     * Set by the main thread on a rebind, consumed by the analysis thread so
+     * the reset cannot interleave with [analyze] and be lost.
+     */
+    @Volatile
+    private var resetRequested = false
+
     fun analyze(image: ImageProxy, cameraElevationDeg: Float): FrameFeatures {
+        if (resetRequested) {
+            resetRequested = false
+            hasPrev = false
+        }
         val width = image.width
         val height = image.height
         if (width <= 0 || height <= 0 || image.planes.size < 3) return blank()
@@ -196,7 +207,7 @@ class SkyFeatureExtractor(
     }
 
     fun resetTemporal() {
-        hasPrev = false
+        resetRequested = true
     }
 
     private fun buildMask(cameraElevationDeg: Float) {

@@ -30,12 +30,16 @@ class HoldStopTest {
     }
 
     @Test
-    fun `every phase has a terminal outcome`() {
-        RecordingPhase.entries.forEach { phase ->
-            // A WAIT is only valid while the take can still produce a Start.
-            if (pendingHoldStop(phase) == PendingHoldStop.WAIT) {
-                assertEquals(RecordingPhase.PREPARING, phase)
-            }
-        }
+    fun `the full phase table is explicit`() {
+        val expected = mapOf(
+            RecordingPhase.IDLE to PendingHoldStop.DISCARD,
+            RecordingPhase.PREPARING to PendingHoldStop.WAIT,
+            RecordingPhase.RECORDING to PendingHoldStop.STOP,
+            RecordingPhase.PAUSED to PendingHoldStop.STOP,
+            RecordingPhase.FINALIZING to PendingHoldStop.DISCARD,
+            RecordingPhase.SAVED to PendingHoldStop.DISCARD,
+            RecordingPhase.ERROR to PendingHoldStop.DISCARD,
+        )
+        assertEquals(expected, RecordingPhase.entries.associateWith { pendingHoldStop(it) })
     }
 }
