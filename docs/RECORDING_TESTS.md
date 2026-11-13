@@ -32,6 +32,10 @@ obsolete `mipmap-anydpi-v26` note). `assembleDebug`: APK
 **12,228,966 bytes**, permissions `CAMERA`, `RECORD_AUDIO`,
 `ACCESS_COARSE_LOCATION` only.
 
+The first decoded clip holds **92 frames over 10.13 s (≈9.1 fps)**; 68 of its
+91 frame gaps are exactly 100 ms, which points to a 10 fps low-light camera
+mode rather than compositor jitter. It is not a daylight FPS measurement.
+
 | Test class | Tests | What it covers |
 |---|---:|---|
 | `RecordingPolicyTest` | 6 | Free 720p / 10 s / watermark vs Premium 1080p / unlimited / no watermark; duration formatting; watermark visibility; active phase set; HEVC/60 fps/4K flags stay off |

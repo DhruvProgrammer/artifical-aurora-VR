@@ -2,10 +2,13 @@
 
 Status date: **2026-11-13**. One 10-second Free take ran on a Samsung Galaxy S10
 (`SM-G973N`, Android 12) at 720p, so the file is known to encode and finalise.
-That single take still gives **no FPS, dropped-frame, A/V-drift, temperature or
-battery numbers**, and its 10.13 s length is one sample, not a duration-accuracy
-result. The values below are the v5 targets and a static breakdown of what the
-code does. Treat every number as a budget to verify, not a result.
+It contains **92 frames over 10.13 s (≈9.1 fps)**, with most frame gaps exactly
+100 ms — consistent with a 10 fps low-light camera mode, not a measured
+compositor cost. That single dark take still gives **no dropped-frame,
+A/V-drift, temperature or battery numbers**, and its 10.13 s length is one
+sample, not a duration-accuracy result. The values below are the v5 targets and
+a static breakdown of what the code does. Treat every number as a budget to
+verify, not a result.
 
 ---
 
@@ -145,5 +148,5 @@ phone; FPS, drift, thermals and battery still unmeasured**.
 | Resolution | 720×1280 (portrait), identity display matrix |
 | Duration | 10.13 s for a 10 s Free limit (+130 ms encoder latency) |
 | File size | 14,761,799 bytes (≈11.7 Mbit/s) |
-| Frame rate | Not asserted; the clip was decoded, not timed |
+| Frame rate | 92 frames / 10.13 s ≈ 9.1 fps; 68 of 91 gaps are exactly 100 ms, so likely a 10 fps low-light camera mode. Not a compositor benchmark |
 | Thermal / battery | Battery warning at 7–8 % appeared; the phone later powered off |

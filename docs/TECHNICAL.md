@@ -310,7 +310,7 @@ No labelled field dataset ships with the repo, and no thresholds have been fitte
 | Process-death recovery of orphaned pending files | Implemented: stale `IS_PENDING` rows and legacy temp files are cleaned at launch |
 | Device capability probe screen | Implemented in Settings (encoder list and supported sizes); informational only |
 | Debug grid + optical-flow alignment test | Debug grid is not implemented, so the script in `tools/` cannot produce the required world-lock numbers |
-| Measured A/V drift, duration accuracy, FPS, thermals | Not measured — one 10 s 720p clip was captured, but drift/FPS/thermals still need a proper run |
+| Measured A/V drift, duration accuracy, FPS, thermals | Partial: the first dark 720p take held 92 frames over 10.13 s (≈9.1 fps, mostly 100 ms gaps), which points to a 10 fps low-light camera mode; daylight FPS, drift, duration accuracy and thermals still need a proper run |
 
 ## Deviations from the unavailable documents
 
