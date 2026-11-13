@@ -74,6 +74,7 @@ class CompositeProcessor(
     private var outputEglSurface: EGLSurface? = null
     private var outputWidth = 0
     private var outputHeight = 0
+    private var loggedGeometry = false
 
     private val texMatrix = FloatArray(16)
     private val finalMatrix = FloatArray(16)
@@ -106,6 +107,7 @@ class CompositeProcessor(
             val surface = Surface(surfaceTexture)
             val newInput = Input(textureId, surfaceTexture, surface)
             input = newInput
+            Log.i(TAG, "input surface ${request.resolution.width}x${request.resolution.height}")
 
             request.provideSurface(surface, executor) {
                 handler.post {
@@ -142,6 +144,7 @@ class CompositeProcessor(
             output = surfaceOutput
             outputWidth = surfaceOutput.size.width
             outputHeight = surfaceOutput.size.height
+            loggedGeometry = false
             outputEglSurface = egl.createWindowSurface(surface)
             egl.makeCurrent(outputEglSurface!!)
             GLES20.glViewport(0, 0, outputWidth, outputHeight)
@@ -179,6 +182,14 @@ class CompositeProcessor(
         val clockwise = normalizeRotation(rotation())
         val overlayW = if (clockwise % 180 == 0) outputWidth else outputHeight
         val overlayH = if (clockwise % 180 == 0) outputHeight else outputWidth
+        if (!loggedGeometry) {
+            loggedGeometry = true
+            Log.i(
+                TAG,
+                "geometry output=${outputWidth}x$outputHeight overlay=${overlayW}x$overlayH " +
+                    "rotation=$clockwise",
+            )
+        }
         ensureOverlayTarget(overlayW, overlayH)
 
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0)

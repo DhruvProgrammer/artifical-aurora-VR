@@ -377,7 +377,7 @@ Local verification on 2026-11-13:
 
 - `testDebugUnitTest`: **164 tests, 24 classes, 0 failures**.
 - `lintDebug`: **0 errors, 10 warnings** (nine "newer dependency available" notes and one obsolete `mipmap-anydpi-v26` folder note).
-- `assembleDebug`: APK **12,228,631 bytes** (version 0.1.3, versionCode 4).
+- `assembleDebug`: APK **12,228,966 bytes** (version 0.1.3, versionCode 4).
 - Built APK permissions: `CAMERA`, `RECORD_AUDIO`, `ACCESS_COARSE_LOCATION`; no `INTERNET`, no `WRITE_EXTERNAL_STORAGE`.
 
 **Partial hardware run.** A Samsung Galaxy S10 (`SM-G973N`, Android 12, API 31) was connected on 13 November 2026. Observed working: CameraX effect binding, the GL compositor, H.264 encoding, a 720×1280 / 10.13 s Free clip, MediaStore finalisation, the saved-clip preview, photo capture, the covered-lens gate, live SkyScore, the mode menu, the Customize sheet, the encoder probe and the horizontal Free watermark. Not yet observed: audio capture, pause/resume timestamps, share/delete, gallery playback, hold-to-record, camera flip, background/foreground during finalisation, mic denial, A/V drift, FPS, thermals and the remaining matrix cases. The first capture also clipped the watermark's right edge slightly; the layout still needs a device pass.

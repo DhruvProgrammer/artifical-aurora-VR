@@ -117,20 +117,36 @@ class WatermarkRenderer(context: Context) {
             letterSpacing = 0.14f
             setShadowLayer(9f, 0f, 3f, 0xC0000000.toInt())
         }
-        text.textSize = 104f
-        canvas.drawText(wordmark, 226f, 156f, text)
+        text.textSize = fitTextSize(text, wordmark, TEXT_LEFT, 104f)
+        canvas.drawText(wordmark, TEXT_LEFT, 156f, text)
 
         text.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
-        text.textSize = 38f
         text.letterSpacing = 0.42f
+        text.textSize = fitTextSize(text, simulated, SUBTEXT_LEFT, 38f)
         text.color = 0xE6FFFFFF.toInt()
-        canvas.drawText(simulated, 230f, 220f, text)
+        canvas.drawText(simulated, SUBTEXT_LEFT, 220f, text)
         return bitmap
+    }
+
+    /**
+     * Android does not wrap or ellipsise [Canvas.drawText], so a wordmark wider
+     * than the texture is silently cut at the right edge. Scale the requested
+     * size down until the measured line fits the bitmap with padding.
+     */
+    private fun fitTextSize(paint: Paint, text: String, left: Float, preferred: Float): Float {
+        paint.textSize = preferred
+        val available = BITMAP_WIDTH - left - TEXT_RIGHT_PADDING
+        val measured = paint.measureText(text)
+        if (measured <= available || measured <= 0f) return preferred
+        return preferred * available / measured
     }
 
     private companion object {
         const val BITMAP_WIDTH = 1024
         const val BITMAP_HEIGHT = 288
+        const val TEXT_LEFT = 226f
+        const val SUBTEXT_LEFT = 230f
+        const val TEXT_RIGHT_PADDING = 28f
         const val WIDTH_FRACTION = 0.26f
         const val MAX_WIDTH_PX = 420f
         const val MARGIN_FRACTION = 0.035f

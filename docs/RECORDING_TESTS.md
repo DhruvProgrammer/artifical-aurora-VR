@@ -29,7 +29,7 @@ BUILD SUCCESSFUL
 
 `lintDebug`: **0 errors, 10 warnings** (nine dependency-update notes, one
 obsolete `mipmap-anydpi-v26` note). `assembleDebug`: APK
-**12,228,631 bytes**, permissions `CAMERA`, `RECORD_AUDIO`,
+**12,228,966 bytes**, permissions `CAMERA`, `RECORD_AUDIO`,
 `ACCESS_COARSE_LOCATION` only.
 
 | Test class | Tests | What it covers |
