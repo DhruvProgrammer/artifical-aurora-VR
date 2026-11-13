@@ -233,7 +233,7 @@ The test suite covers the SkyScore table and monotonicity, gate precedence, phas
 On 13 November 2026 the debug build ran on a Galaxy S10 (`SM-G973N`, Android 12). A Free 10-second take saved a **720×1280, 10.13 s, 14.8 MB** H.264 clip to `Movies/AuroraAR`; decoded frames show the simulated aurora and the horizontal Free watermark in the bottom-right. The covered-lens gate, live SkyScore, mode menu, Customize sheet, encoder probe and saved-clip preview were also exercised. This was a pipeline check, not a beauty shot: the camera faced a wall and streetlight, so SkyScore read 3/100 and the capture used Creative mode. [A decoded frame is in the test log](docs/RECORDING_TESTS.md#4-first-hardware-frame).
 
 > [!WARNING]
-> The core capture path has now run on hardware, but the 27-case matrix is not finished. Still unverified: audio, pause/resume, share/delete, gallery playback, hold-to-record, camera flip, background/foreground during finalisation, mic denial, A/V drift, FPS, thermals and the low-battery stop. The first capture also showed the watermark's right edge clipping slightly, so its layout still needs a device pass. See [docs/PERFORMANCE.md](docs/PERFORMANCE.md) and [docs/RECORDING_TESTS.md](docs/RECORDING_TESTS.md).
+> The core capture path has now run on hardware, but the 27-case matrix is not finished. Still unverified: audio, pause/resume, share/delete, gallery playback, hold-to-record, camera flip, background/foreground during finalisation, mic denial, A/V drift, FPS, thermals and the low-battery stop. The first capture clipped the watermark's right edge; a texture-fit fix and one-shot geometry logging are in the build but still need a device pass. See [docs/PERFORMANCE.md](docs/PERFORMANCE.md) and [docs/RECORDING_TESTS.md](docs/RECORDING_TESTS.md).
 
 ## Privacy
 
@@ -292,8 +292,8 @@ The app has run on a physical device, but the first capture was a pipeline check
 | Document | What is inside |
 |---|---|
 | [docs/TECHNICAL.md](docs/TECHNICAL.md) | Full signal pipeline, formulas, gate precedence, renderer, recording internals, coverage tables |
-| [docs/PERFORMANCE.md](docs/PERFORMANCE.md) | Performance budgets and a static cost breakdown — explicitly no measured device numbers |
-| [docs/RECORDING_TESTS.md](docs/RECORDING_TESTS.md) | Recording test plan and the 27-case manual matrix |
+| [docs/PERFORMANCE.md](docs/PERFORMANCE.md) | Performance budgets, the first capture's container facts, and an explicit list of what is still unmeasured |
+| [docs/RECORDING_TESTS.md](docs/RECORDING_TESTS.md) | Automated test inventory, partial hardware results, the decoded first frame and the 27-case manual matrix |
 | [tools/README.md](tools/README.md) | Offline ORB + RANSAC alignment checker and its honest limitation |
 | [DEPENDENCIES.md](DEPENDENCIES.md) | Installed dependencies with per-package uninstall commands |
 

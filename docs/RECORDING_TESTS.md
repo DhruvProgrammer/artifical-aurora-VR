@@ -125,7 +125,8 @@ aurora, the encoder wrote H.264, and the Free watermark rendered horizontally.
 What it does not prove: sky detection, AUTO-mode intensity, audio, or a
 good-looking shot. The camera faced a wall and streetlight, so SkyScore read
 3/100 and the take used Creative mode. The watermark's right edge is visibly
-clipped — a layout bug still open.
+clipped — a layout bug still open. A texture-fit fix and one-shot geometry
+logging are in the build, but they have not run on the phone yet.
 
 ## 5. Coverage honesty
 
