@@ -310,7 +310,7 @@ No labelled field dataset ships with the repo, and no thresholds have been fitte
 | Process-death recovery of orphaned pending files | Implemented: stale `IS_PENDING` rows and legacy temp files are cleaned at launch |
 | Device capability probe screen | Implemented in Settings (encoder list and supported sizes); informational only |
 | Debug grid + optical-flow alignment test | Debug grid is not implemented, so the script in `tools/` cannot produce the required world-lock numbers |
-| Measured A/V drift, duration accuracy, FPS, thermals | Not measured — no device was connected |
+| Measured A/V drift, duration accuracy, FPS, thermals | Not measured — one 10 s 720p clip was captured, but drift/FPS/thermals still need a proper run |
 
 ## Deviations from the unavailable documents
 
@@ -318,7 +318,7 @@ No labelled field dataset ships with the repo, and no thresholds have been fitte
 - The v2 aurora renderer is replaced by the single-pass procedural shader described above. It has no volumetric raymarching, no depth occlusion, and no world-fixed sky map.
 - The v5 recording engine is replaced by CameraX `VideoCapture` + `Recorder` with a `SurfaceProcessor` for the composite, instead of a hand-written `MediaCodec`/`MediaMuxer`, shared-EGL encoder thread, `TimeBase` and CFR scheduler. CameraX owns encoding, muxing, audio timestamps, pause offsets and MediaStore finalisation; the controller owns policy, limits, guards and UI state. This removes a large class of codec/muxer bugs but also removes frame-exact control.
 
-Consequences, stated plainly: dark silhouettes above the horizon can still be counted as sky, the aurora is a stylised effect rather than a physically based one, the Free limit can overshoot by the encoder's stop latency, the recorded frame rate and bitrate are CameraX defaults rather than tuned values, and there is no crash-resilient fragmented MP4 or automatic file split. None of the recording path has been exercised on a real camera, encoder or microphone.
+Consequences, stated plainly: dark silhouettes above the horizon can still be counted as sky, the aurora is a stylised effect rather than a physically based one, the Free limit can overshoot by the encoder's stop latency, the recorded frame rate and bitrate are CameraX defaults rather than tuned values, and there is no crash-resilient fragmented MP4 or automatic file split. The core capture path has since run on a Galaxy S10, but audio, pause/resume, sharing and the rest of the 27-case matrix have not.
 
 ## Code layout
 
@@ -377,10 +377,10 @@ Local verification on 2026-11-13:
 
 - `testDebugUnitTest`: **164 tests, 24 classes, 0 failures**.
 - `lintDebug`: **0 errors, 10 warnings** (nine "newer dependency available" notes and one obsolete `mipmap-anydpi-v26` folder note).
-- `assembleDebug`: APK **12,281,569 bytes** (version 0.1.3, versionCode 4).
+- `assembleDebug`: APK **12,228,631 bytes** (version 0.1.3, versionCode 4).
 - Built APK permissions: `CAMERA`, `RECORD_AUDIO`, `ACCESS_COARSE_LOCATION`; no `INTERNET`, no `WRITE_EXTERNAL_STORAGE`.
 
-**No Android device was connected** (`adb devices` was empty). Everything below is compile-verified, lint-checked or JVM-tested only. None of the following has been observed running: CameraX effect binding, the GL compositor, the encoder, audio capture, pause/resume timestamps, orientation handling, MediaStore finalisation, the `VideoView` preview, share/delete, thermal behaviour, or the watermark's actual pixels.
+**Partial hardware run.** A Samsung Galaxy S10 (`SM-G973N`, Android 12, API 31) was connected on 13 November 2026. Observed working: CameraX effect binding, the GL compositor, H.264 encoding, a 720×1280 / 10.13 s Free clip, MediaStore finalisation, the saved-clip preview, photo capture, the covered-lens gate, live SkyScore, the mode menu, the Customize sheet, the encoder probe and the horizontal Free watermark. Not yet observed: audio capture, pause/resume timestamps, share/delete, gallery playback, hold-to-record, camera flip, background/foreground during finalisation, mic denial, A/V drift, FPS, thermals and the remaining matrix cases. The first capture also clipped the watermark's right edge slightly; the layout still needs a device pass.
 
 Manual test matrix — record the result per device, then update this table:
 

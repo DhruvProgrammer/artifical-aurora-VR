@@ -1,10 +1,11 @@
 # Recording performance, thermals and battery
 
-Status date: **2026-11-11**. No Android device or emulator was connected, so this
-file contains **no measured FPS, dropped-frame, A/V-drift, duration-accuracy,
-temperature or battery numbers**. The values below are the v5 targets and a
-static breakdown of what the code does. Treat every number as a budget to verify,
-not a result.
+Status date: **2026-11-13**. One 10-second Free take ran on a Samsung Galaxy S10
+(`SM-G973N`, Android 12) at 720p, so the file is known to encode and finalise.
+That single take still gives **no FPS, dropped-frame, A/V-drift, temperature or
+battery numbers**, and its 10.13 s length is one sample, not a duration-accuracy
+result. The values below are the v5 targets and a static breakdown of what the
+code does. Treat every number as a budget to verify, not a result.
 
 ---
 
@@ -133,5 +134,16 @@ The v5 prompt asks for at least three:
 2. low-RAM device,
 3. flagship that passes the 4K gate (this build does not expose 4K).
 
-Until those runs exist, the honest summary is: **compile-verified, JVM-tested,
-never measured on hardware**.
+Until those runs exist, the honest summary is: **one 720p take on one Android 12
+phone; FPS, drift, thermals and battery still unmeasured**.
+
+### What the first take did show
+
+| Observation | Value |
+|---|---|
+| Container / codec | MP4, H.264/AVC, one video track, no audio track |
+| Resolution | 720×1280 (portrait), identity display matrix |
+| Duration | 10.13 s for a 10 s Free limit (+130 ms encoder latency) |
+| File size | 14,761,799 bytes (≈11.7 Mbit/s) |
+| Frame rate | Not asserted; the clip was decoded, not timed |
+| Thermal / battery | Battery warning at 7–8 % appeared; the phone later powered off |

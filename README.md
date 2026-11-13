@@ -214,7 +214,7 @@ app/src/main/java/com/auroraar/
     └── components/ chrome, score ring, settings, recording controls
 ```
 
-77 Kotlin files, roughly 11,500 lines. The app is intentionally small enough to read end to end.
+78 Kotlin files, roughly 11,700 lines. The app is intentionally small enough to read end to end.
 
 ## Testing and verification
 
@@ -222,14 +222,18 @@ app/src/main/java/com/auroraar/
 |---|---|
 | Unit tests | **164 tests / 24 classes, 0 failures** |
 | Lint | **0 errors**, 10 warnings (nine dependency-update notes, one obsolete mipmap folder) |
-| Debug APK | **12.3 MB**, version `0.1.3` (versionCode 4) |
+| Debug APK | **12.2 MB**, version `0.1.3` (versionCode 4) |
 | CI | `testDebugUnitTest` + `assembleDebug` on every push and PR |
-| Physical device | **Not yet** — no Android device or emulator was connected |
+| Physical device | **Partial** — Samsung Galaxy S10 (`SM-G973N`), Android 12: preview, Free 720p capture, photo, watermark, aurora, permission gate, settings and preview dialog exercised |
 
 The test suite covers the SkyScore table and monotonicity, gate precedence, phase fusion and hysteresis, message policy, sky-mask colour plausibility, solar position, adversarial inputs (NaN/plateau stars, non-finite sliders, limited-range YUV), recording policy, safety guards, hold-to-stop, the premium catalogue, feature gating, orphan cleanup and encoder capability probing.
 
+### First hardware run
+
+On 13 November 2026 the debug build ran on a Galaxy S10 (`SM-G973N`, Android 12). A Free 10-second take saved a **720×1280, 10.13 s, 14.8 MB** H.264 clip to `Movies/AuroraAR`; decoded frames show the simulated aurora and the horizontal Free watermark in the bottom-right. The covered-lens gate, live SkyScore, mode menu, Customize sheet, encoder probe and saved-clip preview were also exercised. This was a pipeline check, not a beauty shot: the camera faced a wall and streetlight, so SkyScore read 3/100 and the capture used Creative mode. [A decoded frame is in the test log](docs/RECORDING_TESTS.md#4-first-hardware-frame).
+
 > [!WARNING]
-> Everything is compile-verified, lint-checked or JVM-tested only. CameraX effect binding, the GL compositor, the encoder, audio capture, pause/resume timestamps, orientation, MediaStore finalisation, the preview dialog and the watermark’s actual pixels have **not been observed running on hardware**. No FPS, dropped-frame, A/V-drift, duration-accuracy, battery or temperature numbers exist yet. See [docs/PERFORMANCE.md](docs/PERFORMANCE.md) and [docs/RECORDING_TESTS.md](docs/RECORDING_TESTS.md).
+> The core capture path has now run on hardware, but the 27-case matrix is not finished. Still unverified: audio, pause/resume, share/delete, gallery playback, hold-to-record, camera flip, background/foreground during finalisation, mic denial, A/V drift, FPS, thermals and the low-battery stop. The first capture also showed the watermark's right edge clipping slightly, so its layout still needs a device pass. See [docs/PERFORMANCE.md](docs/PERFORMANCE.md) and [docs/RECORDING_TESTS.md](docs/RECORDING_TESTS.md).
 
 ## Privacy
 
@@ -246,7 +250,7 @@ The test suite covers the SkyScore table and monotonicity, gate precedence, phas
 - **Screen-space, not world-locked.** The aurora is not occluded by foreground objects, and there is no depth or semantic segmentation.
 - **Thresholds are untuned.** The calibration recorder exists, but no labelled field dataset ships with the repo.
 - **CameraX owns encoding.** Bitrate and frame rate are defaults; 4K, HEVC, 60 fps and custom bitrates are not exposed.
-- **Free’s 10-second limit can overshoot** by the encoder’s stop latency; this has not been measured on hardware.
+- **Free's 10-second limit can overshoot** by the encoder's stop latency; the first hardware take saved a 10.13 s file.
 - **Billing is not wired.** Release builds are always Free; debug builds expose a local Premium switch.
 - **Mic revocation mid-take is not handled.** Audio focus loss pauses the take; a revoked microphone may end the audio track early.
 - **No crash-resilient fragmented MP4** and no automatic file split.
@@ -281,7 +285,7 @@ Yes. One composited output feeds both the preview and the encoder, so the MP4 co
 
 ### Why are there no screenshots yet?
 
-The app has not been run on a physical device. Rather than invent screenshots, the README uses a labelled interface wireframe and will add real captures after the device matrix passes.
+The app has run on a physical device, but the first capture was a pipeline check against a wall and streetlight, not an open-sky shot worth putting on the front page. Rather than invent screenshots, the README uses a labelled interface wireframe and will add real captures after the 27-case matrix passes.
 
 ## Documentation
 
